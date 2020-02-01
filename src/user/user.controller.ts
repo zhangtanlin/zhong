@@ -131,7 +131,7 @@ export class UserController {
         throw new ForbiddenException();
       }
       return {
-        code: 500,
+        code: 200,
         message: "成功",
         token
       }

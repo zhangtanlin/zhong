@@ -69,54 +69,57 @@ export class UserService {
     private readonly UserRepository: Repository<UserEntity>,
     private readonly redisService: RedisService
   ) {}
+
   /**
    * 查询用户【根据params条件】
    */
   find(querys: UserGetDto): Promise<UserEntity[]> {
     return this.UserRepository.find(querys);
   }
+
   /**
    * 新增用户
    */
   async save(data: UserAddDto): Promise<UserEntity> {
     try {
-      const findOneByName = await this.UserRepository.findOne({
-        name: data.name
+      const findOneByAccount = await this.UserRepository.findOne({
+        account: data.account
       });
-      if (findOneByName) {
-        throw new HttpException({ error: '用户已存在' }, 400);
+      if (findOneByAccount) {
+        throw new HttpException({ error: '账号已存在' }, 400);
       }
       data.password = CryptoJS.HmacSHA512(data.password, PasswordKey).toString(); // 密码加密
       const save: UserEntity = await this.UserRepository.save(data);
       if (!save) {
-        throw new HttpException({ error: '用户存储失败' }, 502);
+        throw new HttpException({ error: '账号存储失败' }, 502);
       }
       return save;
     } catch (error) {
       throw error;
     }
   }
+
   /**
    * 登陆
-   * @param    UserLoginDto  - 验证用户登陆参数的dto【用户名和密码】
-   * @function client        - 创建redis的连接
-   * @function findOneByName - 根据用户名查询用户
-   * @function findOne       - 根据用户名和密码查询用户
-   * @function token         - 加密name,id,roles生成的对象
-   * @function client        - 连接redis的方法
-   * @function addRedis      - 使用redis的setex方法把数据存储到redis并设置过期时间
+   * @param    UserLoginDto     - 验证用户登陆参数的dto【用户名和密码】
+   * @function client           - 创建redis的连接
+   * @function findOneByAccount - 根据账号查询用户
+   * @function findOne          - 根据用户名和密码查询用户
+   * @function token            - 加密name,id,roles生成的对象
+   * @function client           - 连接redis的方法
+   * @function addRedis         - 使用redis的setex方法把数据存储到redis并设置过期时间
    * @callback 返回以token为key的对象
    */
   async login(data: UserLoginDto): Promise<any> {
     try {
-      const findOneByName = await this.UserRepository.findOne({
-        name: data.name,
+      const findOneByAccount = await this.UserRepository.findOne({
+        account: data.account,
       });
-      if(!findOneByName) {
-        throw new HttpException({ error: '用户不存在' },403);
+      if(!findOneByAccount) {
+        throw new HttpException({ error: '账号不存在' },403);
       }
       const findOne = await this.UserRepository.findOne({
-        name: data.name,
+        account: data.account,
         password: CryptoJS.HmacSHA512(data.password, PasswordKey).toString() // 密码加密
       });
       if(!findOne) {

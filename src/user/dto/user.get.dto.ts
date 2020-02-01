@@ -17,6 +17,6 @@ export class UserGetDto {
   id: number;
 
   @IsOptional()
-  @MaxLength(255, { message: "用户名长度最长为 $constraint1" })
-  name: string;
+  @MaxLength(255, { message: "账号长度最长为 $constraint1" })
+  account: string;
 }

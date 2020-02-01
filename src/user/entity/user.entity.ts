@@ -32,7 +32,8 @@ export class UserEntity {
    */
   @Column({
     type: "varchar",
-    length: 255
+    length: 255,
+    default: ""
   })
   name: string;
 
@@ -97,19 +98,21 @@ export class UserEntity {
 
   /**
    * 角色id
+   * @param {string} [roles] - 角色id组成的字符串【以特殊符号（中文逗号、英文逗号）分隔】
    */
   @Column({
-    type: "int",
-    default: null
+    type: "varchar",
+    default: ""
   })
-  roles: number;
+  roles: string;
   
   /**
    * 账号状态
    * @param {number} [status] - {0:"禁用",1:"启用"}
    */
   @Column({
-    type: "int",
+    type: "enum",
+    enum: [0, 1],
     default: 1
   })
   status: number;
@@ -128,7 +131,8 @@ export class UserEntity {
    * @param {number} [is_first_login] -是否是第一次登录 {0: "不是", 1:"是"}
    */
   @Column({
-    type: "int",
+    type: "enum",
+    enum: [0, 1],
     default: 1
   })
   is_first_login: number;
@@ -138,7 +142,8 @@ export class UserEntity {
    * @param {number} [is_locked] -是否锁定 {0: "未锁定", 1:"锁定"} 
    */
   @Column({
-    type: "int",
+    type: "enum",
+    enum: [0, 1],
     default: 0
   })
   is_locked: number;
@@ -157,7 +162,8 @@ export class UserEntity {
    * @param {number} [is_disabled] -是否禁用 {0: "未禁用", 1:"禁用"}
    */
   @Column({
-    type: "int",
+    type: "enum",
+    enum: [0, 1],
     default: 0
   })
   is_disabled: number;
