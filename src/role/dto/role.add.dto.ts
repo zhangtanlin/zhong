@@ -2,7 +2,14 @@
  * 导入
  * @requires [ApiModelProperty] - api文档【标注sawgger可访问的类属性】
  */
-import { IsNotEmpty, MinLength, MaxLength, IsOptional, IsPositive, IsEnum } from "class-validator";
+import {
+  IsNotEmpty,
+  MinLength,
+  MaxLength,
+  IsOptional,
+  IsPositive,
+  IsEnum
+} from 'class-validator'
 
 /**
  * 角色类型枚举
@@ -24,14 +31,14 @@ export enum RoleTypes {
  * @param {string} [password] - 类型【不能为空，长度至少为3，长度最大为255】
  */
 export class RoleAddDto {
-  @IsNotEmpty({ message: "名称不能为空" })
-  @MaxLength(255, { message: "名称长度最长为 $constraint1" })
-  name: string;
+  @IsNotEmpty({ message: '名称不能为空' })
+  @MaxLength(255, { message: '名称长度最长为 $constraint1' })
+  name: string
 
-  @IsNotEmpty({ message: "类型不能为空" })
+  @IsNotEmpty({ message: '类型不能为空' })
   @IsEnum(RoleTypes)
-  type: number;
+  type: number
 
   @IsOptional()
-  resources: string;
+  resources: string
 }

@@ -1,6 +1,11 @@
-import { ArgumentMetadata, Injectable, PipeTransform, HttpException } from '@nestjs/common';
-import { plainToClass } from 'class-transformer';
-import { validate } from 'class-validator';
+import {
+  ArgumentMetadata,
+  Injectable,
+  PipeTransform,
+  HttpException
+} from '@nestjs/common'
+import { plainToClass } from 'class-transformer'
+import { validate } from 'class-validator'
 
 @Injectable()
 export class DtoPipe implements PipeTransform {
@@ -13,18 +18,18 @@ export class DtoPipe implements PipeTransform {
    * @function [validate]           - class-validator内根据给定验证模式验证给定对象的方法【参数：验证模式，对象，验证参数】
    */
   private toValidate(metatype): boolean {
-    const types = [String, Boolean, Number, Array, Object];
-    return !types.find((type) => metatype === type);
+    const types = [String, Boolean, Number, Array, Object]
+    return !types.find((type) => metatype === type)
   }
   async transform(value: any, { metatype }: ArgumentMetadata) {
     if (!metatype || !this.toValidate(metatype)) {
-      return value;
+      return value
     }
-    const object = plainToClass(metatype, value);
-    const errors = await validate(object);
+    const object = plainToClass(metatype, value)
+    const errors = await validate(object)
     if (errors.length > 0) {
-      throw new HttpException({ error: errors },400);
+      throw new HttpException({ error: errors }, 400)
     }
-    return value;
+    return value
   }
 }

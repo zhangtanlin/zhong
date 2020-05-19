@@ -1,12 +1,18 @@
-import { Controller, Get } from "@nestjs/common";
-import { AppService } from "./app.service";
+import { Controller, Get, Render } from "@nestjs/common";
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
 
+  // 首页【常规用法】
   @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  @Render('index')
+  root() {
+    return {
+      name: '名称',
+      phone: '+8615244444444',
+      language: 'CH-ZN',
+      version: '0.0.1',
+    }
   }
+
 }

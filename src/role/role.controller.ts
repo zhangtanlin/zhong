@@ -3,7 +3,7 @@
  * @requires [common]  - nestjs的公共模块
  * @requires [swagger] - nestjs的公共模块
  */
-import { 
+import {
   HttpException,
   ForbiddenException,
   Controller,
@@ -13,14 +13,21 @@ import {
   UsePipes,
   Get,
   Param,
-  UseGuards
- } from '@nestjs/common';
-import { RoleService } from './role.service';
-import { AuthGuard } from '../common/guard/auth.guard';
-import { RoleAddDto } from './dto/role.add.dto';
-import { DtoPipe } from '../common/pipe/dto.pipe';
-
-@Controller('role')
+  UseGuards,
+  Inject,
+  forwardRef,
+  Query,
+  Logger
+} from '@nestjs/common'
+import { RoleService } from './role.service'
+import { AuthGuard } from '../common/guard/auth.guard'
+import { RoleAddDto } from './dto/role.add.dto'
+import { DtoPipe } from '../common/pipe/dto.pipe'
+import { ResultDto } from '../common/dto/result.dto'
+import { RoleGetDto } from './dto/role.get.dto'
+import * as CryptoJS from 'crypto-js'
+import { passwordKey } from '../../config'
+@Controller('/api/role')
 export class RoleController {
   /**
    * @function [constructor] - 类中定义的构造函数
@@ -28,29 +35,35 @@ export class RoleController {
    * @param    [readonly]    - 表示属性或方法只能使用不能修改
    */
   constructor(
+    @Inject(forwardRef(() => RoleService))
     private readonly roleService: RoleService
   ) {}
 
   /**
-   * 获取所有列表
+   * 查询列表【有分页条件就分页查询，没有分页查询就查询所有】
    * @param [request]  - 请求参数【可以为空】
    * @param [HttpCode] - 状态码
    */
-  @Get("get")
+  @Get()
+  @UsePipes(DtoPipe)
   @HttpCode(200)
-  async get(@Param() request: any): Promise<object> {
+  async get(@Query() querys: RoleGetDto): Promise<ResultDto> {
+    let cb = null
     try {
-      const data = await this.roleService.find();
-      if (!data) {
-        throw new HttpException({ error: "获取列表失败" }, 502);
+      const roleList = await this.roleService.getManyAndCount(querys)
+      if (!roleList) {
+        throw new HttpException({ error: '获取列表失败' }, 502)
       }
+      cb = CryptoJS.AES.encrypt(JSON.stringify(roleList), passwordKey).toString(); // 加密返回值
+      new Logger("success");
+    } catch (error) {
+      cb = null
+    } finally {
       return {
         code: 200,
-        message: "成功",
-        data
-      };
-    } catch (error) {
-      throw error;
+        message: '成功',
+        data: cb
+      }
     }
   }
   /**
@@ -58,37 +71,43 @@ export class RoleController {
    * @param [request]  - 请求参数
    * @param [HttpCode] - 状态码
    */
-  @Post("add")
+  @Post('add')
   @UsePipes(DtoPipe)
   @UseGuards(AuthGuard)
   @HttpCode(200)
-  async add(@Body() request: RoleAddDto): Promise<object> {
+  async add(@Body() request: RoleAddDto): Promise<ResultDto> {
+    let data = null
     try {
-      const data = await this.roleService.save(request);
+      data = await this.roleService.save(request)
       if (!data) {
-        throw new HttpException({ error: "获取列表失败" }, 502);
+        throw new HttpException({ error: '获取列表失败' }, 502)
       }
+    } catch (error) {
+      data = {}
+    } finally {
       return {
         code: 200,
-        message: "成功",
+        message: '成功',
         data
-      };
-    } catch (error) {
-      throw error;
+      }
     }
   }
   /**
    * 编辑
-   * @param [] - 
+   * @param [] -
    */
-  async edit(@Body() request: RoleAddDto): Promise<object> {
+  async edit(@Body() request: RoleAddDto): Promise<ResultDto> {
+    let data = null
     try {
+      data = '编辑成功'
+    } catch (error) {
+      data = '编辑失败'
+    } finally {
       return {
         code: 200,
-        message: "成功",
+        message: '成功',
+        data
       }
-    } catch (error) {
-      throw error;
     }
   }
 }

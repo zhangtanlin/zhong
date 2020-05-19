@@ -1,20 +1,25 @@
 /**
  * 导入
  */
-import { Module } from '@nestjs/common';
-import { ResourceController } from './resource.controller';
-import { ResourceService } from './resource.service';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { ResourceEntity } from './entity/resource.entity';
+import { Module, forwardRef } from '@nestjs/common'
+import { ResourceController } from './resource.controller'
+import { ResourceService } from './resource.service'
+import { TypeOrmModule } from '@nestjs/typeorm'
+import { ResourceEntity } from './entity/resource.entity'
+import { UserModule } from '../user/user.module'
+import { RoleModule } from '../role/role.module'
 
 @Module({
-  imports:[
+  imports: [
     /**
      * 连接资源表
      */
     TypeOrmModule.forFeature([ResourceEntity]),
+    forwardRef(() => UserModule),
+    forwardRef(() => RoleModule)
   ],
-  controllers: [ResourceController],
   providers: [ResourceService],
+  controllers: [ResourceController],
+  exports: [ResourceService]
 })
 export class ResourceModule {}

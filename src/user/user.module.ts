@@ -12,7 +12,6 @@ import { UserService } from "./user.service";
 import { UserController } from "./user.controller";
 import { UserEntity } from "./entity/user.entity";
 import { RoleModule } from "../role/role.module";
-
 @Module({
   imports: [
     /**
@@ -23,5 +22,6 @@ import { RoleModule } from "../role/role.module";
   ],
   providers: [UserService],
   controllers: [UserController],
+  exports: [UserService]
 })
 export class UserModule {}

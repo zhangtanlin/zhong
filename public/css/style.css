@@ -1,0 +1,9 @@
+/* reset */
+body {
+  margin: 0;
+}
+
+/* header */
+.public_header {
+  height: 50px;
+}
