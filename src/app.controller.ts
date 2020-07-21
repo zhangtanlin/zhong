@@ -5,7 +5,6 @@ export class AppController {
 
   // 首页【常规用法】
   @Get()
-  @Render('index')
   root() {
     return {
       name: '名称',

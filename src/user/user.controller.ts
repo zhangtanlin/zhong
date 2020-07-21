@@ -33,7 +33,7 @@ import { ResultDto } from '../common/dto/result.dto'
 import { UserEntity } from './entity/user.entity'
 import { UserGetDto } from './dto/user.get.dto'
 import * as CryptoJS from 'crypto-js'
-import { passwordKey } from '../../config'
+import { passwordKey } from '../common/config'
 import { UserUpdateDto } from './dto/user.update.dto'
 import { IdDto } from '../common/dto/id.dto'
 
@@ -51,7 +51,7 @@ export class UserController {
    * @param    [userService] - 用户服务别名
    * @class    [UserService] - 用户服务
    */
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: UserService) { }
   /**
    * 获取用户列表
    * @param     [Get]        - 请求方式
@@ -258,7 +258,7 @@ export class UserController {
        */
       const decryptToken = CryptoJS.AES.decrypt(headersArgument.authorization, passwordKey).toString(
         CryptoJS.enc.Utf8
-        )
+      )
       const decryptTokenJSON = JSON.parse(decryptToken)
       /**
        * 根据资源id查询资源

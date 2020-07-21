@@ -26,7 +26,7 @@ import { DtoPipe } from '../common/pipe/dto.pipe'
 import { ResultDto } from '../common/dto/result.dto'
 import { RoleGetDto } from './dto/role.get.dto'
 import * as CryptoJS from 'crypto-js'
-import { passwordKey } from '../../config'
+import { passwordKey } from '../common/config'
 @Controller('/api/role')
 export class RoleController {
   /**
@@ -37,7 +37,7 @@ export class RoleController {
   constructor(
     @Inject(forwardRef(() => RoleService))
     private readonly roleService: RoleService
-  ) {}
+  ) { }
 
   /**
    * 查询列表【有分页条件就分页查询，没有分页查询就查询所有】

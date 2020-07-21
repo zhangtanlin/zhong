@@ -7,7 +7,7 @@ import {
 import { Observable } from 'rxjs'
 import { RedisService } from 'nestjs-redis'
 import * as CryptoJS from 'crypto-js'
-import { passwordKey } from '../../../config'
+import { passwordKey } from '../config'
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -15,7 +15,7 @@ export class AuthGuard implements CanActivate {
    * 私有方法注册
    * @param redisService - redis服务注册
    */
-  constructor(private readonly redisService: RedisService) {}
+  constructor(private readonly redisService: RedisService) { }
 
   /**
    * @param [redisClient]      - 连接redis的服务

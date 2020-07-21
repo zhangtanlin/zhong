@@ -23,7 +23,7 @@ import { ResourceEntity } from './entity/resource.entity'
 import { ResourceObjectDto } from './dto/resource.object.dto'
 import { idPidToTree } from '../common/utils/tool'
 import * as CryptoJS from 'crypto-js'
-import { passwordKey } from '../../config'
+import { passwordKey } from '../common/config'
 import { ResultDto } from '../common/dto/result.dto'
 
 /**
@@ -36,7 +36,7 @@ export class ResourceController {
    */
   constructor(
     private readonly resourceService: ResourceService
-  ) {}
+  ) { }
 
   /**
    * 获取列表
