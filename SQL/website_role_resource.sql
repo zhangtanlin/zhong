@@ -16,29 +16,30 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `role`
+-- Table structure for table `role_resource`
 --
 
-DROP TABLE IF EXISTS `role`;
+DROP TABLE IF EXISTS `role_resource`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `role` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `resources` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `type` enum('1','2','3','4') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '1',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+CREATE TABLE `role_resource` (
+  `role_id` int NOT NULL,
+  `resource_id` int NOT NULL,
+  PRIMARY KEY (`role_id`,`resource_id`),
+  KEY `IDX_7affc0fc891991d6d48e7a0604` (`role_id`),
+  KEY `IDX_d9073d3919b450061bda8f651b` (`resource_id`),
+  CONSTRAINT `FK_7affc0fc891991d6d48e7a0604f` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `FK_d9073d3919b450061bda8f651b7` FOREIGN KEY (`resource_id`) REFERENCES `resource` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `role`
+-- Dumping data for table `role_resource`
 --
 
-LOCK TABLES `role` WRITE;
-/*!40000 ALTER TABLE `role` DISABLE KEYS */;
-INSERT INTO `role` VALUES (1,'超级管理员','1,2','1'),(2,'操作员','2,3','1'),(3,'审计员','','1'),(4,'其他','','1');
-/*!40000 ALTER TABLE `role` ENABLE KEYS */;
+LOCK TABLES `role_resource` WRITE;
+/*!40000 ALTER TABLE `role_resource` DISABLE KEYS */;
+/*!40000 ALTER TABLE `role_resource` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -50,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-12-23 18:07:41
+-- Dump completed on 2020-12-23 18:07:40

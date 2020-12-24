@@ -16,37 +16,32 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `resource`
+-- Table structure for table `ad`
 --
 
-DROP TABLE IF EXISTS `resource`;
+DROP TABLE IF EXISTS `ad`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `resource` (
-  `pid` int NOT NULL DEFAULT '0',
+CREATE TABLE `ad` (
   `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `type` int NOT NULL DEFAULT '1',
-  `href` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `target` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `icon` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'el-icon-edit',
-  `is_show` int NOT NULL DEFAULT '1',
-  `is_navigation` int NOT NULL DEFAULT '1',
-  `permission` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `id` int NOT NULL AUTO_INCREMENT,
-  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `type` int NOT NULL DEFAULT '1',
+  `src` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `link` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `status` enum('0','1') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '1',
+  `explanation` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `resource`
+-- Dumping data for table `ad`
 --
 
-LOCK TABLES `resource` WRITE;
-/*!40000 ALTER TABLE `resource` DISABLE KEYS */;
-INSERT INTO `resource` VALUES (0,'首页','',1,'/system/home','','el-icon-edit',1,1,'',1,''),(0,'系统管理','',1,'','','el-icon-edit',1,1,'',2,''),(2,'用户管理','',1,'/system/sysUser','','el-icon-edit',1,1,'',3,''),(2,'角色管理','',1,'/system/sysRole','','el-icon-edit',1,1,'',4,''),(2,'资源管理','',1,'/system/sysResource','','el-icon-edit',1,1,'',5,'');
-/*!40000 ALTER TABLE `resource` ENABLE KEYS */;
+LOCK TABLES `ad` WRITE;
+/*!40000 ALTER TABLE `ad` DISABLE KEYS */;
+INSERT INTO `ad` VALUES ('test',1,1,'','','1',''),('test2',2,1,'','','1',''),('test3',3,1,'','','1',''),('test4',4,1,'','','1','');
+/*!40000 ALTER TABLE `ad` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -58,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-12-23 18:07:34
+-- Dump completed on 2020-12-23 18:07:36

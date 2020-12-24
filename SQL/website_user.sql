@@ -1,6 +1,6 @@
--- MySQL dump 10.13  Distrib 8.0.19, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.20, for macos10.15 (x86_64)
 --
--- Host: localhost    Database: website
+-- Host: 127.0.0.1    Database: website
 -- ------------------------------------------------------
 -- Server version	8.0.19
 
@@ -24,30 +24,30 @@ DROP TABLE IF EXISTS `user`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `account` varchar(255) COLLATE utf8_bin NOT NULL,
-  `name` varchar(255) COLLATE utf8_bin NOT NULL,
-  `password` varchar(255) COLLATE utf8_bin NOT NULL,
-  `avatar` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `phone` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `email` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `account` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
+  `password` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
+  `avatar` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
+  `phone` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
+  `email` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
   `age` int DEFAULT NULL,
-  `area_id` char(6) COLLATE utf8_bin NOT NULL DEFAULT '000000',
-  `roles` int DEFAULT NULL,
-  `status` int NOT NULL DEFAULT '1',
-  `activate_time` datetime NOT NULL DEFAULT '2020-01-29 22:45:04',
-  `is_first_login` int NOT NULL DEFAULT '1',
-  `is_locked` int NOT NULL DEFAULT '0',
+  `area_id` char(6) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '000000',
+  `activate_time` datetime NOT NULL DEFAULT '2020-12-23 16:16:49',
   `locked_time` datetime DEFAULT NULL,
-  `is_disabled` int NOT NULL DEFAULT '0',
   `disabled_time` datetime DEFAULT NULL,
-  `last_login_ip` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `last_login_ip` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
   `last_login_time` datetime DEFAULT NULL,
   `last_update_password_time` datetime DEFAULT NULL,
-  `create_time` datetime NOT NULL DEFAULT '2020-01-29 22:45:04',
-  `department` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `firm` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `create_time` datetime NOT NULL DEFAULT '2020-12-23 16:16:49',
+  `department` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
+  `firm` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
+  `roles` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
+  `status` enum('0','1') CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '1',
+  `is_first_login` enum('0','1') CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '1',
+  `is_locked` enum('0','1') CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '0',
+  `is_disabled` enum('0','1') CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -56,6 +56,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES (1,'root','超级管理员','6d67d2209e45e3d74d853e82481010abb8570fd82ffa74821d091cbd6c8244d967f2a3402f1715039cf1046ef46589ec57ea44e970b90128f5d11cedfbbf150b','','12425632566','',NULL,'000000','2020-06-18 13:42:35',NULL,NULL,'',NULL,NULL,'2020-06-18 13:42:35','','','1,2','1','1','0','0'),(2,'admin','操作员','6d67d2209e45e3d74d853e82481010abb8570fd82ffa74821d091cbd6c8244d967f2a3402f1715039cf1046ef46589ec57ea44e970b90128f5d11cedfbbf150b','','15235633333','',NULL,'000000','2020-06-18 13:42:35',NULL,NULL,'',NULL,NULL,'2020-06-18 13:42:35','','','2,3','1','1','0','0'),(3,'audit','审计员','6d67d2209e45e3d74d853e82481010abb8570fd82ffa74821d091cbd6c8244d967f2a3402f1715039cf1046ef46589ec57ea44e970b90128f5d11cedfbbf150b','','','',NULL,'000000','2020-06-18 13:42:35',NULL,NULL,'',NULL,NULL,'2020-06-18 13:42:35','','','3','1','1','0','0');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -68,4 +69,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-01-29 22:47:58
+-- Dump completed on 2020-12-23 18:07:42
