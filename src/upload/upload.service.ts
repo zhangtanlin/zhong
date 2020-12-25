@@ -68,17 +68,13 @@ export class UploadService {
       }
       // 验证redis里面是否存在当前分片【无论存不存在都更新里面的数据】
       const client = this.redisService.getClient()
-      console.log("chunkNumber", chunkNumber);
       await client.zadd(md5, chunkNumber, chunkNumber); // 同步添加一条有序数组
       // 分片是否已经全部上传
       const mergeRedis = await client.zcard(md5);
-      console.log("我是", Number(mergeRedis), Number(mergeRedis), Number(chunkAll));
       if (Number(mergeRedis) === Number(chunkAll)) {
-        console.log("我是", chunkAll, chunkNumber, mergeRedis);
         // 合并模块
         let bufferArray = [];
         for (let index = 0; index < Number(mergeRedis); index++){
-          console.log("index", index);
           let readBuffer = await readFileBuffer(md5 + "_" + index);
           bufferArray.push(readBuffer);
         }
@@ -100,7 +96,6 @@ export class UploadService {
         }
         // 删除临时数据
         for (let index = 0; index < Number(mergeRedis); index++){
-          console.log("index2", index);
           await unlinkFile(md5 + "_" + index); // 删除缓存文件
         } 
         client.del(md5); // 清除redis里的数据

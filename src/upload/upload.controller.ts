@@ -37,7 +37,6 @@ export class UploadController {
     }
     try {
       cb.data = await this.uploadService.getOneByMd5(bodys);
-      console.log("cb.data", cb.data)
     } catch (error) {
       cb.code = error.status;
       cb.message = error.message.error;

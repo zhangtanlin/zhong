@@ -50,7 +50,6 @@ export class GuessController {
   @UsePipes(DtoPipe)
   @HttpCode(200)
   async get(@Headers() headersArgument: any, @Query() querys: GuessGetDto): Promise<ResultDto> {
-    console.log('authorization',headersArgument)
     let cb: ResultDto = {
       code: 200,
       data: null,

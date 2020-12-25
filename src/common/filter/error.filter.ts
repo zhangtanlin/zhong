@@ -19,7 +19,6 @@ export class ErrorFilter<T> implements ExceptionFilter {
     //     exception instanceof HttpException
     //       ? exception.getStatus()
     //       : HttpStatus;
-    //   console.log("exception", exception);
     //   // 提示信息
     //   const message = {
     //     code: status,
