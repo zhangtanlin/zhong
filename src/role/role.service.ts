@@ -32,6 +32,7 @@ export class RoleService {
         .skip((params.currentPage - 1) * params.pageSize || 0)
         .take(params.pageSize || 0)
         .getManyAndCount()
+      
       data.list = list[0]
       data.total = list[1]
     } catch (error) {

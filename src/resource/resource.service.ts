@@ -1,4 +1,4 @@
-import { Injectable, HttpException, Inject, forwardRef } from '@nestjs/common'
+import { Injectable, HttpException, Inject, forwardRef, HttpStatus } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { ResourceEntity } from './entity/resource.entity'
 import { Repository } from 'typeorm'
@@ -44,7 +44,7 @@ export class ResourceService {
    * 根据id数组查询数据
    * @param [data] - id数组
    */
-  async findByArrId(data: any[]): Promise<ResourceEntity[]> {
+  async findByArrIds(data: any[]): Promise<ResourceEntity[]> {
     const findResourceArray = await this.resourceRepository
       .createQueryBuilder('resource')
       .where('resource.id IN (:...ids)', { ids: data})
@@ -56,18 +56,51 @@ export class ResourceService {
   }
 
   /**
+   * 根据id数值查询数据
+   * @param id 资源id
+   */
+  async findByArrId(id: number): Promise<ResourceEntity> {
+    const findResource = await this.resourceRepository
+      .createQueryBuilder('resource')
+      .where("resource.id = :id", { id })
+      .getOne()
+    if (!findResource) {
+      throw new HttpException({ error: '查询列表失败' }, 502)
+    }
+    return findResource;
+  }
+
+  /**
    * 保存
    */
   async save(data: ResourceAddDto): Promise<ResourceEntity> {
-    try {
-      const save: ResourceEntity = await this.resourceRepository.save(data)
-      if (!save) {
-        throw new HttpException({ error: '存储失败' }, 502)
-      }
-      return save
-    } catch (error) {
-      throw error
+    const findOneByName: ResourceEntity = await this.resourceRepository.findOne({
+      name: data.name,
+    });
+    if (findOneByName) {
+      throw new HttpException('资源名重复', HttpStatus.FORBIDDEN);
     }
+    const findOneByAlias: ResourceEntity = await this.resourceRepository.findOne({
+      alias: data.alias,
+    });
+    if (findOneByAlias) {
+      throw new HttpException('资源别名重复', HttpStatus.FORBIDDEN);
+    }
+    const findOneByAddress: ResourceEntity = await this.resourceRepository.findOne({
+      target: data.target,
+    });
+    if (findOneByAddress) {
+      throw new HttpException('资源地址重复', HttpStatus.FORBIDDEN);
+    }
+    const resource = new ResourceEntity(); // 初始化User
+    resource.name = data.name;
+    resource.alias = data.alias;
+    resource.target = data.target;
+    const save: ResourceEntity = await this.resourceRepository.save(resource);
+    if (!save) {
+      throw new HttpException('插入数据库失败', HttpStatus.FORBIDDEN);
+    }
+    return save;
   }
 
   /**
@@ -85,5 +118,19 @@ export class ResourceService {
     } catch (error) {
       throw error
     }
+  }
+
+  /**
+   * 根据id删除
+   * @param id 资源 id （数值）
+   */
+  async removeOneById(id: number): Promise<boolean> {
+    const resource = new ResourceEntity(); // 实例化资源 resource
+    resource.id = id;
+    const removeOneById = await this.resourceRepository.remove(resource);
+    if (!removeOneById) {
+      throw new HttpException('删除失败', HttpStatus.FORBIDDEN);
+    }
+    return true;
   }
 }

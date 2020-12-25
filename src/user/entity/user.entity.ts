@@ -5,6 +5,7 @@
  */
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm'
 import * as Moment from 'moment'
+import { Exclude } from 'class-transformer'
 
 // 初始化数据库命令
 // SELECT * FROM website.user;
@@ -45,12 +46,14 @@ export class UserEntity {
 
   /**
    * 密码
+   * @Exclude 表示返回时排除（不显示）
    */
   @Column({
     type: 'varchar',
     length: 255,
     default: ""
   })
+  @Exclude()
   password: string
 
   /**

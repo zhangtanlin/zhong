@@ -48,22 +48,17 @@ export class RoleController {
   @UsePipes(DtoPipe)
   @HttpCode(200)
   async get(@Query() querys: RoleGetDto): Promise<ResultDto> {
-    let cb = null
+    let cb = {
+      code: 200,
+      message: '成功',
+      data: []
+    }
     try {
-      const roleList = await this.roleService.getManyAndCount(querys)
-      if (!roleList) {
-        throw new HttpException({ error: '获取列表失败' }, 502)
-      }
-      cb = CryptoJS.AES.encrypt(JSON.stringify(roleList), passwordKey).toString(); // 加密返回值
-      new Logger("success");
+      cb.data = await this.roleService.getManyAndCount(querys);
     } catch (error) {
-      cb = null
+      cb.data = [];
     } finally {
-      return {
-        code: 200,
-        message: '成功',
-        data: cb
-      }
+      return cb
     }
   }
   /**

@@ -21,7 +21,8 @@ import {
   Get,
   UseGuards,
   Query,
-  Delete
+  Delete,
+  Param
 } from '@nestjs/common'
 import { ApiTags, ApiResponse, ApiOperation } from '@nestjs/swagger'
 import { UserService } from './user.service'
@@ -36,6 +37,7 @@ import * as CryptoJS from 'crypto-js'
 import { passwordKey } from '../common/config'
 import { UserUpdateDto } from './dto/user.update.dto'
 import { IdDto } from '../common/dto/id.dto'
+import { classToPlain } from 'class-transformer'
 
 /**
  * 用户控制器
@@ -79,6 +81,18 @@ export class UserController {
         data
       }
     }
+  }
+
+  /**
+   * 根据id查询用户
+   * @param Param 用户id
+   * @function classToPlain 表示使用class-transformer内置方法返回数据（eg：可能涉及到排除某个字段，在entity中使用@Exclude()进行排除）
+   */
+  @Get(':id')
+  @HttpCode(200)
+  async findOne(@Param() params): Promise<any> {
+    const findOneById: UserEntity = await this.userService.findOneById(params.id);
+    return classToPlain(findOneById); // 使用nestjs自带的序列化返回值成功
   }
 
   /**

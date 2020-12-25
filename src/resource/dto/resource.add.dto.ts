@@ -7,10 +7,21 @@ import { IsNotEmpty, MaxLength } from 'class-validator'
 
 /**
  * 新增dto验证
- * @param {string} [name]     - 名称【不能为空，长度为】
  */
 export class ResourceAddDto {
-  @IsNotEmpty({ message: '资源名称不能为空' })
-  @MaxLength(255, { message: '资源名称长度最长为 $constraint1' })
+  // 名称
+  @IsNotEmpty({ message: '名称不能为空' })
+  @MaxLength(255, { message: '名称长度最长为 $constraint1' })
   name: string
+
+  // 别名
+  @IsNotEmpty({ message: '别名不能为空' })
+  @MaxLength(255, { message: '别名长度最长为 $constraint1' })
+  alias: string
+
+  // 资源地址
+  @IsNotEmpty({ message: '资源地址不能为空' })
+  @MaxLength(255, { message: '资源地址长度最长为 $constraint1' })
+  target: string
+
 }

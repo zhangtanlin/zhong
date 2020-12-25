@@ -13,7 +13,9 @@ import {
   Post,
   UsePipes,
   UseGuards,
-  Body
+  Body,
+  Delete,
+  Put
 } from '@nestjs/common'
 import { ResourceService } from './resource.service'
 import { DtoPipe } from '../common/pipe/dto.pipe'
@@ -67,6 +69,17 @@ export class ResourceController {
         data
       }
     }
+  }
+
+  /**
+   * 根据id获取一条数据
+   */
+  @Get(':id')
+  async findOneById(@Param() id: number) {
+    const resource = new ResourceEntity();
+    resource.id = id;
+    const data = await this.resourceService.findByArrId(id);
+    return { code: 200, message: '查询成功', data };
   }
 
   /**
@@ -131,7 +144,7 @@ export class ResourceController {
        * @param {array} [cb.data]         - 根据id和pid把资源列表数据组合成树结构
        */
       const resourceIdArray = decryptTokenJSON.resources.split(",")
-      const resourceArray = await this.resourceService.findByArrId(resourceIdArray)
+      const resourceArray = await this.resourceService.findByArrIds(resourceIdArray)
       cb.data = await idPidToTree(resourceArray)
     } catch (error) {
       cb.code = error.status;
@@ -144,37 +157,22 @@ export class ResourceController {
   /**
    * 更新一条数据
    */
-  @Post('updateOne')
   @UsePipes(DtoPipe)
   @UseGuards(AuthGuard)
   @HttpCode(200)
-  async updateOne(
-    @Body() request: ResourceObjectDto
-  ): Promise<ResultDto> {
-    let data = null
-    try {
-      /**
-       * 验证是否含有id【有就更新，没有就新增】
-       */
-      if (request.id) {
-        data = await this.resourceService.updateOneById(
-          request.id,
-          request
-        )
-        if (!data) {
-          throw new HttpException({ error: '更新失败' }, 404)
-        }
-      } else {
-        throw new HttpException({ error: '没有id，无法更新数据' }, 400)
-      }
-    } catch (error) {
-      data = false
-    } finally {
-      return {
-        code: 200,
-        message: '成功',
-        data
-      }
-    }
+  @Put(':id')
+  async updateOne(@Param() id: number, @Body() bodys: ResourceObjectDto) {
+    const data = await this.resourceService.updateOneById(id, bodys);
+    return { code: 200, message: '更新资源成功' };
+  }
+
+  /**
+   * 根据id删除资源
+   * @param id 资源id
+   */
+  @Delete(':id')
+  async deleteOne(@Param() param) {
+    const data = await this.resourceService.removeOneById(param.id);
+    return { code: 200, message: '删除资源成功' };
   }
 }

@@ -82,6 +82,20 @@ export class UserService {
   }
 
   /**
+   * 根据id查询
+   * @param id 用户id
+   * @name findOne 查询一条数据
+   */
+  async findOneById(id: number): Promise<UserEntity> {
+    try {
+      const findUserById: UserEntity = await this.userRepository.findOne(id);
+      return findUserById;
+    } catch (error) {
+      throw new HttpException('查询失败', HttpStatus.FORBIDDEN);
+    }
+}
+
+  /**
    * 分页查询
    * @param {object} [data] - 含有列表和总条数的对象返回值
    * @function [list] - typeorm的模糊查询+统计
@@ -249,6 +263,7 @@ export class UserService {
     }
     return { token }
   }
+
   /**
    * 登出
    * @param {string} [account] - 账号名
