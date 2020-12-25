@@ -1,20 +1,19 @@
-import { Module } from '@nestjs/common'
-import { RoleController } from './role.controller'
-import { RoleService } from './role.service'
-import { TypeOrmModule } from '@nestjs/typeorm'
-import { RoleEntity } from './entity/role.entity'
-import { ResourceModule } from '../resource/resource.module'
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ResourceEntity } from 'src/resource/resource.entity';
+import { ResourceModule } from 'src/resource/resource.module';
+import { ResourceService } from 'src/resource/resource.service';
+import { RoleEntity } from './role.entity';
+import { RoleResolver } from './role.resolver';
+import { RoleService } from './role.service';
 
 @Module({
   imports: [
-    /**
-     * 连接角色表
-     */
     TypeOrmModule.forFeature([RoleEntity]),
+    TypeOrmModule.forFeature([ResourceEntity]),
     ResourceModule
   ],
-  controllers: [RoleController],
-  providers: [RoleService],
+  providers: [RoleResolver, RoleService, ResourceService],
   exports: [RoleService]
 })
-export class RoleModule {}
+export class RoleModule { }

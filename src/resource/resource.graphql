@@ -1,0 +1,41 @@
+# 返回值
+type ResourceDto {
+  id: ID
+  pid: Int
+  name: String
+  alias: String
+  type: Int
+  href: String
+  target: String
+  icon: String
+  isShow: Int
+  isNavigation: Int
+  permission: String
+  description: String
+}
+
+# 查询
+# findAll     查询所有
+# findOneById 根据id查询
+type Query {
+  resource: String!
+  resourceFindAll: [ResourceDto]
+  resourceFindOneById(id: ID): ResourceDto
+}
+
+# 操作
+# create 创建数据
+type Mutation {
+  resourceCreate(
+    name: String!
+    alias: String!
+    type: Int!
+    href: String!
+    target: String!
+    icon: String!
+    isShow: Int!
+    isNavigation: Int!
+    permission: String!
+    description: String!
+  ): RoleDto!
+}

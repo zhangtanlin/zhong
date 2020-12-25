@@ -1,0 +1,30 @@
+# 返回值
+type RoleDto {
+  id: ID
+  name: String!
+  roleType: Int!
+  description: String
+  defaultFlag: Int!
+  resources: [ResourceDto]
+}
+
+# 查询
+# userFindAll     查询所有
+# userFindOneById 根据id查询
+type Query {
+  roleFindAll: [RoleDto]
+  roleFindOneById(id: ID): RoleDto
+}
+
+# 操作
+# createRole 创建数据
+type Mutation {
+  roleCreate(
+    name: String!
+    roleType: Int!
+    description: String!
+    defaultFlag: Int!
+    users: Int
+    resources: String
+  ): RoleDto!
+}
