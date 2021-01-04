@@ -9,9 +9,20 @@ import {
   IsPositive,
   IsInt,
   Min,
-  Max
+  Max,
+  IsEnum
 } from 'class-validator'
 import { Type } from 'class-transformer'
+
+/**
+ * 状态枚举
+ * @param {number} [1] 已激活
+ * @param {number} [2] 未激活
+ */
+export enum userStatus {
+  yes = 1,
+  no = 2,
+}
 
 /**
  * 查询用户dto验证
@@ -20,18 +31,19 @@ import { Type } from 'class-transformer'
  * @param {string} [currentPage] - 当前页码【最小为1】
  * @param {string} [pageSize]    - 显示条数【最小为1】
  */
-export class UserGetDto {
+export class UserSearchDto {
   @IsOptional()
   @Type(() => Number)
-  @IsInt({ message: 'id需要为数字' })
-  @Min(0, { message: 'id最小为 $constraint1' })
+  @IsNotEmpty({ message: 'id不能为空' })
   id: number
 
   @IsOptional()
+  @Type(() => String)
   @MaxLength(255, { message: '账号长度最长为 $constraint1' })
   account: string
 
   @IsOptional()
+  @Type(() => String)
   @MaxLength(255, { message: '账号长度最长为 $constraint1' })
   name: string
 
@@ -41,14 +53,32 @@ export class UserGetDto {
   @Max(999999, { message: '区域代码最大为 $constraint1' })
   area_id: string
 
+  @IsOptional()
+  @Type(() => String)
+  @IsNotEmpty({ message: '邮箱不能为空' })
+  email: string
+
+  @IsOptional()
+  @Type(() => Number)
+  @Min(0, { message: '年龄最小为 $constraint1' })
+  @Max(200, { message: '年龄最大为 $constraint1' })
+  age: number
+
+  @IsOptional()
+  @Type(() => Number)
+  @IsEnum(userStatus)
+  status: number
+
+  @IsOptional()
   @Type(() => Number)
   @IsInt({ message: '页码需要为数字' })
   @Min(1, { message: '页码最小为 $constraint1' })
-  currentPage: number
+  currentPage: number = 1
 
+  @IsOptional()
   @Type(() => Number)
   @IsInt({ message: '显示条数需要为数字' })
   @Min(1, { message: '显示条数最小为 $constraint1' })
-  pageSize: number
+  pageSize: number = 10
 
 }

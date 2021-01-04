@@ -9,7 +9,7 @@
  * @requires [GuessEntity]    - 活动
  * @requires [AdEntity]       - 广告
  */
-import { UserEntity } from '../../user/entity/user.entity'
+import { UserEntity } from '../../user/user.entity'
 import { RoleEntity } from '../../role/entity/role.entity'
 import { ResourceEntity } from '../../resource/entity/resource.entity'
 import { UploadEntity } from '../../upload/entity/upload.entity'

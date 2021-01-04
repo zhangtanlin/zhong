@@ -1,13 +1,13 @@
 // 服务端口
-export const port: number = 3001;
+export const port: number = 3000;
 
 // swagger文档服务地址
 export const swaggerBaseUrl: string = 'http://localhost:3002'
 
 // 允许跨域的地址数组
 export const corsBaseUrlArray: string[] = [
-  'http://192.168.1.159:3000',
-  'http://localhost:3000',
+  'http://192.168.1.159:3001',
+  'http://localhost:3001',
   'http://localhost:8080'
 ]
 

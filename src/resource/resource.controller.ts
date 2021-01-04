@@ -114,7 +114,7 @@ export class ResourceController {
    * 获取菜单列表
    * @param [headersArgument] - 获取请求头参数
    */
-  @Get('menu')
+  @Post('menu')
   @UsePipes(DtoPipe)
   @UseGuards(AuthGuard)
   @HttpCode(200)

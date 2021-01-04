@@ -1,6 +1,7 @@
 /**
  * 导入
  */
+import { Type } from 'class-transformer'
 import {
   IsNotEmpty,
   MinLength,
@@ -30,7 +31,6 @@ export class UserUpdateDto {
    * ID
    */
   @IsNotEmpty({ message: 'id不能为空' })
-  @IsInt()
   id: number
 
   /**
@@ -81,6 +81,7 @@ export class UserUpdateDto {
    * 年龄
    */
   @IsOptional()
+  @Type(() => Number)
   @IsPositive({ message: '年龄需要为正整数' })
   age: number
 

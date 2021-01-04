@@ -51,13 +51,13 @@ import {
 } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
-import { UserEntity } from './entity/user.entity'
+import { UserEntity } from './user.entity'
 import { UserInsertDto } from './dto/user.insert.dto'
 import { RedisService } from 'nestjs-redis'
 import { UserLoginDto } from './dto/user.login.dto'
 import * as CryptoJS from 'crypto-js'
 import { passwordKey } from '../common/config'
-import { UserGetDto } from './dto/user.get.dto'
+import { UserSearchDto } from './dto/user.search.dto'
 import { RoleService } from '../role/role.service'
 import { UserUpdateDto } from './dto/user.update.dto'
 import { IdDto } from '../common/dto/id.dto'
@@ -75,9 +75,9 @@ export class UserService {
   ) { }
 
   /**
-   * 查询用户【根据params条件】
+   * 查询用户【根据query条件】
    */
-  find(querys: UserGetDto): Promise<UserEntity[]> {
+  find(querys: UserSearchDto): Promise<UserEntity[]> {
     return this.userRepository.find(querys)
   }
 
@@ -100,24 +100,32 @@ export class UserService {
    * @param {object} [data] - 含有列表和总条数的对象返回值
    * @function [list] - typeorm的模糊查询+统计
    */
-  async getManyAndCount(params: UserGetDto): Promise<any> {
+  async getManyAndCount(query: UserSearchDto): Promise<any> {
     let data = {
       list: [],
       total: 0
     }
     try {
+      console.log('getManyAndCount', query)
       const list = await this.userRepository.createQueryBuilder('user')
         .where('user.account like :account')
         .andWhere('user.name like :name')
         .andWhere('user.area_id like :area_id')
+        .andWhere('user.email like :email')
+        .andWhere('user.age like :age')
+        .andWhere('user.status like :status')
         .setParameters({
-          account: `%${params.account ? params.account : ''}%`, // 用户名模糊查询
-          name: `%${params.name ? params.name : ''}%`, // 性别模糊查询
-          area_id: `%${params.area_id ? params.area_id : ''}%`, // 性别模糊查询
+          account: `%${query.account ? query.account : ''}%`, // 账号
+          name: `%${query.name ? query.name : ''}%`,          // 用户名
+          area_id: `%${query.area_id ? query.area_id : ''}%`, // 区域代码
+          email: `%${query.email ? query.email : ''}%`,       // 邮箱
+          age: `%${query.age ? query.age : ''}%`,             // 年龄
+          status: `%${query.status ? query.status : 2}%`,     // 状态
         })
-        .skip((params.currentPage - 1) * params.pageSize)
-        .take(params.pageSize)
+        .skip((query.currentPage - 1) * query.pageSize)
+        .take(query.pageSize)
         .getManyAndCount()
+      console.log('list', list)
       data.list = list[0]
       data.total = list[1]
     } catch (error) {

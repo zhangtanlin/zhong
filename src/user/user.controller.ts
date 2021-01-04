@@ -31,8 +31,8 @@ import { AuthGuard } from '../common/guard/auth.guard'
 import { UserLoginDto } from './dto/user.login.dto'
 import { DtoPipe } from '../common/pipe/dto.pipe'
 import { ResultDto } from '../common/dto/result.dto'
-import { UserEntity } from './entity/user.entity'
-import { UserGetDto } from './dto/user.get.dto'
+import { UserEntity } from './user.entity'
+import { UserSearchDto } from './dto/user.search.dto'
 import * as CryptoJS from 'crypto-js'
 import { passwordKey } from '../common/config'
 import { UserUpdateDto } from './dto/user.update.dto'
@@ -68,10 +68,10 @@ export class UserController {
   @Get()
   @UsePipes(DtoPipe)
   @HttpCode(200)
-  async get(@Query() querys: UserGetDto): Promise<ResultDto> {
+  async get(@Query() query: UserSearchDto): Promise<ResultDto> {
     let data = null
     try {
-      data = await this.userService.getManyAndCount(querys)
+      data = await this.userService.getManyAndCount(query)
     } catch (error) {
       throw new HttpException({ error: '获取列表失败' }, 502)
     } finally {

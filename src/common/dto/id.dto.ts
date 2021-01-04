@@ -2,7 +2,8 @@
  * 导入
  * @requires [class-validator] - 验证规则
  */
-import { IsNotEmpty, IsInt } from "class-validator";
+import { Type } from "class-transformer";
+import { IsNotEmpty } from "class-validator";
 
 /**
  * 根据id进行的一系列操作的dto验证
@@ -12,7 +13,7 @@ export class IdDto {
   /**
    * ID
    */
+  @Type(() => Number)
   @IsNotEmpty({ message: 'id不能为空' })
-  @IsInt({ message: 'id为正整数' })
   id: number
 }

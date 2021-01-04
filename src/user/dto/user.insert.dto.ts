@@ -75,7 +75,7 @@ export class UserInsertDto {
 
   // 账号状态
   @IsOptional()
-  @IsIn([0, 1])
+  @IsEnum([1, 2])
   status: number
 
   // 激活时间
@@ -85,12 +85,12 @@ export class UserInsertDto {
 
   // 是否第一次登录
   @IsOptional()
-  @IsIn([0, 1])
+  @IsEnum([1, 2])
   is_first_login: number
 
   // 是否锁定
   @IsOptional()
-  @IsIn([0, 1])
+  @IsEnum([1, 2])
   is_locked: number
 
   // 锁定时间
@@ -100,7 +100,7 @@ export class UserInsertDto {
 
   // 是否禁用
   @IsOptional()
-  @IsIn([0, 1])
+  @IsEnum([1, 2])
   is_disabled: number
 
   // 禁用时间

@@ -118,11 +118,11 @@ export class UserEntity {
 
   /**
    * 是否激活
-   * @param {number} [status] - {0:"未激活",1:"已激活"}
+   * @param {number} [status] - {1:"已激活", 2:"未激活"}
    */
   @Column({
     type: 'enum',
-    enum: [0, 1],
+    enum: [1, 2],
     default: 1
   })
   status: number
@@ -138,23 +138,23 @@ export class UserEntity {
 
   /**
    * 是否第一次登录
-   * @param {number} [is_first_login] -是否是第一次登录 {0: "不是", 1:"是"}
+   * @param {number} [is_first_login] -是否是第一次登录 {1:"是", 2: "不是"}
    */
   @Column({
     type: 'enum',
-    enum: [0, 1],
+    enum: ['1', 2],
     default: 1
   })
   is_first_login: number
 
   /**
    * 是否锁定
-   * @param {number} [is_locked] -是否锁定 {0: "未锁定", 1:"锁定"}
+   * @param {number} [is_locked] -是否锁定 {1:"锁定", 2: "未锁定"}
    */
   @Column({
     type: 'enum',
-    enum: [0, 1],
-    default: 0
+    enum: [1, 2],
+    default: 2
   })
   is_locked: number
 
@@ -169,12 +169,12 @@ export class UserEntity {
 
   /**
    * 是否禁用
-   * @param {number} [is_disabled] -是否禁用 {0: "未禁用", 1:"禁用"}
+   * @param {number} [is_disabled] -是否禁用 {1:"禁用", 2: "未禁用"}
    */
   @Column({
     type: 'enum',
-    enum: [0, 1],
-    default: 0
+    enum: [1, 2],
+    default: 2
   })
   is_disabled: number
 
