@@ -3,6 +3,7 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { AppModule } from './app.module'
 import { ErrorFilter } from './common/filter/error.filter'
 import { port } from "./common/config"
+import { join } from 'path';
 
 // api文档swagger
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger'
@@ -22,6 +23,11 @@ async function bootstrap() {
 
   // 全局错误连接器
   app.useGlobalFilters(new ErrorFilter())
+
+  // 模板
+  app.useStaticAssets(join(__dirname, '..', 'public'));
+  app.setBaseViewsDir(join(__dirname, '..', 'views'));
+  app.setViewEngine('hbs');
 
   /**
    * swagger配置
