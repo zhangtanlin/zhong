@@ -1,49 +1,33 @@
+<<<<<<< HEAD
 import { Injectable, HttpException, Inject, forwardRef, HttpStatus } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { ResourceEntity } from './entity/resource.entity'
 import { Repository } from 'typeorm'
 import { ResourceAddDto } from './dto/resource.add.dto'
 import { ResourceObjectDto } from './dto/resource.object.dto'
+=======
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { ResourceDto } from './dto/dto';
+import { ResourceEntity } from './resource.entity';
+>>>>>>> 1f5ae6d353d3cb15a2e6e4d94fcaf3bb131d9a70
 
 @Injectable()
 export class ResourceService {
-  /**
-   * 函数
-   * @class [ResourceEntity] - 资源数据结构
-   * @class [UserService]    - 用户服务
-   */
+
   constructor(
     @InjectRepository(ResourceEntity)
     private readonly resourceRepository: Repository<ResourceEntity>
-  ) {}
+  ) { }
 
   /**
-   * 查询所有
+   * 新增
+   * @class [UserInsertDto]     新增dto
+   * @function findOneByAccount 验证账号是否存在
+   * @function save             保存用户信息
    */
-  async find(): Promise<ResourceEntity[]> {
-    const findResourceArray = await this.resourceRepository.find()
-    if (!findResourceArray) {
-      throw new HttpException({ error: '查询列表失败' }, 502)
-    }
-    return findResourceArray
-  }
-
-  /**
-   * 根据制定条件查询
-   * @param {object} data - 资源列表条件【注意是对象】
-   */
-  async findByObjCondition(data: ResourceObjectDto): Promise<ResourceEntity[]> {
-    const findResourceArray = await this.resourceRepository.find(data)
-    if (!findResourceArray) {
-      throw new HttpException({ error: '查询列表失败' }, 502)
-    }
-    return findResourceArray
-  }
-
-  /**
-   * 根据id数组查询数据
-   * @param [data] - id数组
-   */
+<<<<<<< HEAD
   async findByArrIds(data: any[]): Promise<ResourceEntity[]> {
     const findResourceArray = await this.resourceRepository
       .createQueryBuilder('resource')
@@ -99,24 +83,29 @@ export class ResourceService {
     const save: ResourceEntity = await this.resourceRepository.save(resource);
     if (!save) {
       throw new HttpException('插入数据库失败', HttpStatus.FORBIDDEN);
+=======
+  async create(): Promise<ResourceDto> {
+    try {
+      return;
+    } catch (error) {
+      throw error
+>>>>>>> 1f5ae6d353d3cb15a2e6e4d94fcaf3bb131d9a70
     }
     return save;
   }
 
   /**
-   * 更新一条数据
-   * @param {number} [id]           - 查询需要更新的数据id
-   * @param {ResourceObjDto} [data] - 需要更新的数据对象
+   * 根据id数组查询数据
+   * @param ids id数组
    */
-  async updateOneById(id: number, data: ResourceObjectDto): Promise<any> {
+  async resourcesFindByIds(ids: number[]): Promise<ResourceDto[]> {
     try {
-      const update: any = await this.resourceRepository.update(id, data)
-      if (!update) {
-        throw new HttpException({ error: '存储失败' }, 502)
+      const resourcesFindByIds: ResourceEntity[] = await this.resourceRepository.findByIds(ids);
+      if (resourcesFindByIds) {
+        return resourcesFindByIds || [];
       }
-      return update
     } catch (error) {
-      throw error
+      console.log('9999')
     }
   }
 

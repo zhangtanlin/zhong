@@ -1,0 +1,45 @@
+# 返回值
+type UserDto {
+  id: ID
+  account: String!
+  name: String!
+  password: ID
+  avatar: String!
+  phone: String!
+  email: String!
+  age: String!
+  area_id: String!
+  roles: [RoleDto]
+  resources: [ResourceDto]
+  status: String!
+  activate_time: String!
+  is_first_login: String!
+  is_locked: String!
+  locked_time: String!
+  is_disabled: String!
+  disabled_time: String!
+  last_login_ip: String!
+  last_login_time: String!
+  last_update_password_time: String!
+  create_time: String!
+  department: String!
+  firm: String!
+}
+
+# 查询
+# userFindAll     查询所有
+# userFindOneById 根据id查询
+type Query {
+  user: String!
+  userFindAll: [UserDto]
+  userFindOneById(id: ID): UserDto
+}
+
+# 操作
+# createUser 创建数据
+type Mutation {
+  userCreate(
+    account: String,
+    password: String
+  ): UserDto!
+}

@@ -1,0 +1,25 @@
+# 返回值
+type PostsDto {
+  id: ID
+  account: String!
+  password: String!
+}
+
+# 查询
+# postsFindAll     查询所有
+# postsFindOneById 根据id查询
+type Query {
+  authors: String!
+  posts: String!
+  postsFindAll: [PostsDto]
+  postsFindOneById(id: ID): PostsDto
+}
+
+# 操作
+# createPosts 创建数据
+type Mutation {
+  createPosts(
+    account: String,
+    password: String
+  ): PostsDto!
+}

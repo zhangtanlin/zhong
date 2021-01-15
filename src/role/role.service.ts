@@ -1,28 +1,28 @@
-import { Injectable, HttpException } from '@nestjs/common'
-import { InjectRepository } from '@nestjs/typeorm'
-import { RoleEntity } from './entity/role.entity'
-import { Repository, getConnection, Like } from 'typeorm'
-import { RoleGetDto } from './dto/role.get.dto'
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { ResourceService } from '../resource/resource.service';
+import { Repository } from 'typeorm';
+import { RoleEntity } from './role.entity';
+import { RoleDto } from './dto/dto';
 
 @Injectable()
 export class RoleService {
-  /**
-   * 函数
-   */
+
   constructor(
     @InjectRepository(RoleEntity)
-    private readonly roleRepository: Repository<RoleEntity>
-  ) {}
+    private readonly roleRepository: Repository<RoleEntity>,
+    private readonly resourceService: ResourceService
+  ) { }
 
   /**
-   * 分页查询
+   * 查询所有数据
+   * @class [UserInsertDto]     dto
+   * @function findOneByAccount 验证账号是否存在
+   * @function save             保存用户信息
    */
-  async getManyAndCount(params: RoleGetDto): Promise<any> {
-    let data = {
-      list: [],
-      total: 0
-    }
+  async findAll(): Promise<any[]> {
     try {
+<<<<<<< HEAD
       const list = await this.roleRepository.createQueryBuilder('role')
         .where({
           id: Like(`%${params.id ? params.id : ''}%`),
@@ -35,52 +35,49 @@ export class RoleService {
       
       data.list = list[0]
       data.total = list[1]
+=======
+      const cb = [];
+      const find: RoleEntity[] = await this.roleRepository.find();
+      if (find.length) {
+        for (const iterator of find) {
+          let tempResourceFindByIds, tempRoleDto = {};
+          if (iterator.resources) {
+            const tempResources = iterator.resources.split(',').map(Number);
+            tempResourceFindByIds = await this.resourceService.resourcesFindByIds(tempResources);
+          }
+          tempRoleDto = { ...iterator, resources: tempResourceFindByIds || [] };
+          cb.push(tempRoleDto);
+        }
+      }
+      return cb;
+>>>>>>> 1f5ae6d353d3cb15a2e6e4d94fcaf3bb131d9a70
     } catch (error) {
-      throw new HttpException({ error: '获取列表失败' }, 502)
-    } finally {
-      return data
+      throw error
     }
-  }
-
-  /**
-   * 根据条件查询一个用户
-   */
-  async findOne(data: object): Promise<RoleEntity> {
-    const findOneRole: RoleEntity = await this.roleRepository.findOne(data)
-    if (!findOneRole) {
-      throw new HttpException({ error: '查询失败' }, 502)
-    }
-    return findOneRole
   }
 
   /**
    * 根据id数组查询数据
-   * @param [data] - id数组
    */
-  async findByIds(data: any[]): Promise<RoleEntity[]> {
-    const findRoleArray = await this.roleRepository
-      .createQueryBuilder('role')
-      .where('role.id IN (:...ids)', { ids: data})
-      .getMany()
-    if (!findRoleArray) {
-      throw new HttpException({ error: '查询列表失败' }, 502)
-    }
-    return findRoleArray
-  }
-
-  /**
-   * 保存
-   */
-  async save(data): Promise<any> {
-    const save = await getConnection()
-      .createQueryBuilder()
-      .insert()
-      .into(RoleEntity)
-      .values(data)
-      .execute()
-      if (!save) {
-        throw new HttpException({ error: '保存角色失败' }, 502)
+  async findByIds(ids: number[]): Promise<RoleDto[]> {
+    try {
+      const cb = [];
+      const roleFindByIds: RoleEntity[] = await this.roleRepository.findByIds(ids);
+      if (roleFindByIds.length) {
+        for (const iterator of roleFindByIds) {
+          let tempFindByIds, tempDto = {};
+          if (iterator.resources) {
+            const tempIds = iterator.resources.split(',').map(Number);
+            tempFindByIds = await this.resourceService.resourcesFindByIds(tempIds);
+          }
+          tempDto = { ...iterator, resources: tempFindByIds || [] };
+          cb.push(tempDto);
+        }
       }
-    return save
+      return cb;
+    } catch (error) {
+      throw error
+    }
   }
 }
+

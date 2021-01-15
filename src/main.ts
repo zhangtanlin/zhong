@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { NestFactory } from '@nestjs/core'
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { AppModule } from './app.module'
@@ -46,5 +47,13 @@ async function bootstrap() {
 
   // 绑定端口号
   await app.listen(port)
+=======
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
+
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
+  await app.listen(3001);
+>>>>>>> 1f5ae6d353d3cb15a2e6e4d94fcaf3bb131d9a70
 }
-bootstrap()
+bootstrap();

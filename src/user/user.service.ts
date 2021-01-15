@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /**
  * 导入
  * BadRequestException           - 400【抛出的异常】
@@ -61,20 +62,27 @@ import { UserSearchDto } from './dto/user.search.dto'
 import { RoleService } from '../role/role.service'
 import { UserUpdateDto } from './dto/user.update.dto'
 import { IdDto } from '../common/dto/id.dto'
+=======
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { RoleService } from 'src/role/role.service';
+import { Repository } from 'typeorm';
+import { UserDto } from './dto/dto';
+import { UserEntity } from './user.entity';
+import { objArrayRepeat } from '../common/utils/tool'
+>>>>>>> 1f5ae6d353d3cb15a2e6e4d94fcaf3bb131d9a70
 
 @Injectable()
 export class UserService {
-  /**
-   * 函数
-   */
+
   constructor(
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
-    private readonly roleService: RoleService,
-    private readonly redisService: RedisService
+    private readonly roleService: RoleService
   ) { }
 
   /**
+<<<<<<< HEAD
    * 查询用户【根据query条件】
    */
   find(querys: UserSearchDto): Promise<UserEntity[]> {
@@ -138,56 +146,54 @@ export class UserService {
   /**
    * 新增用户
    * @class [UserInsertDto] - 新增用户dto
+=======
+   * 新增
+   * @class [UserInsertDto]     新增用户dto
+   * @function findOneByAccount 验证账号是否存在
+   * @function save             保存用户信息
+>>>>>>> 1f5ae6d353d3cb15a2e6e4d94fcaf3bb131d9a70
    */
-  async save(data: UserInsertDto): Promise<UserEntity> {
+  async createUser(): Promise<UserDto> {
     try {
-      // 验证账号是否存在
-      const findOneByAccount = await this.userRepository.findOne({
-        account: data.account
-      })
-      if (findOneByAccount) {
-        throw new HttpException({ error: '账号已存在' }, 400)
-      }
-      // 密码加密
-      data.password = CryptoJS.HmacSHA512(data.password, passwordKey).toString()
-      // 保存用户信息
-      const save: UserEntity = await this.userRepository.save(data)
-      if (!save) {
-        throw new HttpException({ error: '保存用户失败' }, 502)
-      }
-      return save
+      return;
     } catch (error) {
       throw error
     }
   }
 
   /**
-   * 更新用户
-   * @class [UserInsertDto] - 更新用户dto
+   * 查询所有
+   * @function roleFindByIds  根据id数组查询数据
+   * @function objArrayRepeat 对象数组去重roleFindByIds
    */
-  async updateById(data: UserUpdateDto): Promise<boolean> {
+  async findUser(): Promise<UserDto[]> {
     try {
-      // 验证id是否存在
-      const findOneById: UserEntity = await this.userRepository.findOne({
-        id: data.id
-      })
-      if (!findOneById) {
-        throw new HttpException({ error: 'ID不存在' }, 400)
+      const cb = [];
+      const find: UserEntity[] = await this.userRepository.find();
+      if (find.length) {
+        for (const iterator of find) {
+          let tempFindByIds, tempDto = {}, tempResourcesDto = [];
+          if (iterator.roles) {
+            const tempIds = iterator.roles.split(',').map(Number);
+            tempFindByIds = await this.roleService.findByIds(tempIds);
+            if (tempFindByIds.length) {
+              for (const i of tempFindByIds) {
+                const aaa = tempResourcesDto.concat(i.resources);
+                tempResourcesDto = await objArrayRepeat(aaa);
+              }
+            }
+          }
+          tempDto = { ...iterator, roles: tempFindByIds || [], resources: tempResourcesDto || [] };
+          cb.push(tempDto);
+        }
+        return cb;
       }
-      // 如果密码存在则对密码进行加密
-      if (data.password) {
-        data.password = CryptoJS.HmacSHA512(data.password, passwordKey).toString()
-      }
-      // 更新用户信息
-      const update = await this.userRepository.update({ id: data.id }, data)
-      if (!update) {
-        throw new HttpException({ error: '更新用户失败' }, 502)
-      }
-      return true
+      return [];
     } catch (error) {
       throw error
     }
   }
+<<<<<<< HEAD
 
   /**
    * 删除
@@ -291,4 +297,6 @@ export class UserService {
       return data
     }
   }
+=======
+>>>>>>> 1f5ae6d353d3cb15a2e6e4d94fcaf3bb131d9a70
 }
