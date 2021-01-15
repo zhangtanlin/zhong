@@ -1,29 +1,29 @@
 import { Injectable, HttpException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { RoleEntity } from './entity/role.entity'
+import { VideoEntity } from './entity/video.entity'
 import { Repository, getConnection, Like } from 'typeorm'
-import { RoleGetDto } from './dto/role.get.dto'
+import { VideoGetDto } from './dto/video.get.dto'
 
 @Injectable()
-export class RoleService {
+export class VideoService {
   /**
    * 函数
    */
   constructor(
-    @InjectRepository(RoleEntity)
-    private readonly roleRepository: Repository<RoleEntity>
+    @InjectRepository(VideoEntity)
+    private readonly videoRepository: Repository<VideoEntity>
   ) {}
 
   /**
    * 分页查询
    */
-  async getManyAndCount(params: RoleGetDto): Promise<any> {
+  async getManyAndCount(params: VideoGetDto): Promise<any> {
     let data = {
       list: [],
       total: 0
     }
     try {
-      const list = await this.roleRepository.createQueryBuilder('role')
+      const list = await this.videoRepository.createQueryBuilder('video')
         .where({
           id: Like(`%${params.id ? params.id : ''}%`),
           name: Like(`%${params.name ? params.name : ''}%`),
@@ -32,7 +32,6 @@ export class RoleService {
         .skip((params.currentPage - 1) * params.pageSize || 0)
         .take(params.pageSize || 0)
         .getManyAndCount()
-      
       data.list = list[0]
       data.total = list[1]
     } catch (error) {
@@ -45,8 +44,8 @@ export class RoleService {
   /**
    * 根据条件查询一个用户
    */
-  async findOne(data: object): Promise<RoleEntity> {
-    const findOneRole: RoleEntity = await this.roleRepository.findOne(data)
+  async findOne(data: object): Promise<VideoEntity> {
+    const findOneRole: VideoEntity = await this.videoRepository.findOne(data)
     if (!findOneRole) {
       throw new HttpException({ error: '查询失败' }, 502)
     }
@@ -54,11 +53,11 @@ export class RoleService {
   }
 
   /**
-   * 根据id数组查询数据
+   * 根据id数组查询
    * @param [data] - id数组
    */
-  async findByIds(data: any[]): Promise<RoleEntity[]> {
-    const findRoleArray = await this.roleRepository
+  async findByIds(data: any[]): Promise<VideoEntity[]> {
+    const findRoleArray = await this.videoRepository
       .createQueryBuilder('role')
       .where('role.id IN (:...ids)', { ids: data})
       .getMany()
@@ -75,7 +74,7 @@ export class RoleService {
     const save = await getConnection()
       .createQueryBuilder()
       .insert()
-      .into(RoleEntity)
+      .into(VideoEntity)
       .values(data)
       .execute()
       if (!save) {

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /**
  * 导入
  * @module [Module]         - nest的common模块内的module方法
@@ -13,26 +12,16 @@ import { UserService } from "./user.service";
 import { UserController } from "./user.controller";
 import { UserEntity } from "./user.entity";
 import { RoleModule } from "../role/role.module";
-=======
-import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { ResourceEntity } from 'src/resource/resource.entity';
-import { ResourceService } from 'src/resource/resource.service';
-import { RoleEntity } from 'src/role/role.entity';
-import { RoleModule } from '../role/role.module';
-import { RoleService } from '../role/role.service';
-import { UserEntity } from './user.entity';
-import { UserResolver } from './user.resolver';
-import { UserService } from './user.service';
-
->>>>>>> 1f5ae6d353d3cb15a2e6e4d94fcaf3bb131d9a70
 @Module({
   imports: [
+    /**
+     * 连接用户表
+     */
     TypeOrmModule.forFeature([UserEntity]),
-    TypeOrmModule.forFeature([RoleEntity]),
-    TypeOrmModule.forFeature([ResourceEntity]),
-    RoleModule
+    RoleModule,
   ],
-  providers: [UserResolver, UserService, RoleService, ResourceService]
+  providers: [UserService],
+  controllers: [UserController],
+  exports: [UserService]
 })
-export class UserModule { }
+export class UserModule {}
