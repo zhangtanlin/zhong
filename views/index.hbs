@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
   <head>
     {{!-- 声明文档使用的字符编码 --}}
     <meta charset="utf-8" />
@@ -11,60 +11,44 @@
     <meta name="keywords" content=""/>
     {{!-- 网页作者 --}}
     <meta name="author" content="name, email@gmail.com"/>
-    {{!-- 搜索引擎抓取 --}}
+    {{!-- 网页版权 --}}
+    <meta name="copyright" content="Lxxyx">
+    {{!-- 搜索引擎-抓取 --}}
     <meta name="robots" content="index,follow"/>
+    {{!-- 搜索引擎-重访时间 --}}
+    <meta name="revisit-after" content="7 days" >
+    {{!-- 添加 favicon icon --}}
+    <link rel="shortcut icon" type="image/ico" href="/favicon.ico"/>
     {{!-- 为移动设备添加 viewport，`width=device-width` 会导致 iPhone 5 添加到主屏后以 WebApp 全屏模式打开页面时出现黑边 http://bigc.at/ios-webapp-viewport-meta.orz --}}
     <meta name="viewport" content="initial-scale=1, maximum-scale=3, minimum-scale=1, user-scalable=no">
+    {{!-- 双核浏览器以何种方式渲染[例如360浏览器的极速模式(webkit)] --}}
+    <meta name="renderer" content="webkit">
     {{!-- IOS-标题 --}}
     <meta name="apple-mobile-web-app-title" content="标题">
     {{!-- IOS-添加到主屏后的标题（IOS 6 新增） --}}
     <meta name="apple-mobile-web-app-capable" content="yes"/>
     {{!-- IOS-设置状态栏的背景颜色，只有在 "apple-mobile-web-app-capable" content="yes" 时生效 --}}
     <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
-    {{!-- IOS-是否启用 WebApp 全屏模式，删除苹果默认的工具栏和菜单栏 --}}
-    <meta name="apple-itunes-app" content="app-id=myAppStoreID, affiliate-data=myAffiliateData, app-argument=myURL">
     {{!-- IOS-添加智能 App 广告条 Smart App Banner（IOS 6+ Safari） --}}
     <meta name="apple-itunes-app" content="app-id=myAppStoreID, affiliate-data=myAffiliateData, app-argument=myURL">
     {{!-- IOS-忽略页面中的数字识别为电话，忽略email识别 --}}
     <meta name="format-detection" content="telphone=no, email=no"/>
     {{!-- IOS-【iPhone/iTouch】默认图标 57x57 像素，必须有 --}}
-    <link rel="apple-touch-icon-precomposed" href="/apple-touch-icon-57x57-precomposed.png"/>
-    {{!-- IOS-【Retina iPhone/Retina iTouch】114x114 像素，可以没有，但推荐有 --}}
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/apple-touch-icon-114x114-precomposed.png"/>
-    {{!-- IOS-【Retina iPad】144x144 像素，可以没有，但推荐有 --}}
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144x144-precomposed.png"/>
-    {{!-- IOS-【iPad】 竖屏 768 x 1004（标准分辨率） --}}
-    <link rel="apple-touch-startup-image" sizes="768x1004" href="/splash-screen-768x1004.png"/>
-    {{!-- IOS-【iPad】 竖屏 1536x2008（Retina） --}}
-    <link rel="apple-touch-startup-image" sizes="1536x2008" href="/splash-screen-1536x2008.png"/>
-    {{!-- IOS-【iPad】 横屏 1024x748（标准分辨率） --}}
-    <link rel="apple-touch-startup-image" sizes="1024x748" href="/Default-Portrait-1024x748.png"/>
-    {{!-- IOS-iPad 横屏 2048x1496（Retina） --}}
-    <link rel="apple-touch-startup-image" sizes="2048x1496" href="/splash-screen-2048x1496.png"/>
-    {{!-- IOS-【iPhone/iPod Touch】 竖屏 320x480 (标准分辨率) --}}
-    <link rel="apple-touch-startup-image" href="/splash-screen-320x480.png"/>
-    {{!-- IOS-【iPhone/iPod Touch】 竖屏 640x960 (Retina) --}}
-    <link rel="apple-touch-startup-image" sizes="640x960" href="/splash-screen-640x960.png"/>
-    {{!-- IOS-【iPhone 5/iPod Touch 5】 竖屏 640x1136 (Retina) --}}
-    <link rel="apple-touch-startup-image" sizes="640x1136" href="/splash-screen-640x1136.png"/>
-    {{!-- 启用360浏览器的极速模式(webkit) --}}
-    <meta name="renderer" content="webkit">
-    {{!-- 避免IE使用兼容模式 --}}
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="apple-touch-icon-precomposed" href="/apple-touch-icon-precomposed-57x57.png"/>
     {{!-- 针对手持设备优化，主要是针对一些老的不识别viewport的浏览器，比如黑莓 --}}
     <meta name="HandheldFriendly" content="true">
     {{!-- 微软的老式浏览器 --}}
     <meta name="MobileOptimized" content="320">
     {{!-- uc强制竖屏 --}}
     <meta name="screen-orientation" content="portrait">
-    {{!-- QQ强制竖屏 --}}
-    <meta name="x5-orientation" content="portrait">
     {{!-- UC强制全屏 --}}
     <meta name="full-screen" content="yes">
-    {{!-- QQ强制全屏 --}}
-    <meta name="x5-fullscreen" content="true">
     {{!-- UC应用模式 --}}
     <meta name="browsermode" content="application">
+    {{!-- QQ强制竖屏 --}}
+    <meta name="x5-orientation" content="portrait">
+    {{!-- QQ强制全屏 --}}
+    <meta name="x5-fullscreen" content="true">
     {{!-- QQ应用模式 --}}
     <meta name="x5-page-mode" content="app">
     {{!-- windows phone 点击无高光 --}}
@@ -72,11 +56,7 @@
     {{!-- Windows 8 磁贴颜色 --}}
     <meta name="msapplication-TileColor" content="#000"/>
     {{!-- Windows 8 磁贴图标 --}}
-    <meta name="msapplication-TileImage" content="icon.png"/> 
-    {{!-- 添加 RSS 订阅 --}}
-    <link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml"/>
-    {{!-- 添加 favicon icon --}}
-    <link rel="shortcut icon" type="image/ico" href="/favicon.ico"/>
+    <meta name="msapplication-TileImage" content="/logo.png"/> 
     {{!-- tg/facebook --}}
     <meta name="og:title" content="xx官网"/>
     {{!-- tg/facebook --}}
@@ -89,7 +69,6 @@
     <meta name="og:image" content="/logo.png"/>
     {{!-- tg/facebook --}}
     <meta name="twitter:card" content="xx官网"/>
-
     <title>xx官网</title>
   </head>
   <body>
