@@ -63,24 +63,15 @@ export class UserController {
    * @faunction [Body]       - nest提供的获取Body参数的方法
    * @faunction [Query]      - query参数
    * @faunction [UserGetDto] - 用以验证Body参数正确与否的dto方法
-   * @returns   {ResultDto}  - 返回值是一个含有提示信息的对象
    */
   @Get()
   @UsePipes(DtoPipe)
   @HttpCode(200)
-  async get(@Query() query: UserSearchDto): Promise<ResultDto> {
-    let data = null
-    try {
-      data = await this.userService.getManyAndCount(query)
-    } catch (error) {
-      throw new HttpException({ error: '获取列表失败' }, 502)
-    } finally {
-      return {
-        code: 200,
-        message: '成功',
-        data
-      }
-    }
+  async get(@Query() query: UserSearchDto): Promise<any> {
+    const searchParam = new UserSearchDto()
+    const param = Object.assign(searchParam, query)
+    const list:UserEntity[] = await this.userService.getManyAndCount(param)
+    return classToPlain(list)
   }
 
   /**
@@ -119,20 +110,9 @@ export class UserController {
       '状态码200表示请求成功，其他值表示失败，失败原因会写在message里面',
     type: ResultDto
   })
-  async add(@Body() request: UserInsertDto): Promise<ResultDto> {
-    try {
-      const data: UserEntity = await this.userService.save(request)
-      if (!data) {
-        throw new HttpException({ error: '新增失败' }, 400)
-      }
-      return {
-        code: 200,
-        message: '成功',
-        data
-      }
-    } catch (error) {
-      throw error
-    }
+  async add(@Body() request: UserInsertDto): Promise<any> {
+    const data: UserEntity = await this.userService.save(request)
+    return classToPlain(data)
   }
 
   /**
@@ -146,7 +126,7 @@ export class UserController {
    * @faunction [Body]          - nest提供的获取Body参数的方法
    * @faunction [request]       - Body参数
    * @faunction [UserUpdateDto] - 用以验证Body参数正确与否的dto方法
-   * @return    [ResultDto]     - 返回值是一个含有提示信息的对象
+   * @deprecated 此处不使用trycatch,因为不会处理数据（比如：删除password），使用server模块的错误处理
    */
   @Post('/edit')
   @UsePipes(DtoPipe)
@@ -159,20 +139,8 @@ export class UserController {
       '状态码200表示请求成功，其他值表示失败，失败原因会写在message里面',
     type: ResultDto
   })
-  async edit(@Body() request: UserUpdateDto): Promise<ResultDto> {
-    try {
-      const data: Boolean = await this.userService.updateById(request)
-      if (!data) {
-        throw new HttpException({ error: '新增失败' }, 400)
-      }
-      return {
-        code: 200,
-        message: '成功',
-        data
-      }
-    } catch (error) {
-      throw error
-    }
+  async edit(@Body() request: UserUpdateDto): Promise<any> {
+    return await this.userService.updateById(request)
   }
 
   /**
@@ -199,20 +167,9 @@ export class UserController {
       '状态码200表示请求成功，其他值表示失败，失败原因会写在message里面',
     type: ResultDto
   })
-  async delete(@Body() request: IdDto): Promise<ResultDto> {
-    try {
-      const data: Boolean = await this.userService.deleteById(request)
-      if (!data) {
-        throw new HttpException({ error: '删除失败' }, 400)
-      }
-      return {
-        code: 200,
-        message: '成功',
-        data
-      }
-    } catch (error) {
-      throw error
-    }
+  async delete(@Body() request: IdDto): Promise<any> {
+    const data: Boolean = await this.userService.deleteById(request)
+    return data
   }
 
   /**
@@ -228,20 +185,9 @@ export class UserController {
   @UsePipes(DtoPipe)
   @UseGuards(AuthGuard)
   @HttpCode(200)
-  async login(@Body() request: UserLoginDto): Promise<ResultDto> {
-    let cb: ResultDto = {
-      code: 200,
-      data: null,
-      message: '成功'
-    }
-    try {
-      cb.data = await this.userService.login(request)
-    } catch (error) {
-      cb.code = error.status;
-      cb.message = error.message.error;
-    } finally {
-      return cb
-    }
+  async login(@Body() request: UserLoginDto): Promise<any> {
+    const data: boolean = await this.userService.login(request)
+    return data
   }
 
   /**
@@ -255,15 +201,8 @@ export class UserController {
   @Delete('logout')
   @UseGuards(AuthGuard)
   @HttpCode(200)
-  async logout(
-    @Headers() headersArgument: any
-  ): Promise<ResultDto> {
-    let data = null
-    let cb = {
-      code: 200,
-      message: '成功',
-      data: null
-    }
+  async logout(@Headers() headersArgument: any): Promise<any> {
+    let account = '' // 账号
     try {
       /**
        * 根据token内的用户id查询用户
@@ -274,21 +213,10 @@ export class UserController {
         CryptoJS.enc.Utf8
       )
       const decryptTokenJSON = JSON.parse(decryptToken)
-      /**
-       * 根据资源id查询资源
-       * @param {array}  [resourceIdArray] - token解密后里面的的资源id数组
-       * @param {string} [account]         - 账号名
-       */
-      const account = decryptTokenJSON.account
-      cb.data = await this.userService.logout(account)
-      if (!cb.data) {
-        throw new ForbiddenException()
-      }
+      account = decryptTokenJSON.account
     } catch (error) {
-      cb.code = error.status;
-      cb.message = error.message.error;
-    } finally {
-      return cb
+      throw new HttpException('解密token失败', 500)
     }
+    return await this.userService.logout(account)
   }
 }

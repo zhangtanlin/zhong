@@ -1,6 +1,7 @@
 /**
  * 导入
  */
+import { Type } from 'class-transformer'
 import {
   IsNotEmpty,
   MinLength,
@@ -18,12 +19,7 @@ import {
   IsIP
 } from 'class-validator'
 
-/**
- * 新增用户dto验证
- * @param {string} [password] - 密码  【不能为空，长度至少为3，长度最大为255】
- * @param {string} [avatar]   - 头像  【为空（最长长度为255）或者不填】
- * @param {number} [roles]    - 角色id【正整数】
- */
+// 新增用户dto验证
 export class UserInsertDto {
   // 账号
   @IsNotEmpty({ message: '账号不能为空' })
@@ -59,6 +55,7 @@ export class UserInsertDto {
 
   // 年龄
   @IsOptional()
+  @Type(() => Number)
   @IsPositive({ message: '年龄需要为正整数' })
   age: number
 
@@ -73,35 +70,35 @@ export class UserInsertDto {
   @MaxLength(255, { message: '角色id长度最长为 $constraint1' })
   roles: string
 
-  // 账号状态
+  // 账号状态{1:"已激活", 2:"未激活"}
   @IsOptional()
-  @IsEnum([1, 2])
-  status: number
+  @IsEnum(['1', '2'])
+  status: string
 
   // 激活时间
   @IsOptional()
   @IsDate({ message: '激活时间应为日期类型' })
   activate_time: Date
 
-  // 是否第一次登录
+  // 是否第一次登录{1:"是", 2:"否"}
   @IsOptional()
-  @IsEnum([1, 2])
-  is_first_login: number
+  @IsEnum(['1', '2'])
+  is_first_login: string
 
-  // 是否锁定
+  // 是否锁定{1:"是", 2:"否"}
   @IsOptional()
-  @IsEnum([1, 2])
-  is_locked: number
+  @IsEnum(['1', '2'])
+  is_locked: string
 
   // 锁定时间
   @IsOptional()
   @IsDate({ message: '锁定时间应为日期类型' })
   locked_time: Date
 
-  // 是否禁用
+  // 是否禁用{1:"是", 2:"否"}
   @IsOptional()
-  @IsEnum([1, 2])
-  is_disabled: number
+  @IsEnum(['1', '2'])
+  is_disabled: string
 
   // 禁用时间
   @IsOptional()

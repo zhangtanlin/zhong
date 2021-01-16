@@ -54,11 +54,16 @@ export class RoleController {
       data: []
     }
     try {
-      cb.data = await this.roleService.getManyAndCount(querys);
+      const list = await this.roleService.getManyAndCount(querys);
+      if (!list) {
+        throw new HttpException('获取列表失败', 500)
+      }
+      return list
     } catch (error) {
-      cb.data = [];
-    } finally {
-      return cb
+      throw new HttpException(
+        error.response,
+        error.status,
+      )
     }
   }
   /**

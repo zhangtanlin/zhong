@@ -96,9 +96,10 @@ export class UserService {
 }
 
   /**
-   * 分页查询
+   * 分页模糊查询
    * @param {object} [data] - 含有列表和总条数的对象返回值
    * @function [list] - typeorm的模糊查询+统计
+   * @deprecated 模糊查询对象需要是字符串
    */
   async getManyAndCount(query: UserSearchDto): Promise<any> {
     let data = {
@@ -106,30 +107,26 @@ export class UserService {
       total: 0
     }
     try {
-      console.log('getManyAndCount', query)
       const list = await this.userRepository.createQueryBuilder('user')
         .where('user.account like :account')
         .andWhere('user.name like :name')
         .andWhere('user.area_id like :area_id')
         .andWhere('user.email like :email')
-        .andWhere('user.age like :age')
         .andWhere('user.status like :status')
         .setParameters({
           account: `%${query.account ? query.account : ''}%`, // 账号
           name: `%${query.name ? query.name : ''}%`,          // 用户名
           area_id: `%${query.area_id ? query.area_id : ''}%`, // 区域代码
           email: `%${query.email ? query.email : ''}%`,       // 邮箱
-          age: `%${query.age ? query.age : ''}%`,             // 年龄
-          status: `%${query.status ? query.status : 2}%`,     // 状态
+          status: `%${query.status ? query.status : ''}%`,    // 状态
         })
-        .skip((query.currentPage - 1) * query.pageSize)
+        .skip((query.page - 1) * query.pageSize)
         .take(query.pageSize)
         .getManyAndCount()
-      console.log('list', list)
       data.list = list[0]
       data.total = list[1]
     } catch (error) {
-      throw new HttpException({ error: '获取列表失败' }, 502)
+      throw new HttpException('获取列表失败', 502)
     } finally {
       return data
     }
@@ -146,18 +143,18 @@ export class UserService {
         account: data.account
       })
       if (findOneByAccount) {
-        throw new HttpException({ error: '账号已存在' }, 400)
+        throw new HttpException('账号已存在', 400)
       }
       // 密码加密
       data.password = CryptoJS.HmacSHA512(data.password, passwordKey).toString()
       // 保存用户信息
       const save: UserEntity = await this.userRepository.save(data)
       if (!save) {
-        throw new HttpException({ error: '保存用户失败' }, 502)
+        throw new HttpException('入库失败', 502)
       }
       return save
     } catch (error) {
-      throw error
+      throw new HttpException(error.response, error.status)
     }
   }
 

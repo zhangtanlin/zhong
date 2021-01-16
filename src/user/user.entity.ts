@@ -12,21 +12,14 @@ import { Exclude } from 'class-transformer'
 // use website;
 // insert into user (account, name, roles, password) value ("root", "超级管理员", 1, "6d67d2209e45e3d74d853e82481010abb8570fd82ffa74821d091cbd6c8244d967f2a3402f1715039cf1046ef46589ec57ea44e970b90128f5d11cedfbbf150b"),("admin", "操作员", 2, "6d67d2209e45e3d74d853e82481010abb8570fd82ffa74821d091cbd6c8244d967f2a3402f1715039cf1046ef46589ec57ea44e970b90128f5d11cedfbbf150b"), ("audit", "审计员", 3, "6d67d2209e45e3d74d853e82481010abb8570fd82ffa74821d091cbd6c8244d967f2a3402f1715039cf1046ef46589ec57ea44e970b90128f5d11cedfbbf150b");
 
+// user数据表
 @Entity('user')
-/**
- * user数据表
- */
 export class UserEntity {
-  /**
-   * 用户id
-   * @param {number} [id] - 自增id
-   */
+  // 用户id（自增id）
   @PrimaryGeneratedColumn()
   id: number
 
-  /**
-   * 账号
-   */
+  // 账号
   @Column({
     type: 'varchar',
     length: 255,
@@ -34,9 +27,7 @@ export class UserEntity {
   })
   account: string
 
-  /**
-   * 用户名
-   */
+  // 用户名
   @Column({
     type: 'varchar',
     length: 255,
@@ -56,9 +47,7 @@ export class UserEntity {
   @Exclude()
   password: string
 
-  /**
-   * 头像
-   */
+  // 头像
   @Column({
     type: 'varchar',
     length: 255,
@@ -66,9 +55,7 @@ export class UserEntity {
   })
   avatar: string
 
-  /**
-   * 手机号码
-   */
+  // 手机号码
   @Column({
     type: 'varchar',
     length: 255,
@@ -76,9 +63,7 @@ export class UserEntity {
   })
   phone: string
 
-  /**
-   * 邮箱
-   */
+  // 邮箱
   @Column({
     type: 'varchar',
     length: 255,
@@ -86,19 +71,14 @@ export class UserEntity {
   })
   email: string
 
-  /**
-   * 年龄
-   */
+  // 年龄
   @Column({
     type: 'int',
     default: null
   })
   age: number
 
-  /**
-   * 区域id
-   * @param {string} [area_id] - 6位区域代码
-   */
+  // 区域id（6位区域代码）
   @Column({
     type: 'char',
     length: 6,
@@ -106,90 +86,67 @@ export class UserEntity {
   })
   area_id: string
 
-  /**
-   * 角色id
-   * @param {string} [roles] - 角色id组成的字符串【以特殊符号（中文逗号、英文逗号）分隔】
-   */
+  // 角色id（以英文逗号分隔组成角色id字符串）
   @Column({
     type: 'varchar',
     default: ''
   })
   roles: string
 
-  /**
-   * 是否激活
-   * @param {number} [status] - {1:"已激活", 2:"未激活"}
-   */
+  // 是否激活{1:"已激活", 2:"未激活"}
   @Column({
     type: 'enum',
-    enum: [1, 2],
-    default: 1
+    enum: ['1', '2'],
+    default: '1'
   })
-  status: number
+  status: string
 
-  /**
-   * 激活时间
-   */
+  // 激活时间
   @Column({
     type: 'datetime',
     default: Moment().format('YYYY-MM-DD HH:mm:ss')
   })
   activate_time: Date
 
-  /**
-   * 是否第一次登录
-   * @param {number} [is_first_login] -是否是第一次登录 {1:"是", 2: "不是"}
-   */
+  // 是否第一次登录{1:"是", 2: "不是"}
   @Column({
     type: 'enum',
-    enum: ['1', 2],
-    default: 1
+    enum: ['1', '2'],
+    default: '1'
   })
-  is_first_login: number
+  is_first_login: string
 
-  /**
-   * 是否锁定
-   * @param {number} [is_locked] -是否锁定 {1:"锁定", 2: "未锁定"}
-   */
+  // 是否锁定{1:"锁定", 2: "未锁定"}
   @Column({
     type: 'enum',
-    enum: [1, 2],
-    default: 2
+    enum: ['1', '2'],
+    default: '2'
   })
-  is_locked: number
+  is_locked: string
 
-  /**
-   * 锁定时间
-   */
+  // 锁定时间
   @Column({
     type: 'datetime',
     default: null
   })
   locked_time: Date
 
-  /**
-   * 是否禁用
-   * @param {number} [is_disabled] -是否禁用 {1:"禁用", 2: "未禁用"}
-   */
+  // 是否禁用{1:"禁用", 2: "未禁用"}
   @Column({
     type: 'enum',
-    enum: [1, 2],
-    default: 2
+    enum: ['1', '2'],
+    default: '2'
   })
-  is_disabled: number
+  is_disabled: string
 
-  /**
-   * 禁用时间
-   */
+  // 禁用时间
   @Column({
     type: 'datetime',
     default: null
   })
   disabled_time: Date
 
-  /**
-   * 最后一次登录的ip
-   */
+  // 最后一次登录的ip
   @Column({
     type: 'varchar',
     length: 255,
@@ -197,37 +154,28 @@ export class UserEntity {
   })
   last_login_ip: string
 
-  /**
-   * 最后一次登录的时间
-   */
+  // 最后一次登录的时间
   @Column({
     type: 'datetime',
     default: null
   })
   last_login_time: Date
 
-  /**
-   * 最后一次更新密码的时间
-   */
+  // 最后一次更新密码的时间
   @Column({
     type: 'datetime',
     default: null
   })
   last_update_password_time: Date
 
-  /**
-   * 创建时间
-   * @param {date} [create_time] - 使用momentjs把当前时间转换成时间字符串
-   */
+  // 创建时间(使用momentjs把当前时间转换成时间字符串)
   @Column({
     type: 'datetime',
     default: Moment().format('YYYY-MM-DD HH:mm:ss')
   })
   create_time: Date
 
-  /**
-   * 部门
-   */
+  // 部门
   @Column({
     type: 'varchar',
     length: 255,
@@ -235,9 +183,7 @@ export class UserEntity {
   })
   department: string
 
-  /**
-   * 公司
-   */
+  // 公司
   @Column({
     type: 'varchar',
     length: 255,

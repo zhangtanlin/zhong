@@ -21,9 +21,9 @@ import {
 import { VideoService } from './video.service'
 import { AuthGuard } from '../common/guard/auth.guard'
 import { DtoPipe } from '../common/pipe/dto.pipe'
-import { ResultDto } from '../common/dto/result.dto'
 import { VideoGetDto } from './dto/video.get.dto'
 import { VideoAddDto } from './dto/video.add.dto'
+import { listenerCount } from 'events'
 
 
 @Controller('/api/video')
@@ -45,21 +45,19 @@ export class VideoController {
   @Get()
   @UsePipes(DtoPipe)
   @HttpCode(200)
-  async get(@Query() querys: VideoGetDto): Promise<ResultDto> {
+  async get(@Query() querys: VideoGetDto): Promise<any> {
     let data = null
     try {
-      data = await this.videoService.getManyAndCount(querys)
-      if (!data) {
-        throw new HttpException({ error: '获取列表失败' }, 502)
+      const list = await this.videoService.getManyAndCount(querys)
+      if (!list) {
+        throw new HttpException('获取列表失败', 500)
       }
+      return list
     } catch (error) {
-      data = []
-    } finally {
-      return {
-        code: 200,
-        message: '成功',
-        data
-      }
+      throw new HttpException(
+        error.response,
+        error.status,
+      )
     }
   }
   /**
@@ -71,39 +69,33 @@ export class VideoController {
   @UsePipes(DtoPipe)
   @UseGuards(AuthGuard)
   @HttpCode(200)
-  async add(@Body() request: VideoAddDto): Promise<ResultDto> {
-    let data = null
+  async add(@Body() request: VideoAddDto): Promise<any> {
     try {
-      data = await this.videoService.save(request)
+      const data = await this.videoService.save(request)
       if (!data) {
-        throw new HttpException({ error: '获取列表失败' }, 502)
+        throw new HttpException('获取列表失败', 500)
       }
+      return data
     } catch (error) {
-      data = {}
-    } finally {
-      return {
-        code: 200,
-        message: '成功',
-        data
-      }
+      throw new HttpException(
+        error.response,
+        error.status,
+      )
     }
   }
   /**
    * 编辑
    * @param [] -
    */
-  async edit(@Body() request: VideoAddDto): Promise<ResultDto> {
-    let data = null
+  async edit(@Body() request: VideoAddDto): Promise<any> {
     try {
-      data = '编辑成功'
+      const data = '编辑成功'
+      return data
     } catch (error) {
-      data = '编辑失败'
-    } finally {
-      return {
-        code: 200,
-        message: '成功',
-        data
-      }
+      throw new HttpException(
+        error.response,
+        error.status,
+      )
     }
   }
 }

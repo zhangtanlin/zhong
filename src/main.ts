@@ -7,6 +7,7 @@ import { join } from 'path';
 
 // api文档swagger
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger'
+import { ResultInterceptor } from './common/interceptor/result.interceptor';
 
 async function bootstrap() {
   /**
@@ -21,8 +22,14 @@ async function bootstrap() {
     }
   )
 
-  // 全局错误连接器
+  // 全局错误过滤
   app.useGlobalFilters(new ErrorFilter())
+
+  /**
+   * 全局拦截
+   * @function ResultInterceptor 返回值数据结构控制
+   */
+  app.useGlobalInterceptors(new ResultInterceptor());
 
   // 模板
   app.useStaticAssets(join(__dirname, '..', 'public'));
