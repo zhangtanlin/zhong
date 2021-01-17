@@ -26,7 +26,6 @@ import { ResourceObjectDto } from './dto/resource.object.dto'
 import { idPidToTree } from '../common/utils/tool'
 import * as CryptoJS from 'crypto-js'
 import { passwordKey } from '../common/config'
-import { ResultDto } from '../common/dto/result.dto'
 
 /**
  * 资源控制器
@@ -53,7 +52,7 @@ export class ResourceController {
    */
   @Get()
   @HttpCode(200)
-  async get(@Param() request: object): Promise<ResultDto> {
+  async get(@Param() request: object): Promise<any> {
     let data = null
     try {
       data = await this.resourceService.find()
@@ -98,7 +97,7 @@ export class ResourceController {
   @UsePipes(DtoPipe)
   @UseGuards(AuthGuard)
   @HttpCode(200)
-  async add(@Body() request: ResourceAddDto): Promise<ResultDto> {
+  async add(@Body() request: ResourceAddDto): Promise<any> {
     const data: ResourceEntity = await this.resourceService.save(request)
     if (!data) {
       throw new HttpException({ error: '新增失败' }, 400)
@@ -120,12 +119,9 @@ export class ResourceController {
   @HttpCode(200)
   async menu(
     @Headers() headersArgument: any
-  ): Promise<ResultDto> {
-    let cb: ResultDto = {
-      code: 200,
-      data: null,
-      message: '成功'
-    }
+  ): Promise<any> {
+    let resourceIdArray = [],
+      resourceArray = []
     try {
       /**
        * 根据token内的用户id查询用户
@@ -143,14 +139,23 @@ export class ResourceController {
        * @function [idPidToTree]   - 根据id和pid把资源列表数据组合成树结构的方法
        * @param {array} [cb.data]         - 根据id和pid把资源列表数据组合成树结构
        */
-      const resourceIdArray = decryptTokenJSON.resources.split(",")
-      const resourceArray = await this.resourceService.findByArrIds(resourceIdArray)
-      cb.data = await idPidToTree(resourceArray)
+      resourceIdArray = decryptTokenJSON.resources.split(",")
     } catch (error) {
-      cb.code = error.status;
-      cb.message = error.message.error;
-    } finally {
-      return cb
+      throw new HttpException('解密token失败', 500)
+    }
+    try {
+      resourceArray = await this.resourceService.findByArrIds(resourceIdArray)
+    } catch (error) {
+      throw new HttpException(
+        error.response,
+        error.status
+      )
+    }
+    try {
+      const resourceTree = idPidToTree(resourceArray)
+      return resourceTree
+    } catch (error) {
+      throw new HttpException('资源树生成失败', 500)
     }
   }
 
