@@ -84,7 +84,7 @@ export class UserEntity {
     length: 6,
     default: '000000'
   })
-  area_id: string
+  area: string
 
   // 角色id（以英文逗号分隔组成角色id字符串）
   @Column({

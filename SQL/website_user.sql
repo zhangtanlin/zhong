@@ -31,7 +31,7 @@ CREATE TABLE `user` (
   `phone` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `email` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `age` int DEFAULT NULL,
-  `area_id` char(6) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '000000',
+  `area` char(6) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '000000',
   `activate_time` datetime NOT NULL DEFAULT '2020-12-23 16:16:49',
   `locked_time` datetime DEFAULT NULL,
   `disabled_time` datetime DEFAULT NULL,

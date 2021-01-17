@@ -111,14 +111,14 @@ export class UserService {
         .where('user.account like :account')
         .andWhere('user.name like :name')
         .andWhere('user.phone like :phone')
-        .andWhere('user.area_id like :area_id')
+        .andWhere('user.area like :area')
         .andWhere('user.email like :email')
         .andWhere('user.status like :status')
         .setParameters({
           account: `%${query.account ? query.account : ''}%`, // 账号
           name: `%${query.name ? query.name : ''}%`,          // 用户名
           phone: `%${query.phone ? query.phone : ''}%`,       // 电话
-          area_id: `%${query.area_id ? query.area_id : ''}%`, // 区域代码
+          area: `%${query.area ? query.area : ''}%`, // 区域代码
           email: `%${query.email ? query.email : ''}%`,       // 邮箱
           status: `%${query.status ? query.status : ''}%`,    // 状态
         })

@@ -50,7 +50,7 @@ export class UserSearchDto {
   @Type(() => Number)
   @Min(0, { message: '区域代码最小为 $constraint1' })
   @Max(999999, { message: '区域代码最大为 $constraint1' })
-  area_id: string
+  area: string
 
   // 邮箱
   @IsOptional()

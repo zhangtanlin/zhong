@@ -62,7 +62,7 @@ export class UserInsertDto {
   // 区域id
   @IsOptional()
   @IsNumberString()
-  area_id: string
+  area: string
 
   // 角色id
   @IsOptional()
