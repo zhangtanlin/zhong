@@ -16,7 +16,7 @@ export class ResultInterceptor implements NestInterceptor {
       map(data => {
         return {
           data,
-          doce: 200,
+          status: 200,
           message: '请求成功'
         }
       })
