@@ -14,11 +14,11 @@ import { Type } from 'class-transformer'
 /**
  * 状态枚举
  * @param {String} '1' 已激活
- * @param {String} '0' 未激活
+ * @param {String} '2' 未激活
  */
 export enum userStatus {
   yes = '1',
-  no = '0',
+  no = '2',
 }
 
 // 查询用户
