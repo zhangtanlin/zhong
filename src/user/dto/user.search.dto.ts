@@ -41,6 +41,10 @@ export class UserSearchDto {
   @MaxLength(255, { message: '账号长度最长为 $constraint1' })
   name: string
 
+  // 电话
+  @IsOptional()
+  phone: string
+
   // 区域id
   @IsOptional()
   @Type(() => Number)
