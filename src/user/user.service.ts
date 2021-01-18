@@ -89,9 +89,12 @@ export class UserService {
   async findOneById(id: number): Promise<UserEntity> {
     try {
       const findUserById: UserEntity = await this.userRepository.findOne(id);
+      if (!findUserById) {
+        throw new HttpException('当前id不存在数据库中', 502);
+      }
       return findUserById;
     } catch (error) {
-      throw new HttpException('查询失败', HttpStatus.FORBIDDEN);
+      throw new HttpException(error.response, error.status)
     }
 }
 
@@ -184,7 +187,7 @@ export class UserService {
       }
       return true
     } catch (error) {
-      throw error
+      throw new HttpException(error.response, error.status)
     }
   }
 
