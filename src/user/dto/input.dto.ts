@@ -1,6 +1,16 @@
 import { Field, InputType } from "type-graphql";
 
 /**
+ * 状态枚举
+ * @param {String} '1' 已激活
+ * @param {String} '2' 未激活
+ */
+export enum userStatus {
+  yes = '1',
+  no = '2',
+}
+
+/**
  * 新增
  */
 @InputType()
@@ -34,22 +44,22 @@ export class UserInputDto {
   roles: string;
 
   @Field()
-  status: number;
+  status: string;
 
   @Field()
   activate_time: string;
 
   @Field()
-  is_first_login: number;
+  is_first_login: string;
 
   @Field()
-  is_locked: number;
+  is_locked: string;
 
   @Field()
   locked_time: string;
 
   @Field()
-  is_disabled: number;
+  is_disabled: string;
 
   @Field()
   disabled_time: string;

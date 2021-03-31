@@ -72,7 +72,7 @@ export class UserEntity extends BaseEntity {
     length: 6,
     default: '000000'
   })
-  area_id: string
+  area: string
 
   // 角色id(角色id组成的字符串【以特殊符号（中文逗号、英文逗号）分隔】)
   @Column({
@@ -82,13 +82,13 @@ export class UserEntity extends BaseEntity {
   })
   roles: string
 
-  // 是否激活{0:"未激活",1:"已激活"}
+  // 是否激活{1:"已激活", 2:"未激活"}
   @Column({
     type: 'enum',
-    enum: [0, 1],
-    default: 1
+    enum: ['1', '2'],
+    default: '1'
   })
-  status: number
+  status: string
 
   // 激活时间
   @Column({
@@ -97,21 +97,21 @@ export class UserEntity extends BaseEntity {
   })
   activate_time: Date
 
-  // 是否第一次登录{0: "不是", 1:"是"}
+  // 是否第一次登录{1:"是", 2: "不是"}
   @Column({
     type: 'enum',
-    enum: [0, 1],
-    default: 1
+    enum: ['1', '2'],
+    default: '1'
   })
-  is_first_login: number
+  is_first_login: string
 
-  // 是否锁定{0: "未锁定", 1:"锁定"}
+  // 是否锁定{1:"锁定", 2: "未锁定"}
   @Column({
     type: 'enum',
-    enum: [0, 1],
-    default: 0
+    enum: ['1', '2'],
+    default: '2'
   })
-  is_locked: number
+  is_locked: string
 
   // 锁定时间
   @Column({
@@ -120,13 +120,13 @@ export class UserEntity extends BaseEntity {
   })
   locked_time: Date
 
-  // 是否禁用{0: "未禁用", 1:"禁用"}
+  // 是否禁用{1:"禁用", 2: "未禁用"}
   @Column({
     type: 'enum',
-    enum: [0, 1],
-    default: 0
+    enum: ['1', '2'],
+    default: '2'
   })
-  is_disabled: number
+  is_disabled: string
 
   // 禁用时间
   @Column({
