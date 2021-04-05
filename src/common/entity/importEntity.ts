@@ -8,6 +8,7 @@
  * @requires [DownloadEntity] - 下载
  * @requires [GuessEntity]    - 活动
  * @requires [AdEntity]       - 广告
+ * @requires [LineEntity]     - 线路
  */
 import { UserEntity } from '../../user/user.entity'
 import { RoleEntity } from '../../role/entity/role.entity'
@@ -17,6 +18,7 @@ import { VideoEntity } from '../../video/entity/video.entity'
 import { DownloadEntity } from '../../download/entity/download.entity'
 import { GuessEntity } from '../../guess/entity/guess.entity'
 import { AdEntity } from '../../ad/entity/ad.entity'
+import { LineEntity } from 'src/line/line.entity'
 
 /**
  * allEntity导出
@@ -30,5 +32,6 @@ export const allEntity: any[] = [
   VideoEntity,
   DownloadEntity,
   GuessEntity,
-  AdEntity
+  AdEntity,
+  LineEntity
 ]

@@ -19,6 +19,7 @@ import { VideoModule } from './video/video.module'
 import { DownloadModule } from './download/download.module'
 import { GuessModule } from './guess/guess.module'
 import { AdModule } from './ad/ad.module'
+import { LineModule } from './line/line.module'
 @Module({
   imports: [
     /**
@@ -29,6 +30,7 @@ import { AdModule } from './ad/ad.module'
      * @require [DownloadModule] - 下载
      * @require [GuessModule]    - 竞猜活动
      * @require [AdModule]       - 广告
+     * @require [LineModule]     - 线路
      */
     TypeOrmModule.forRoot({
       type: 'mysql',
@@ -48,7 +50,8 @@ import { AdModule } from './ad/ad.module'
     VideoModule,
     DownloadModule,
     GuessModule,
-    AdModule
+    AdModule,
+    LineModule
   ],
   controllers: [AppController],
   providers: [AppService]
