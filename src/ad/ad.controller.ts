@@ -23,7 +23,7 @@ import { ResultDto } from '../common/dto/result.dto'
 import { AdGetDto } from './dto/ad.get.dto'
 
 /**
- * 竞猜活动控制器
+ * 广告控制器
  */
 @Controller('/api/ad')
 export class AdController {

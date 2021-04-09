@@ -23,7 +23,7 @@ import { ResultDto } from '../common/dto/result.dto'
 import { LineGetDto } from './dto/line.get.dto'
 
 /**
- * 竞猜活动控制器
+ * 控制器
  */
 @Controller('/api/line')
 export class LineController {
