@@ -12,7 +12,7 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
 import { UserModule } from './user/user.module'
-import { allEntity } from './common/entity/importEntity'
+import { allEntity } from './common/entity/allEntity'
 import { RedisModule } from 'nestjs-redis'
 import { UploadModule } from './upload/upload.module';
 import { VideoModule } from './video/video.module'
