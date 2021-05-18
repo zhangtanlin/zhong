@@ -9,6 +9,7 @@
  * @requires [GuessEntity]    - 活动
  * @requires [AdEntity]       - 广告
  * @requires [LineEntity]     - 线路
+ * @requires [VersionEntity]  - 版本号
  */
 import { UserEntity } from '../../user/user.entity'
 import { RoleEntity } from '../../role/entity/role.entity'
@@ -19,6 +20,7 @@ import { DownloadEntity } from '../../download/entity/download.entity'
 import { GuessEntity } from '../../guess/entity/guess.entity'
 import { AdEntity } from '../../ad/entity/ad.entity'
 import { LineEntity } from 'src/line/line.entity'
+import { VersionEntity } from 'src/version/version.entity'
 
 /**
  * allEntity导出
@@ -33,5 +35,6 @@ export const allEntity: any[] = [
   DownloadEntity,
   GuessEntity,
   AdEntity,
-  LineEntity
+  LineEntity,
+  VersionEntity
 ]
