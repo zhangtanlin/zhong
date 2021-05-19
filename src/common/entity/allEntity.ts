@@ -1,5 +1,6 @@
 /**
  * entity导入表
+ * @requires [AdminEntity]    - 管理员
  * @requires [UserEntity]     - 用户
  * @requires [RoleEntity]     - 角色
  * @requires [ResourceEntity] - 资源
@@ -11,6 +12,7 @@
  * @requires [LineEntity]     - 线路
  * @requires [VersionEntity]  - 版本号
  */
+import { AdminEntity } from 'src/admin/admin.entity'
 import { UserEntity } from '../../user/user.entity'
 import { RoleEntity } from '../../role/entity/role.entity'
 import { ResourceEntity } from '../../resource/entity/resource.entity'
@@ -27,6 +29,7 @@ import { VersionEntity } from 'src/version/version.entity'
  * @module [allEntity] - 导出的entity数组
  */
 export const allEntity: any[] = [
+  AdminEntity,
   UserEntity,
   RoleEntity,
   ResourceEntity,
