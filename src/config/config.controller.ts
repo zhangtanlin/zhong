@@ -1,47 +1,24 @@
-/**
- * 导入
- * @requires Controller  - nest模块common导出的控制器
- * @requires Post        - nest模块common导出的post请求方式
- * @requires HttpCode    - nest模块common导出的http状态码
- * @requires Body        - nest模块common导出的Body请求参数
- * @requires Headers     - nest模块common导出的Headers请求参数
- * @requires ApiTags     - api文档swagger大类模块
- * @requires ApiResponse - api文档swagger返回值模块
- * @requires UserService - 用户服务模块
- */
 import {
-  HttpException,
-  ForbiddenException,
   Controller,
-  Post,
   HttpCode,
-  Body,
-  Headers,
-  UsePipes,
-  Get,
-  UseGuards,
-  Query,
-  Delete,
-  Param
+  Param,
+  Post,
+  UseGuards
 } from '@nestjs/common'
+import { AuthApiGuard } from 'src/common/guard/auth_api.guard';
 import { ConfigService } from './config.service'
 
-/**
- * 整合接口控制器
- */
+// 整合接口
 @Controller('/api/config')
 export class ConfigController {
   constructor(private readonly configService: ConfigService) { }
   
-  /**
-   * 整合接口
-   * @param params 
-   * @returns 
-   */
-  @Get()
+  // 整合接口
+  @Post()
   @HttpCode(200)
+  @UseGuards(AuthApiGuard)
   async findOne(@Param() params): Promise<any> {
-    const findOneById = await this.configService.find(params.id);
+    const findOneById = await this.configService.get(params);
     return findOneById;
   }
 

@@ -19,7 +19,7 @@ export class VersionController {
   @HttpCode(200)
   @UseGuards(AuthApiGuard)
   async find(@Param() params): Promise<any> {
-    const findOneById = await this.versionService.find(params.id);
+    const findOneById = await this.versionService.findOne();
     return findOneById;
   }
 
