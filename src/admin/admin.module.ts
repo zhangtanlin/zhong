@@ -13,4 +13,4 @@ import { RoleModule } from "../role/role.module";
   controllers: [AdminController],
   exports: [AdminService]
 })
-export class UserModule {}
+export class AdminModule {}

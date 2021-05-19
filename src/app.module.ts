@@ -14,6 +14,7 @@ import { AppService } from './app.service'
 import { UserModule } from './user/user.module'
 import { allEntity } from './common/entity/allEntity'
 import { RedisModule } from 'nestjs-redis'
+import { AdminModule } from './admin/admin.module'
 import { UploadModule } from './upload/upload.module';
 import { VideoModule } from './video/video.module'
 import { DownloadModule } from './download/download.module'
@@ -45,6 +46,7 @@ import { LineModule } from './line/line.module'
     RedisModule.register({
       url: 'redis://:@127.0.0.1:6379/0'
     }),
+    AdminModule,
     UserModule,
     UploadModule,
     VideoModule,

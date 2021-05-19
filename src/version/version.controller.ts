@@ -5,7 +5,7 @@ import {
   Post,
   UseGuards
 } from '@nestjs/common'
-import { AuthGuard } from 'src/common/guard/auth.guard';
+import { AuthApiGuard } from 'src/common/guard/auth_api.guard';
 import { VersionService } from './version.service'
 
 /**
@@ -17,7 +17,7 @@ export class VersionController {
   
   @Post()
   @HttpCode(200)
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthApiGuard)
   async find(@Param() params): Promise<any> {
     const findOneById = await this.versionService.find(params.id);
     return findOneById;

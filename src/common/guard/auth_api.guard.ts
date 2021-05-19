@@ -10,7 +10,7 @@ import * as CryptoJS from 'crypto-js'
 import { passwordKey } from '../config'
 
 @Injectable()
-export class AuthGuard implements CanActivate {
+export class AuthApiGuard implements CanActivate {
   /**
    * 私有方法注册
    * @param redisService - redis服务注册

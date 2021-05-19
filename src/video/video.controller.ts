@@ -19,12 +19,10 @@ import {
   Query
 } from '@nestjs/common'
 import { VideoService } from './video.service'
-import { AuthGuard } from '../common/guard/auth.guard'
+import { AuthApiGuard } from '../common/guard/auth_api.guard'
 import { DtoPipe } from '../common/pipe/dto.pipe'
 import { VideoGetDto } from './dto/video.get.dto'
 import { VideoAddDto } from './dto/video.add.dto'
-import { listenerCount } from 'events'
-
 
 @Controller('/api/video')
 export class VideoController {
@@ -67,7 +65,7 @@ export class VideoController {
    */
   @Post('add')
   @UsePipes(DtoPipe)
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthApiGuard)
   @HttpCode(200)
   async add(@Body() request: VideoAddDto): Promise<any> {
     try {

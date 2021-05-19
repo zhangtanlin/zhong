@@ -20,14 +20,12 @@ import {
   Logger
 } from '@nestjs/common'
 import { RoleService } from './role.service'
-import { AuthGuard } from '../common/guard/auth.guard'
 import { RoleAddDto } from './dto/role.add.dto'
 import { DtoPipe } from '../common/pipe/dto.pipe'
 import { ResultDto } from '../common/dto/result.dto'
 import { RoleGetDto } from './dto/role.get.dto'
-import * as CryptoJS from 'crypto-js'
-import { passwordKey } from '../common/config'
-@Controller('/api/role')
+import { AuthAdminGuard } from 'src/common/guard/auth_admin.guard'
+@Controller('/sys/role')
 export class RoleController {
   /**
    * @function [constructor] - 类中定义的构造函数
@@ -73,7 +71,7 @@ export class RoleController {
    */
   @Post('add')
   @UsePipes(DtoPipe)
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthAdminGuard)
   @HttpCode(200)
   async add(@Body() request: RoleAddDto): Promise<ResultDto> {
     let data = null

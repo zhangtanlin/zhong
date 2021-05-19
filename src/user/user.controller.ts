@@ -27,7 +27,7 @@ import {
 import { ApiTags, ApiResponse, ApiOperation } from '@nestjs/swagger'
 import { UserService } from './user.service'
 import { UserInsertDto } from './dto/user.insert.dto'
-import { AuthGuard } from '../common/guard/auth.guard'
+import { AuthApiGuard } from '../common/guard/auth_api.guard'
 import { UserLoginDto } from './dto/user.login.dto'
 import { DtoPipe } from '../common/pipe/dto.pipe'
 import { ResultDto } from '../common/dto/result.dto'
@@ -101,7 +101,7 @@ export class UserController {
    */
   @Post('/add')
   @UsePipes(DtoPipe)
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthApiGuard)
   @HttpCode(200)
   @ApiOperation({ summary: '新增用户' })
   @ApiResponse({
@@ -130,7 +130,7 @@ export class UserController {
    */
   @Post('/edit')
   @UsePipes(DtoPipe)
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthApiGuard)
   @HttpCode(200)
   @ApiOperation({ summary: '编辑用户' })
   @ApiResponse({
@@ -158,7 +158,7 @@ export class UserController {
    */
   @Delete('/delete')
   @UsePipes(DtoPipe)
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthApiGuard)
   @HttpCode(200)
   @ApiOperation({ summary: '删除用户' })
   @ApiResponse({
@@ -177,13 +177,13 @@ export class UserController {
    * @requires [UsePipes]    - nest自带的管道【验证客户端参数的合法性】
    * @class    [DtoPipe]     - 自己写的管道验证器【和UserLoginDto配合使用】
    * @requires [UseGuards]   - nest自带的守卫【验证token】
-   * @class    [AuthGuard]   - 自己写的守卫验证器
+   * @class    [AuthApiGuard]- 自己写的守卫验证器
    * @requires [HttpCode]    - http状态码
    * @callback [ResultDto]   - 返回的dto验证
    */
   @Post('login')
   @UsePipes(DtoPipe)
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthApiGuard)
   @HttpCode(200)
   async login(@Body() request: UserLoginDto): Promise<any> {
     const data: boolean = await this.userService.login(request)
@@ -194,12 +194,12 @@ export class UserController {
    * 退出
    * @requires [UsePipes]    - nest自带的管道【验证客户端参数的合法性】
    * @requires [UseGuards]   - nest自带的守卫【验证token】
-   * @class    [AuthGuard]   - 自己写的守卫验证器
+   * @class    [AuthApiGuard]- 自己写的守卫验证器
    * @requires [HttpCode]    - http状态码
    * @callback [ResultDto]   - 返回的dto验证
    */
   @Delete('logout')
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthApiGuard)
   @HttpCode(200)
   async logout(@Headers() headersArgument: any): Promise<any> {
     let account = '' // 账号

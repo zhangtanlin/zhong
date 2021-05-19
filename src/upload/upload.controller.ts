@@ -1,7 +1,7 @@
 import { Controller, Post, UsePipes, UseGuards, HttpCode, Body, HttpException, UseInterceptors, UploadedFile, UploadedFiles, Res, Req } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express'
 import { DtoPipe } from '../common/pipe/dto.pipe';
-import { AuthGuard } from '../common/guard/auth.guard';
+import { AuthApiGuard } from '../common/guard/auth_api.guard';
 import { ResultDto } from '../common/dto/result.dto';
 import { Md5Dto } from '../common/dto/md5.dto';
 import { UploadService } from './upload.service';
@@ -24,7 +24,7 @@ export class UploadController {
    */
   @Post('/before')
   @UsePipes(DtoPipe)
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthApiGuard)
   @HttpCode(200)
   async uploadBeforeImg(@Body() bodys: Md5Dto): Promise<ResultDto> {
     let cb: ResultDto = {
@@ -50,7 +50,7 @@ export class UploadController {
    */
   @Post('/')
   @UsePipes(DtoPipe)
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthApiGuard)
   @UseInterceptors(FileInterceptor('file'))
   @HttpCode(200)
   async uploadFile(@UploadedFile() file, @Body() bodys): Promise<ResultDto> {

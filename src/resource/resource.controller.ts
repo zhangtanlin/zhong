@@ -19,18 +19,18 @@ import {
 } from '@nestjs/common'
 import { ResourceService } from './resource.service'
 import { DtoPipe } from '../common/pipe/dto.pipe'
-import { AuthGuard } from '../common/guard/auth.guard'
 import { ResourceAddDto } from './dto/resource.add.dto'
 import { ResourceEntity } from './entity/resource.entity'
 import { ResourceObjectDto } from './dto/resource.object.dto'
 import { idPidToTree } from '../common/utils/tool'
 import * as CryptoJS from 'crypto-js'
 import { passwordKey } from '../common/config'
+import { AuthAdminGuard } from 'src/common/guard/auth_admin.guard'
 
 /**
  * 资源控制器
  */
-@Controller('/api/resource')
+@Controller('/sys/resource')
 export class ResourceController {
   /**
    * 函数
@@ -95,7 +95,7 @@ export class ResourceController {
    */
   @Post('add')
   @UsePipes(DtoPipe)
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthAdminGuard)
   @HttpCode(200)
   async add(@Body() request: ResourceAddDto): Promise<any> {
     const data: ResourceEntity = await this.resourceService.save(request)
@@ -115,7 +115,7 @@ export class ResourceController {
    */
   @Post('menu')
   @UsePipes(DtoPipe)
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthAdminGuard)
   @HttpCode(200)
   async menu(
     @Headers() headersArgument: any
@@ -163,7 +163,7 @@ export class ResourceController {
    * 更新一条数据
    */
   @UsePipes(DtoPipe)
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthAdminGuard)
   @HttpCode(200)
   @Put(':id')
   async updateOne(@Param() id: number, @Body() bodys: ResourceObjectDto) {
