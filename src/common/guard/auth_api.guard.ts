@@ -31,22 +31,23 @@ export class AuthApiGuard implements CanActivate {
     const redisClient = this.redisService.getClient()
     const request = context.switchToHttp().getRequest()
     const token = request.headers.authorization
-    if (request.url !== '/api/user/login') {
-      try {
-        const decryptToken = CryptoJS.AES.decrypt(token, passwordKey).toString(
-          CryptoJS.enc.Utf8
-        )
-        const decryptTokenJSON = JSON.parse(decryptToken)
-        const decryptTokenName = decryptTokenJSON.name
-        const getRedisToken = redisClient.get(decryptTokenName + ':token')
-        if (!getRedisToken) {
-          return false
-        }
-        return true
-      } catch (error) {
-        throw new HttpException({ error: '暂无权限' }, 401)
-      }
-    }
+    console.log('request', request);
+    // if (request.url !== '/api/user/login') {
+    //   try {
+    //     const decryptToken = CryptoJS.AES.decrypt(token, passwordKey).toString(
+    //       CryptoJS.enc.Utf8
+    //     )
+    //     const decryptTokenJSON = JSON.parse(decryptToken)
+    //     const decryptTokenName = decryptTokenJSON.name
+    //     const getRedisToken = redisClient.get(decryptTokenName + ':token')
+    //     if (!getRedisToken) {
+    //       return false
+    //     }
+    //     return true
+    //   } catch (error) {
+    //     throw new HttpException({ error: '暂无权限' }, 401)
+    //   }
+    // }
     return true
   }
 }
