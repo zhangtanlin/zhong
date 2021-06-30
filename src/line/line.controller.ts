@@ -16,11 +16,14 @@ import {
   Body,
   Param,
   Query,
+  UseGuards,
+  Post,
 } from '@nestjs/common'
 import { LineService } from './line.service'
 import { DtoPipe } from '../common/pipe/dto.pipe'
 import { ResultDto } from '../common/dto/result.dto'
 import { LineGetDto } from './dto/line.get.dto'
+import { AuthApiGuard } from 'src/common/guard/auth_api.guard'
 
 /**
  * 控制器
@@ -46,17 +49,18 @@ export class LineController {
    * @faunction [UserGetDto] - 用以验证Body参数正确与否的dto方法
    * @returns   {ResultDto}  - 返回值是一个含有提示信息的对象
    */
-  @Get()
+  @Post()
   @UsePipes(DtoPipe)
   @HttpCode(200)
-  async get(@Headers() headersArgument: any, @Query() querys: LineGetDto): Promise<ResultDto> {
+  @UseGuards(AuthApiGuard)
+  async get(): Promise<ResultDto> {
     let cb: ResultDto = {
       code: 200,
       data: null,
       message: '成功'
     }
     try {
-      cb.data = await this.lineService.getManyAndCount(querys)
+      cb.data = await this.lineService.getManyAndCount()
     } catch (error) {
       cb.code = error.status;
       cb.message = error.message.error;

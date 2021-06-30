@@ -37,26 +37,17 @@ export class LineService {
   ) { }
 
   /**
-   * 分页查询
-   * @param {object} [data] - 含有列表和总条数的对象返回值
-   * @function [list] - typeorm的模糊查询+统计
+   * 查询所有和条数
    */
-  async getManyAndCount(querys: LineGetDto): Promise<any> {
+  async getManyAndCount(): Promise<any> {
     let data = {
       list: [],
       total: 0
     }
-    if (Object.keys(querys).length === 0) {
-      querys = {
-        currentPage: 1,
-        pageSize: 5,
-      }
-    }
     try {
       const list = await this.lineRepository.createQueryBuilder('line')
-        .skip((Number(querys.currentPage) - 1) * Number(querys.pageSize))
-        .take(Number(querys.pageSize))
-        .getManyAndCount()
+        .getManyAndCount();
+        console.log('list', list);
       data.list = list[0]
       data.total = list[1]
     } catch (error) {
