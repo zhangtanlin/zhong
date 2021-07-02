@@ -20,7 +20,7 @@ import { UploadEntity } from '../../upload/entity/upload.entity'
 import { VideoEntity } from '../../video/entity/video.entity'
 import { DownloadEntity } from '../../download/entity/download.entity'
 import { GuessEntity } from '../../guess/entity/guess.entity'
-import { AdEntity } from '../../ad/entity/ad.entity'
+import { AdEntity } from '../../ad/ad.entity'
 import { LineEntity } from 'src/line/line.entity'
 import { VersionEntity } from 'src/version/version.entity'
 

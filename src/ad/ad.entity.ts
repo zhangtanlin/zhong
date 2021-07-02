@@ -7,7 +7,7 @@ import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm'
 
 @Entity('ad')
 /**
- * 数据表名
+ * 广告数据表
  */
 export class AdEntity {
   /**
@@ -28,7 +28,7 @@ export class AdEntity {
   name: string
 
   /**
-   * 类型{1:banner}
+   * 类型{1:开屏广告,2:开屏banner}
    */
   @Column({
     type: 'int',
@@ -47,7 +47,7 @@ export class AdEntity {
   src: string
 
   /**
-   * 连接地址
+   * 链接地址
    */
   @Column({
     type: 'varchar',

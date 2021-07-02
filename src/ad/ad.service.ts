@@ -23,7 +23,7 @@
 import { Injectable, HttpException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
-import { AdEntity } from './entity/ad.entity'
+import { AdEntity } from './ad.entity'
 import { AdGetDto } from './dto/ad.get.dto'
 
 @Injectable()
@@ -41,18 +41,15 @@ export class AdService {
    * @param {object} [data] - 含有列表和总条数的对象返回值
    * @function [list] - typeorm的模糊查询+统计
    */
-  async getManyAndCount(querys: AdGetDto): Promise<any> {
-    let data = {
-      list: [],
-      total: 0
-    }
+  async getManyAndCount(querys: AdGetDto): Promise<AdEntity[]> {
+    let data = []
     try {
-      const list = await this.adRepository.createQueryBuilder('ad')
-        .skip((Number(querys.currentPage) - 1) * Number(querys.pageSize))
-        .take(Number(querys.pageSize))
-        .getManyAndCount()
-      data.list = list[0]
-      data.total = list[1]
+      data = await this.adRepository.createQueryBuilder('ad')
+        .where('ad.type like :type')
+        .setParameters({
+          type: `%${querys.type ? querys.type : ''}%`, // 账号
+        })
+        .getMany();
     } catch (error) {
       throw new HttpException({ error: '获取列表失败' }, 502)
     } finally {

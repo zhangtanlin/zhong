@@ -15,15 +15,12 @@ import { Type } from 'class-transformer'
 
 /**
  * 查询dto验证
- * @param {string} [currentPage] - 当前页码【最小为1】
- * @param {string} [pageSize]    - 显示条数【最小为1】
+ * @param {number} [type] - 类型
  */
 export class AdGetDto {
-  @Type(() => Number)
-  @IsInt({ message: '页码需要为数字' })
-  currentPage: number
 
+  @IsOptional()
   @Type(() => Number)
-  @IsInt({ message: '显示条数需要为数字' })
-  pageSize: number
+  @IsInt({ message: '请输入类型' })
+  type: number
 }
