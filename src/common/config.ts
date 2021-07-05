@@ -11,8 +11,11 @@ export const corsBaseUrlArray: string[] = [
   'http://localhost:8080'
 ]
 
-// 加密的密钥
+// token加密/解密的密钥
 export const passwordKey: string = '我是密钥'
+
+// 图片加密/解密的密钥
+export const imgKey: string = '我是图片的密钥'
 
 // 上传视频配置文件夹
 export const uploadVideoBaseUrl: string = "/Users/mac/Desktop/"
