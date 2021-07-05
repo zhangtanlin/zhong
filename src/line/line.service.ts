@@ -24,7 +24,6 @@ import { Injectable, HttpException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { LineEntity } from './line.entity'
-import { LineGetDto } from './dto/line.get.dto'
 
 @Injectable()
 export class LineService {
@@ -47,7 +46,6 @@ export class LineService {
     try {
       const list = await this.lineRepository.createQueryBuilder('line')
         .getManyAndCount();
-        console.log('list', list);
       data.list = list[0]
       data.total = list[1]
     } catch (error) {
