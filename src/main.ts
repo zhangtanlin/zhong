@@ -4,6 +4,7 @@ import { AppModule } from './app.module'
 import { ErrorFilter } from './common/filter/error.filter'
 import { port } from "./common/config"
 import { join } from 'path';
+import * as hbs from 'hbs';
 
 // api文档swagger
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger'
@@ -34,6 +35,7 @@ async function bootstrap() {
   // 模板
   app.useStaticAssets(join(__dirname, '..', 'public'));
   app.setBaseViewsDir(join(__dirname, '..', 'views'));
+  hbs.registerPartials(join(__dirname, '..', '/views/partials')); // 设置公共模板
   app.setViewEngine('hbs');
 
   /**
