@@ -39,7 +39,7 @@ export class LineController {
   constructor(private readonly lineService: LineService) {}
   /**
    * 请求列表
-   * @param     [Get]        - 请求方式
+   * @param     [Post]       - 请求方式
    * @param     [UsePipes]   - 管道验证
    * @class     [DtoPipe]    - 自己写的管道验证器【和DownloadGetDto配合使用】
    * @param     [HttpCode]   - 请求返回状态码
@@ -67,4 +67,24 @@ export class LineController {
       return cb
     }
   }
+
+  /**
+   * 验证线路
+   * @param     [Post]       - 请求方式
+   * @param     [UsePipes]   - 管道验证
+   * @param     [HttpCode]   - 请求返回状态码
+   * @returns   {ResultDto}  - 返回值是一个含有提示信息的对象
+   */
+   @Post()
+   @UsePipes(DtoPipe)
+   @HttpCode(200)
+   @UseGuards(AuthApiGuard)
+   async verifyLine(): Promise<ResultDto> {
+     let cb: ResultDto = {
+       code: 200,
+       data: null,
+       message: '成功'
+     }
+    return cb;
+   }
 }
