@@ -10,10 +10,13 @@ import { UserService } from 'src/user/user.service'
 import { VersionEntity } from 'src/version/version.entity'
 import { VersionService } from 'src/version/version.service'
 import { Repository } from 'typeorm'
+import { ConfigEntity } from './config.entity'
 
 @Injectable()
 export class ConfigService {
   constructor(
+    @InjectRepository(ConfigEntity)
+    private readonly configRepository: Repository<ConfigEntity>,
     private readonly userService: UserService,
     private readonly versionService: VersionService,
     private readonly adService: AdService,
@@ -24,6 +27,7 @@ export class ConfigService {
     var cb = {
       version: {},
       userInfo: {},
+      config: {},
       ads: []
     };
     try {
@@ -35,6 +39,8 @@ export class ConfigService {
       }
       // 用户信息
 
+      // 配置信息
+      cb.config = await this.getConfig();
       // 广告
       const _adEntity: AdEntity[] = await this.adService.getManyAndCount({type: 1});
       cb.ads = _adEntity;
@@ -44,4 +50,26 @@ export class ConfigService {
     }
   }
 
+  // 配置信息
+  async getConfig(): Promise<any> {
+    var cb: ConfigEntity = {
+      id: '',
+      devApi: '',
+      api: '',
+      githubApi: '',
+      tfApi: '',
+      tfGithubApi: '',
+      imageHost: "",
+      uploadImageKey: "",
+      uploadImageUrl: "",
+      uploadVideoKey: "",
+      uploadVideoUrl: "",
+    };
+    try {
+      cb = await this.configRepository.findOne();
+      return cb;
+    } catch (error) {
+      throw new HttpException(error.response, error.status)
+    }
+  }
 }
