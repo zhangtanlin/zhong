@@ -75,7 +75,7 @@ export class LineController {
    * @param     [HttpCode]   - 请求返回状态码
    * @returns   {ResultDto}  - 返回值是一个含有提示信息的对象
    */
-   @Post()
+   @Post('/verify')
    @UsePipes(DtoPipe)
    @HttpCode(200)
    @UseGuards(AuthApiGuard)
