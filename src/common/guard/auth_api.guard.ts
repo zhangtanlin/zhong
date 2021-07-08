@@ -32,7 +32,7 @@ export class AuthApiGuard implements CanActivate {
     const redisClient = this.redisService.getClient()
     const request = context.switchToHttp().getRequest()
     const token = request.headers.authorization
-    console.log('地址：', request.url, 'params参数：', request.params, 'query参数：', request.paramsequest.query);
+    console.log('地址：', request.url);
     // if (request.url !== '/api/user/login') {
     //   try {
     //     const decryptToken = CryptoJS.AES.decrypt(token, passwordKey).toString(
