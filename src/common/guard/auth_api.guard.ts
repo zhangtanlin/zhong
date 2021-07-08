@@ -9,6 +9,7 @@ import { RedisService } from 'nestjs-redis'
 import * as CryptoJS from 'crypto-js'
 import { passwordKey } from '../config'
 
+// api接口-守卫
 @Injectable()
 export class AuthApiGuard implements CanActivate {
   /**
@@ -31,7 +32,7 @@ export class AuthApiGuard implements CanActivate {
     const redisClient = this.redisService.getClient()
     const request = context.switchToHttp().getRequest()
     const token = request.headers.authorization
-    // console.log('request', request);
+    console.log('地址：', request.url, 'params参数：', request.params, 'query参数：', request.paramsequest.query);
     // if (request.url !== '/api/user/login') {
     //   try {
     //     const decryptToken = CryptoJS.AES.decrypt(token, passwordKey).toString(
