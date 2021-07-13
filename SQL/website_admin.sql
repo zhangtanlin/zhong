@@ -34,7 +34,7 @@ CREATE TABLE `admin` (
   `area` char(6) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '000000',
   `roles` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `status` enum('1','2') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '1',
-  `activate_time` datetime NOT NULL DEFAULT '2021-05-19 10:09:10',
+  `activate_time` datetime NOT NULL DEFAULT '2021-07-13 20:34:20',
   `is_first_login` enum('1','2') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '1',
   `is_locked` enum('1','2') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '2',
   `locked_time` datetime DEFAULT NULL,
@@ -43,7 +43,7 @@ CREATE TABLE `admin` (
   `last_login_ip` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `last_login_time` datetime DEFAULT NULL,
   `last_update_password_time` datetime DEFAULT NULL,
-  `create_time` datetime NOT NULL DEFAULT '2021-05-19 10:09:10',
+  `create_time` datetime NOT NULL DEFAULT '2021-07-13 20:34:20',
   `department` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `firm` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
@@ -69,4 +69,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-05-19 10:23:15
+-- Dump completed on 2021-07-13 20:56:24

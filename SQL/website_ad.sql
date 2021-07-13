@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.20, for macos10.15 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.22, for macos10.15 (x86_64)
 --
--- Host: 127.0.0.1    Database: website
+-- Host: localhost    Database: website
 -- ------------------------------------------------------
--- Server version	8.0.19
+-- Server version	8.0.23
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -40,7 +40,7 @@ CREATE TABLE `ad` (
 
 LOCK TABLES `ad` WRITE;
 /*!40000 ALTER TABLE `ad` DISABLE KEYS */;
-INSERT INTO `ad` VALUES ('test',1,1,'','','1',''),('test2',2,1,'','','1',''),('test3',3,1,'','','1',''),('test4',4,1,'','','1','');
+INSERT INTO `ad` VALUES ('test',1,1,'L2ltYWdlcy90ZXN0LWFkLnBuZw==','https://www.google.com/','1',''),('test2',2,2,'','','1',''),('test3',3,3,'','','1',''),('test4',4,2,'','','1','');
 /*!40000 ALTER TABLE `ad` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -53,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-12-23 18:07:36
+-- Dump completed on 2021-07-13 20:56:23
