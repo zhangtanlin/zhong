@@ -18,11 +18,9 @@ import {
   Body,
   Headers,
   UsePipes,
-  Get,
   UseGuards,
   Query,
   Delete,
-  Param
 } from '@nestjs/common'
 import { ApiTags, ApiResponse, ApiOperation } from '@nestjs/swagger'
 import { UserService } from './user.service'
@@ -44,7 +42,7 @@ import { classToPlain } from 'class-transformer'
  * @param [ApiTags] - api文档swagger的大类标记
  */
 @ApiTags('用户')
-@Controller('/api/user')
+@Controller('/admin/user')
 export class UserController {
   /**
    * @function [constructor] - 类中定义的构造函数
@@ -56,7 +54,7 @@ export class UserController {
   constructor(private readonly userService: UserService) { }
   /**
    * 获取用户列表
-   * @param     [Get]        - 请求方式
+   * @param     [Post]       - 请求方式
    * @param     [UsePipes]   - 管道验证
    * @class     [DtoPipe]    - 自己写的管道验证器【和UserGetDto配合使用】
    * @param     [HttpCode]   - 请求返回状态码
@@ -64,12 +62,12 @@ export class UserController {
    * @faunction [Query]      - query参数
    * @faunction [UserGetDto] - 用以验证Body参数正确与否的dto方法
    */
-  @Get()
+  @Post('/list')
   @UsePipes(DtoPipe)
   @HttpCode(200)
-  async get(@Query() query: UserSearchDto): Promise<any> {
+  async get(@Body() bodys: UserSearchDto): Promise<any> {
     const searchParam = new UserSearchDto()
-    const param = Object.assign(searchParam, query)
+    const param = Object.assign(searchParam, bodys)
     const list:UserEntity[] = await this.userService.getManyAndCount(param)
     return classToPlain(list)
   }
@@ -79,13 +77,13 @@ export class UserController {
    * @param Param 用户id
    * @function classToPlain 表示使用class-transformer内置方法返回数据（eg：可能涉及到排除某个字段，在entity中使用@Exclude()进行排除）
    */
-  @Get(':id')
-  @HttpCode(200)
-  async findOne(@Param() params): Promise<any> {
-    const findOneById: UserEntity = await this.userService.findOneById(params.id);
-    return classToPlain(findOneById); // 使用nestjs自带的序列化返回值成功
-  }
-
+   @Post('/id')
+   @HttpCode(200)
+   async findOne(@Body() bodys): Promise<any> {
+     const findOneById: UserEntity = await this.userService.findOneById(bodys.id);
+     return classToPlain(findOneById); // 使用nestjs自带的序列化返回值成功
+   }
+   
   /**
    * 新增用户
    * @param     [Post]          - 请求方式
@@ -110,8 +108,8 @@ export class UserController {
       '状态码200表示请求成功，其他值表示失败，失败原因会写在message里面',
     type: ResultDto
   })
-  async add(@Body() request: UserInsertDto): Promise<any> {
-    const data: UserEntity = await this.userService.save(request)
+  async add(@Body() bodys: UserInsertDto): Promise<any> {
+    const data: UserEntity = await this.userService.save(bodys)
     return classToPlain(data)
   }
 

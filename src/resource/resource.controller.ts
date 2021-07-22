@@ -30,7 +30,7 @@ import { AuthAdminGuard } from 'src/common/guard/auth_admin.guard'
 /**
  * 资源控制器
  */
-@Controller('/sys/resource')
+@Controller('/admin/resource')
 export class ResourceController {
   /**
    * 函数
