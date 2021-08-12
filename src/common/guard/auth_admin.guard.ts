@@ -2,7 +2,7 @@ import {
   CanActivate,
   ExecutionContext,
   Injectable,
-  HttpException
+  HttpException,
 } from '@nestjs/common'
 import { Observable } from 'rxjs'
 import { RedisService } from 'nestjs-redis'
@@ -19,16 +19,21 @@ export class AuthAdminGuard implements CanActivate {
   constructor(private readonly redisService: RedisService) { }
 
   /**
-   * @param [redisClient]      - 连接redis的服务
-   * @param [request]          - 客户端请求参数
-   * @param [token]            - 客户端的authorization值
-   * @param [decryptToken]     - 服务端解密token【解密后的值是字符串】
-   * @param [decryptTokenJSON] - 服务端把字符串转换成json格式
-   * @param [decryptTokenName] - 服务端获取token解密后的name
+   * 自定义权限验证
+   * @param    [context]       - 上下文（获取客户端参数）
+   * @todo     [redisClient]   - 连接redis
+   * @todo     [request]       - 获取客户端请求体
+   * @todo     [token]         - 客户端的authorization值
+   * @todo     [decryptToken]  - 服务端解密token【解密后的值是字符串】
+   * @todo     [tokenJSON]     - 服务端把字符串转换成json格式
+   * @todo     [account]       - 解密客户端token后的name
+   * @function [getRedisToken] - 根据用户名组装key查询redis内存储的token
+   * @returns boolean | Promise<boolean> | Observable<boolean> 
+   * @description 注意如果函数使用 async 标注的话返回值要使用对应的 Promise
    */
-  canActivate(
+  async canActivate(
     context: ExecutionContext
-  ): boolean | Promise<boolean> | Observable<boolean> {
+  ): Promise<boolean> {
     const redisClient = this.redisService.getClient()
     const request = context.switchToHttp().getRequest()
     const token = request.headers.authorization
@@ -37,13 +42,13 @@ export class AuthAdminGuard implements CanActivate {
         const decryptToken = CryptoJS.AES.decrypt(token, passwordKey).toString(
           CryptoJS.enc.Utf8
         )
-        const decryptTokenJSON = JSON.parse(decryptToken)
-        const decryptTokenName = decryptTokenJSON.name
-        const getRedisToken = redisClient.get(decryptTokenName + ':token')
-        if (!getRedisToken) {
-          return false
+        const tokenJSON = JSON.parse(decryptToken)
+        const account = tokenJSON.account
+        const getRedisToken = await redisClient.get(account + ':token')
+        if (!!getRedisToken) {
+          return true
         }
-        return true
+        return false
       } catch (error) {
         throw new HttpException({ error: '暂无权限' }, 401)
       }
