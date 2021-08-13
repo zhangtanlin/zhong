@@ -4,7 +4,6 @@ import {
   Injectable,
   HttpException,
 } from '@nestjs/common'
-import { Observable } from 'rxjs'
 import { RedisService } from 'nestjs-redis'
 import * as CryptoJS from 'crypto-js'
 import { passwordKey } from '../config'
@@ -37,7 +36,7 @@ export class AuthAdminGuard implements CanActivate {
     const redisClient = this.redisService.getClient()
     const request = context.switchToHttp().getRequest()
     const token = request.headers.authorization
-    if (request.url !== '/api/user/login') {
+    if (request.url !== '/admin/user/login') {
       try {
         const decryptToken = CryptoJS.AES.decrypt(token, passwordKey).toString(
           CryptoJS.enc.Utf8
