@@ -9,9 +9,8 @@
  * @requires ApiResponse - api文档swagger返回值模块
  * @requires UserService - 用户服务模块
  */
-import {
+ import {
   HttpException,
-  ForbiddenException,
   Controller,
   Post,
   HttpCode,
@@ -19,13 +18,11 @@ import {
   Headers,
   UsePipes,
   UseGuards,
-  Query,
   Delete,
 } from '@nestjs/common'
 import { ApiTags, ApiResponse, ApiOperation } from '@nestjs/swagger'
 import { UserService } from './user.service'
 import { UserInsertDto } from './dto/user.insert.dto'
-import { AuthApiGuard } from '../common/guard/auth_api.guard'
 import { UserLoginDto } from './dto/user.login.dto'
 import { DtoPipe } from '../common/pipe/dto.pipe'
 import { ResultDto } from '../common/dto/result.dto'
@@ -36,10 +33,12 @@ import { passwordKey } from '../common/config'
 import { UserUpdateDto } from './dto/user.update.dto'
 import { IdDto } from '../common/dto/id.dto'
 import { classToPlain } from 'class-transformer'
+import { AuthAdminGuard } from 'src/common/guard/auth_admin.guard'
 
 /**
  * 用户控制器
- * @param [ApiTags] - api文档swagger的大类标记
+ * @class [ApiTags]    - api文档swagger的大类标记
+ * @class [Controller] - nestjs 控制器
  */
 @ApiTags('用户')
 @Controller('/admin/user')
@@ -54,13 +53,13 @@ export class UserController {
   constructor(private readonly userService: UserService) { }
   /**
    * 获取用户列表
-   * @param     [Post]       - 请求方式
-   * @param     [UsePipes]   - 管道验证
-   * @class     [DtoPipe]    - 自己写的管道验证器【和UserGetDto配合使用】
-   * @param     [HttpCode]   - 请求返回状态码
-   * @faunction [Body]       - nest提供的获取Body参数的方法
-   * @faunction [Query]      - query参数
-   * @faunction [UserGetDto] - 用以验证Body参数正确与否的dto方法
+   * @param     [Post]          - 请求方式
+   * @param     [UsePipes]      - 管道验证
+   * @class     [DtoPipe]       - 自己写的管道验证器【和 UserSearchDto 配合使用】
+   * @param     [HttpCode]      - 请求返回状态码
+   * @class     [Body]          - nest提供的获取Body参数的方法
+   * @faunction [UserSearchDto] - 用以验证Body参数正确与否的dto方法
+   * @faunction [classToPlain]  - 类转换成js对象（用于把查询的数据转换成所需要的格式）
    */
   @Post('/list')
   @UsePipes(DtoPipe)
@@ -86,20 +85,22 @@ export class UserController {
    
   /**
    * 新增用户
-   * @param     [Post]          - 请求方式
-   * @param     [UsePipes]      - 管道验证
-   * @class     [DtoPipe]       - 自己写的管道验证器【和UserInsertDto配合使用】
-   * @param     [UseGuards]     - 权限验证
-   * @param     [HttpCode]      - 请求返回状态码
-   * @faunction [add]           - 新增用户的方法
-   * @faunction [Body]          - nest提供的获取Body参数的方法
-   * @faunction [request]       - Body参数
-   * @faunction [UserInsertDto] - 用以验证Body参数正确与否的dto方法
-   * @return    [ResultDto]     - 返回值是一个含有提示信息的对象
+   * @param     [Post]           - 请求方式
+   * @param     [UsePipes]       - 管道验证
+   * @class     [DtoPipe]        - 自己写的管道验证器【和UserInsertDto配合使用】
+   * @param     [UseGuards]      - 权限验证
+   * @class     [AuthAdminGuard] - 权限验证-管理系统的守卫
+   * @param     [HttpCode]       - 请求返回状态码
+   * @faunction [add]            - 新增用户的方法
+   * @faunction [Body]           - nest提供的获取Body参数的方法
+   * @faunction [request]        - Body参数
+   * @faunction [UserInsertDto]  - 用以验证Body参数正确与否的dto方法
+   * @faunction [classToPlain]   - 类转换成js对象（用于把查询的数据转换成所需要的格式）
+   * @return    [ResultDto]      - 返回值对象
    */
   @Post('/add')
   @UsePipes(DtoPipe)
-  @UseGuards(AuthApiGuard)
+  @UseGuards(AuthAdminGuard)
   @HttpCode(200)
   @ApiOperation({ summary: '新增用户' })
   @ApiResponse({
@@ -115,20 +116,21 @@ export class UserController {
 
   /**
    * 编辑用户
-   * @param     [Post]          - 请求方式
-   * @param     [UsePipes]      - 管道验证
-   * @class     [DtoPipe]       - 自己写的管道验证器【和UserInsertDto配合使用】
-   * @param     [UseGuards]     - 权限验证
-   * @param     [HttpCode]      - 请求返回状态码
-   * @faunction [add]           - 新增用户的方法
-   * @faunction [Body]          - nest提供的获取Body参数的方法
-   * @faunction [request]       - Body参数
-   * @faunction [UserUpdateDto] - 用以验证Body参数正确与否的dto方法
+   * @class     [Post]           - 请求方式
+   * @class     [UsePipes]       - 管道验证
+   * @class     [DtoPipe]        - 自己写的管道验证器【和UserInsertDto配合使用】
+   * @class     [UseGuards]      - 权限验证
+   * @class     [AuthAdminGuard] - 权限验证-管理系统的守卫
+   * @class     [HttpCode]       - 请求返回状态码
+   * @faunction [edit()]         - 编辑用户的方法
+   * @class     [Body]           - nest提供的获取Body参数的方法
+   * @class     [request]        - 客户端Body参数
+   * @class     [UserUpdateDto]  - 用以验证Body参数正确与否的dto方法
    * @deprecated 此处不使用trycatch,因为不会处理数据（比如：删除password），使用server模块的错误处理
    */
   @Post('/edit')
   @UsePipes(DtoPipe)
-  @UseGuards(AuthApiGuard)
+  @UseGuards(AuthAdminGuard)
   @HttpCode(200)
   @ApiOperation({ summary: '编辑用户' })
   @ApiResponse({
@@ -143,20 +145,21 @@ export class UserController {
 
   /**
    * 删除用户
-   * @param     [Delete]    - 请求方式
-   * @param     [UsePipes]  - 管道验证
-   * @class     [DtoPipe]   - 自己写的管道验证器【和UserInsertDto配合使用】
-   * @param     [UseGuards] - 权限验证
-   * @param     [HttpCode]  - 请求返回状态码
-   * @faunction [delete]    - 新增用户的方法
-   * @faunction [Body]      - nest提供的获取Body参数的方法
-   * @faunction [request]   - Body参数
-   * @faunction [IdDto]     - 用以验证Body参数正确与否的dto方法
-   * @return    [ResultDto] - 返回值是一个含有提示信息的对象
+   * @class     [Delete]         - 请求方式
+   * @class     [UsePipes]       - 管道验证
+   * @class     [DtoPipe]        - 自己写的管道验证器【和UserInsertDto配合使用】
+   * @class     [UseGuards]      - 权限验证
+   * @class     [AuthAdminGuard] - 权限验证
+   * @class     [HttpCode]       - 请求返回状态码
+   * @faunction [delete]         - 新增用户的方法
+   * @class     [Body]           - nest提供的获取Body参数的方法
+   * @param     [request]        - Body参数
+   * @class     [IdDto]          - 用以验证Body参数正确与否的dto方法
+   * @returns   [data]           - 返回值
    */
   @Delete('/delete')
   @UsePipes(DtoPipe)
-  @UseGuards(AuthApiGuard)
+  @UseGuards(AuthAdminGuard)
   @HttpCode(200)
   @ApiOperation({ summary: '删除用户' })
   @ApiResponse({
@@ -172,16 +175,17 @@ export class UserController {
 
   /**
    * 登陆
-   * @requires [UsePipes]    - nest自带的管道【验证客户端参数的合法性】
-   * @class    [DtoPipe]     - 自己写的管道验证器【和UserLoginDto配合使用】
-   * @requires [UseGuards]   - nest自带的守卫【验证token】
-   * @class    [AuthApiGuard]- 自己写的守卫验证器
-   * @requires [HttpCode]    - http状态码
-   * @callback [ResultDto]   - 返回的dto验证
+   * @class   [Post]          - 请求方式
+   * @class   [UsePipes]      - nest自带的管道【验证客户端参数的合法性】
+   * @class   [DtoPipe]       - 自己写的管道验证器【和UserLoginDto配合使用】
+   * @class   [UseGuards]     - nest自带的守卫【验证token】
+   * @class   [AuthAdminGuard]- 自己写的守卫验证器
+   * @class   [HttpCode]      - http状态码
+   * @returns [data]          - 返回值
    */
   @Post('login')
   @UsePipes(DtoPipe)
-  @UseGuards(AuthApiGuard)
+  @UseGuards(AuthAdminGuard)
   @HttpCode(200)
   async login(@Body() request: UserLoginDto): Promise<any> {
     const data: boolean = await this.userService.login(request)
@@ -190,28 +194,27 @@ export class UserController {
 
   /**
    * 退出
-   * @requires [UsePipes]    - nest自带的管道【验证客户端参数的合法性】
-   * @requires [UseGuards]   - nest自带的守卫【验证token】
-   * @class    [AuthApiGuard]- 自己写的守卫验证器
-   * @requires [HttpCode]    - http状态码
-   * @callback [ResultDto]   - 返回的dto验证
+   * @class    [Delete]        - 请求方式
+   * @class    [UseGuards]     - nest自带的守卫【验证token】
+   * @class    [AuthAdminGuard]- 自己写的守卫验证器
+   * @class    [HttpCode]      - http状态码
+   * @function [logout]        - 退出方法
+   * @class    [Headers]       - nestjs提供的获取请求头的类
+   * @class    [account]       - 内部定义的临时账号名
+   * @private  [decryptToken]  - 解密请求头token
+   * @private  [tokenJSON]     - toke反序列化
    */
   @Delete('logout')
-  @UseGuards(AuthApiGuard)
+  @UseGuards(AuthAdminGuard)
   @HttpCode(200)
-  async logout(@Headers() headersArgument: any): Promise<any> {
-    let account = '' // 账号
+  async logout(@Headers() headers: any): Promise<any> {
+    let account = ''
     try {
-      /**
-       * 根据token内的用户id查询用户
-       * @param [decryptToken]     - 解密请求头的authorization参数
-       * @param [decryptTokenJSON] - 把解密后的字符串转换成json格式
-       */
-      const decryptToken = CryptoJS.AES.decrypt(headersArgument.authorization, passwordKey).toString(
+      const decryptToken = CryptoJS.AES.decrypt(headers.authorization, passwordKey).toString(
         CryptoJS.enc.Utf8
       )
-      const decryptTokenJSON = JSON.parse(decryptToken)
-      account = decryptTokenJSON.account
+      const tokenJSON = JSON.parse(decryptToken)
+      account = tokenJSON.account
     } catch (error) {
       throw new HttpException('解密token失败', 500)
     }
