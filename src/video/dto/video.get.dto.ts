@@ -46,6 +46,12 @@ export class VideoGetDto {
   @MaxLength(255, { message: '名称长度最长为 $constraint1' })
   name: string
 
+  @Type(() => String)
+  @IsNotEmpty({ message: 'md5不能为空' })
+  @MinLength(1, { message: 'md5长度最少为 $constraint1,但实际为 $value' })
+  @MaxLength(255, { message: 'md5长度最长为 $constraint1' })
+  md5: String
+
   @IsOptional()
   @Type(() => Number)
   @IsNotEmpty({ message: '类型不能为空' })

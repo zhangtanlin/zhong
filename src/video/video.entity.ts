@@ -6,9 +6,7 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm'
 
 @Entity('video')
-/**
- * video（视频）数据表
- */
+// video（视频）数据表
 export class VideoEntity {
   /**
    * @param {number} [id] - 视频id（自增）
@@ -16,9 +14,7 @@ export class VideoEntity {
   @PrimaryGeneratedColumn()
   id: number
 
-  /**
-   * @param {string} [name] - 名称
-   */
+  // 名称
   @Column({
     type: 'varchar',
     length: 255,
@@ -26,9 +22,15 @@ export class VideoEntity {
   })
   name: string
 
-  /**
-   * @param {enum} [type] - 类型{1:预览视频,2:正式视频}【枚举是从1开始】
-   */
+  // 视频的md5值
+  @Column({
+    type: 'varchar',
+    length: 255,
+    default: ''
+  })
+  md5: string
+
+  // 类型{1:预览视频,2:正式视频}【枚举是从1开始】
   @Column({
     type: 'enum',
     enum: [1, 2],
@@ -36,9 +38,7 @@ export class VideoEntity {
   })
   type: 1 | 2
 
-  /**
-   * @param {string} [resources] - 视频地址
-   */
+  // 视频地址
   @Column({
     type: 'varchar',
     length: 255,
@@ -46,9 +46,7 @@ export class VideoEntity {
   })
   url: string
 
-  /**
-   * @param {string} [img_url] - 封面地址
-   */
+  // 封面地址
   @Column({
     type: 'varchar',
     length: 255,

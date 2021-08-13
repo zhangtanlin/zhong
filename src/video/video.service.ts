@@ -6,17 +6,12 @@ import { VideoGetDto } from './dto/video.get.dto'
 
 @Injectable()
 export class VideoService {
-  /**
-   * 函数
-   */
   constructor(
     @InjectRepository(VideoEntity)
     private readonly videoRepository: Repository<VideoEntity>
   ) {}
 
-  /**
-   * 分页查询
-   */
+  // 分页查询
   async getManyAndCount(params: VideoGetDto): Promise<any> {
     let data = {
       list: [],
@@ -41,21 +36,20 @@ export class VideoService {
     }
   }
 
-  /**
-   * 根据条件查询一个用户
-   */
+  // 根据条件查询一个用户
   async findOne(data: object): Promise<VideoEntity> {
-    const findOneRole: VideoEntity = await this.videoRepository.findOne(data)
-    if (!findOneRole) {
+    try {
+      const findOneVideo: VideoEntity = await this.videoRepository.findOne(data)
+      if (!findOneVideo) {
+        return null
+      }
+      return findOneVideo
+    } catch (error) {
       throw new HttpException({ error: '查询失败' }, 502)
     }
-    return findOneRole
   }
 
-  /**
-   * 根据id数组查询
-   * @param [data] - id数组
-   */
+  // 根据id数组查询
   async findByIds(data: any[]): Promise<VideoEntity[]> {
     const findRoleArray = await this.videoRepository
       .createQueryBuilder('role')
@@ -67,9 +61,7 @@ export class VideoService {
     return findRoleArray
   }
 
-  /**
-   * 保存
-   */
+  // 保存
   async save(data): Promise<any> {
     const save = await getConnection()
       .createQueryBuilder()

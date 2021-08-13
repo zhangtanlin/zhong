@@ -9,17 +9,20 @@ import {
   UseGuards,
   Query
 } from '@nestjs/common'
+import { RedisService } from 'nestjs-redis'
 import { VideoService } from './video.service'
 import { AuthApiGuard } from '../common/guard/auth_api.guard'
 import { DtoPipe } from '../common/pipe/dto.pipe'
 import { VideoGetDto } from './dto/video.get.dto'
 import { VideoAddDto } from './dto/video.add.dto'
+import { VideoUploadBeforeDto } from './dto/video.upload.before.dto'
 
 @Controller('/admin/video')
 export class VideoController {
 
   constructor(
-    private readonly videoService: VideoService
+    private readonly videoService: VideoService,
+    private readonly redisService: RedisService
   ) {}
 
   // 查询列表【有分页条件就分页查询，没有分页查询就查询所有】
@@ -78,9 +81,31 @@ export class VideoController {
   @UsePipes(DtoPipe)
   @UseGuards(AuthApiGuard)
   @HttpCode(200)
-  async uploadBefore(@Body() bodys: any) : Promise<any> {
-    console.log('bodys', bodys)
-    return 'uploadBefore'
+  async uploadBefore(@Body() bodys: VideoUploadBeforeDto) : Promise<any> {
+    let cb = {
+      isUpload: false,
+      notUploadArray: []
+    }
+    try {
+      console.log('bodys', bodys)
+      const md5 = bodys.md5
+      const redisClient = this.redisService.getClient()
+      const getVideoUploadArray = await redisClient.get('videoUpload:' + md5)
+      if (!getVideoUploadArray) {
+        // 如果redis里面没有数据，就查一遍数据库看是否存在
+        const findOneVideo = await this.videoService.findOne({md5})
+        if (!!findOneVideo) {
+          cb.isUpload = true;
+        } else {
+          cb.isUpload = false;
+        }
+      } else {
+        cb.notUploadArray = getVideoUploadArray.split('')
+      }
+      return cb
+    } catch (error) {
+      throw new HttpException({ error: '上传检测失败' }, 401)
+    }
   }
 
   // 视频上传
