@@ -1,6 +1,6 @@
 import { Injectable, HttpException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { VideoEntity } from './entity/video.entity'
+import { VideoEntity } from './video.entity'
 import { Repository, getConnection, Like } from 'typeorm'
 import { VideoGetDto } from './dto/video.get.dto'
 

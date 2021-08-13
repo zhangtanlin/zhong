@@ -1,21 +1,12 @@
-/**
- * 导入
- * @requires [common]  - nestjs的公共模块
- * @requires [swagger] - nestjs的公共模块
- */
 import {
   HttpException,
-  ForbiddenException,
   Controller,
   Post,
   HttpCode,
   Body,
   UsePipes,
   Get,
-  Param,
   UseGuards,
-  Inject,
-  forwardRef,
   Query
 } from '@nestjs/common'
 import { VideoService } from './video.service'
@@ -24,22 +15,14 @@ import { DtoPipe } from '../common/pipe/dto.pipe'
 import { VideoGetDto } from './dto/video.get.dto'
 import { VideoAddDto } from './dto/video.add.dto'
 
-@Controller('/api/video')
+@Controller('/admin/video')
 export class VideoController {
-  /**
-   * @function [constructor] - 类中定义的构造函数
-   * @param    [private]     - 修饰的属性或方法是私有的，不能在声明它的类的外部访问
-   * @param    [readonly]    - 表示属性或方法只能使用不能修改
-   */
+
   constructor(
     private readonly videoService: VideoService
   ) {}
 
-  /**
-   * 查询列表【有分页条件就分页查询，没有分页查询就查询所有】
-   * @param [request]  - 请求参数【可以为空】
-   * @param [HttpCode] - 状态码
-   */
+  // 查询列表【有分页条件就分页查询，没有分页查询就查询所有】
   @Get()
   @UsePipes(DtoPipe)
   @HttpCode(200)
@@ -58,12 +41,8 @@ export class VideoController {
       )
     }
   }
-  /**
-   * 新增
-   * @param [request]  - 请求参数
-   * @param [HttpCode] - 状态码
-   */
-  @Post('add')
+  // 新增
+  @Post('/add')
   @UsePipes(DtoPipe)
   @UseGuards(AuthApiGuard)
   @HttpCode(200)
@@ -81,10 +60,7 @@ export class VideoController {
       )
     }
   }
-  /**
-   * 编辑
-   * @param [] -
-   */
+  // 编辑
   async edit(@Body() request: VideoAddDto): Promise<any> {
     try {
       const data = '编辑成功'
@@ -95,5 +71,24 @@ export class VideoController {
         error.status,
       )
     }
+  }
+
+  // 视频上传之前
+  @Post('/uploadBefore')
+  @UsePipes(DtoPipe)
+  @UseGuards(AuthApiGuard)
+  @HttpCode(200)
+  async uploadBefore(@Body() bodys: any) : Promise<any> {
+    console.log('bodys', bodys)
+    return 'uploadBefore'
+  }
+
+  // 视频上传
+  @Post('/upload')
+  @UsePipes(DtoPipe)
+  @UseGuards(AuthApiGuard)
+  @HttpCode(200)
+  async upload(@Body() bodys: any) : Promise<any> {
+    return 'upload'
   }
 }
