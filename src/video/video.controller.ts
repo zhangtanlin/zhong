@@ -7,15 +7,20 @@ import {
   UsePipes,
   Get,
   UseGuards,
-  Query
+  Query,
+  UseInterceptors,
+  UploadedFile,
+  Headers,
+  Request,
 } from '@nestjs/common'
 import { RedisService } from 'nestjs-redis'
 import { VideoService } from './video.service'
-import { AuthApiGuard } from '../common/guard/auth_api.guard'
 import { DtoPipe } from '../common/pipe/dto.pipe'
 import { VideoGetDto } from './dto/video.get.dto'
 import { VideoAddDto } from './dto/video.add.dto'
 import { VideoUploadBeforeDto } from './dto/video.upload.before.dto'
+import { FileInterceptor } from '@nestjs/platform-express'
+import { AuthAdminGuard } from 'src/common/guard/auth_admin.guard'
 
 @Controller('/admin/video')
 export class VideoController {
@@ -47,7 +52,7 @@ export class VideoController {
   // 新增
   @Post('/add')
   @UsePipes(DtoPipe)
-  @UseGuards(AuthApiGuard)
+  @UseGuards(AuthAdminGuard)
   @HttpCode(200)
   async add(@Body() request: VideoAddDto): Promise<any> {
     try {
@@ -79,7 +84,7 @@ export class VideoController {
   // 视频上传之前
   @Post('/uploadBefore')
   @UsePipes(DtoPipe)
-  @UseGuards(AuthApiGuard)
+  @UseGuards(AuthAdminGuard)
   @HttpCode(200)
   async uploadBefore(@Body() bodys: VideoUploadBeforeDto) : Promise<any> {
     let cb = {
@@ -87,7 +92,6 @@ export class VideoController {
       notUploadArray: []
     }
     try {
-      console.log('bodys', bodys)
       const md5 = bodys.md5
       const redisClient = this.redisService.getClient()
       const getVideoUploadArray = await redisClient.get('videoUpload:' + md5)
@@ -111,9 +115,15 @@ export class VideoController {
   // 视频上传
   @Post('/upload')
   @UsePipes(DtoPipe)
-  @UseGuards(AuthApiGuard)
+  @UseGuards(AuthAdminGuard)
   @HttpCode(200)
-  async upload(@Body() bodys: any) : Promise<any> {
+  @UseInterceptors(FileInterceptor('file'))
+  async upload(
+    @UploadedFile() file: Express.Multer.File,
+    @Body() bodys,
+  ) {
+    // console.log('files', file)
+    // console.log('bodys', bodys)
     return 'upload'
   }
 }
