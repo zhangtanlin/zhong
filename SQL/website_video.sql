@@ -28,6 +28,7 @@ CREATE TABLE `video` (
   `type` enum('1','2') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '1',
   `url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `img_url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `md5` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -38,7 +39,7 @@ CREATE TABLE `video` (
 
 LOCK TABLES `video` WRITE;
 /*!40000 ALTER TABLE `video` DISABLE KEYS */;
-INSERT INTO `video` VALUES (1,'测试视频1','1','http://devimages.apple.com/iphone/samples/bipbop/bipbopall.m3u8','https://n.sinaimg.cn/sinacn20117/201/w1088h713/20190904/0575-ieaiqik1612016.jpg');
+INSERT INTO `video` VALUES (1,'测试视频1','1','http://devimages.apple.com/iphone/samples/bipbop/bipbopall.m3u8','https://n.sinaimg.cn/sinacn20117/201/w1088h713/20190904/0575-ieaiqik1612016.jpg','');
 /*!40000 ALTER TABLE `video` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-07-13 20:56:24
+-- Dump completed on 2021-09-23 20:51:04

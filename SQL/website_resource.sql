@@ -36,7 +36,7 @@ CREATE TABLE `resource` (
   `id` int NOT NULL AUTO_INCREMENT,
   `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -45,7 +45,7 @@ CREATE TABLE `resource` (
 
 LOCK TABLES `resource` WRITE;
 /*!40000 ALTER TABLE `resource` DISABLE KEYS */;
-INSERT INTO `resource` VALUES (0,'首页','',1,'/system/home','','el-icon-edit',1,1,'',1,''),(0,'系统管理','',1,'','','el-icon-edit',1,1,'',2,''),(2,'用户管理','',1,'/system/sysUser','','el-icon-edit',1,1,'',3,''),(2,'角色管理','',1,'/system/sysRole','','el-icon-edit',1,1,'',4,''),(2,'资源管理','',1,'/system/sysResource','','el-icon-edit',1,1,'',5,'');
+INSERT INTO `resource` VALUES (0,'首页','',1,'/system/home','','icon-stop',1,1,'',1,''),(0,'系统管理','',1,'','','icon-stop',1,1,'',2,''),(2,'用户管理','',1,'/system/user','','icon-user',1,1,'',3,''),(2,'角色管理','',1,'/system/role','','icon-edit',1,1,'',4,''),(2,'资源管理','',1,'/system/resource','','icon-squares',1,1,'',5,''),(2,'线路管理','',1,'/system/line','','icon-left-right',1,1,'',6,''),(0,'上传管理','',1,'','','icon-stop',1,1,'',7,''),(7,'上传','',1,'/system/upload/video','','icon-triangle-top',1,1,'',8,'');
 /*!40000 ALTER TABLE `resource` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -58,4 +58,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-07-13 20:56:23
+-- Dump completed on 2021-09-23 20:51:01
