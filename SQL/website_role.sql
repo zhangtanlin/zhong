@@ -37,7 +37,7 @@ CREATE TABLE `role` (
 
 LOCK TABLES `role` WRITE;
 /*!40000 ALTER TABLE `role` DISABLE KEYS */;
-INSERT INTO `role` VALUES (1,'超级管理员','1,2','1'),(2,'操作员','2,3','1'),(3,'审计员','','1'),(4,'其他','','1');
+INSERT INTO `role` VALUES (1,'超级管理员','1,2,3,4,5,6,7,8','1'),(2,'操作员','1,2,3,4,5,6,7,8','1'),(3,'审计员','1','1'),(4,'其他','','1');
 /*!40000 ALTER TABLE `role` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -50,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-07-13 20:56:24
+-- Dump completed on 2021-09-23 20:51:03
