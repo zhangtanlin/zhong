@@ -157,7 +157,7 @@ export class UserController {
    * @class     [IdDto]          - 用以验证Body参数正确与否的dto方法
    * @returns   [data]           - 返回值
    */
-  @Delete('/delete')
+  @Post('/delete')
   @UsePipes(DtoPipe)
   @UseGuards(AuthAdminGuard)
   @HttpCode(200)
