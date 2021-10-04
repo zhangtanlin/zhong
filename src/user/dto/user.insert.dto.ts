@@ -22,16 +22,19 @@ import {
 // 新增用户dto验证
 export class UserInsertDto {
   // 账号
+  @Type(() => String)
   @IsNotEmpty({ message: '账号不能为空' })
   @MaxLength(255, { message: '账号长度最长为 $constraint1' })
   account: string
 
   // 用户名
   @IsOptional()
+  @Type(() => String)
   @MaxLength(255, { message: '用户名长度最长为 $constraint1' })
   name: string
 
   // 密码
+  @Type(() => String)
   @IsNotEmpty({ message: '密码不能为空' })
   @MinLength(3, { message: '密码长度最少为 $constraint1 ,但实际为 $value' })
   @MaxLength(255, { message: '密码长度最长为 $constraint1' })
@@ -39,17 +42,20 @@ export class UserInsertDto {
 
   // 头像
   @IsOptional()
+  @Type(() => String)
   @MinLength(1, { message: '头像地址长度最少为 $constraint1 ,但实际为 $value' })
   @MaxLength(255, { message: '头像地址长度最长为 $constraint1' })
   avatar: string
 
   // 手机号码
   @IsOptional()
+  @Type(() => String)
   @IsPhoneNumber('CH', { message: '不是有效的手机号码' })
   phone: string
 
   // 邮箱
   @IsOptional()
+  @Type(() => String)
   @IsEmail()
   email: string
 
@@ -61,17 +67,20 @@ export class UserInsertDto {
 
   // 区域id
   @IsOptional()
+  @Type(() => String)
   @IsNumberString()
   area: string
 
   // 角色id
   @IsOptional()
+  @Type(() => String)
   @MinLength(1, { message: '角色id长度最少为 $constraint1 ,但实际为 $value' })
   @MaxLength(255, { message: '角色id长度最长为 $constraint1' })
   roles: string
 
   // 账号状态{1:"已激活", 2:"未激活"}
   @IsOptional()
+  @Type(() => String)
   @IsEnum(['1', '2'])
   status: string
 
@@ -82,11 +91,13 @@ export class UserInsertDto {
 
   // 是否第一次登录{1:"是", 2:"否"}
   @IsOptional()
+  @Type(() => String)
   @IsEnum(['1', '2'])
   is_first_login: string
 
   // 是否锁定{1:"是", 2:"否"}
   @IsOptional()
+  @Type(() => String)
   @IsEnum(['1', '2'])
   is_locked: string
 
@@ -97,6 +108,7 @@ export class UserInsertDto {
 
   // 是否禁用{1:"是", 2:"否"}
   @IsOptional()
+  @Type(() => String)
   @IsEnum(['1', '2'])
   is_disabled: string
 
@@ -107,6 +119,7 @@ export class UserInsertDto {
 
   // 最后一次登录的ip
   @IsOptional()
+  @Type(() => String)
   @IsIP()
   last_login_ip: string
 
@@ -122,12 +135,14 @@ export class UserInsertDto {
 
   // 部门
   @IsOptional()
+  @Type(() => String)
   @MinLength(1, { message: '部门长度最少为 $constraint1 ,但实际为 $value' })
   @MaxLength(255, { message: '部门长度最长为 $constraint1' })
   department: string
 
   // 公司
   @IsOptional()
+  @Type(() => String)
   @MinLength(1, { message: '公司长度最少为 $constraint1 ,但实际为 $value' })
   @MaxLength(255, { message: '公司长度最长为 $constraint1' })
   firm: string
