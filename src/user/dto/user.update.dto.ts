@@ -94,7 +94,7 @@ export class UserUpdateDto {
   // 激活时间
   @IsOptional()
   @Type(() => Date)
-  @IsDateString({ message: '激活时间应为日期类型字符串' })
+  @IsDate({ message: '激活时间应为日期类型' })
   activate_time: Date
    
   // 是否锁定
@@ -106,7 +106,7 @@ export class UserUpdateDto {
   // 锁定时间
   @IsOptional()
   @Type(() => Date)
-  @IsDateString({ message: '锁定时间应为日期类型字符串' })
+  @IsDate({ message: '锁定时间应为日期类型' })
   locked_time: Date
 
   // 是否禁用
@@ -118,7 +118,7 @@ export class UserUpdateDto {
   // 禁用时间
   @IsOptional()
   @Type(() => Date)
-  @IsDateString({ message: '禁用时间应为日期类型字符串' })
+  @IsDate({ message: '禁用时间应为日期类型' })
   disabled_time: Date
 
   // 最后一次登录的ip
@@ -130,13 +130,13 @@ export class UserUpdateDto {
   // 最后一次登录的时间
   @IsOptional()
   @Type(() => Date)
-  @IsDateString({ message: '最后一次登录的时间应为日期类型字符串' })
+  @IsDate({ message: '最后一次登录的时间应为日期类型' })
   last_login_time: Date
 
   // 创建时间
   @IsOptional()
   @Type(() => Date)
-  @IsDateString({ message: '创建时间应为日期类型字符串' })
+  @IsDate({ message: '创建时间应为日期类型' })
   create_time: Date
 
   // 部门
