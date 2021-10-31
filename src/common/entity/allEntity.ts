@@ -15,7 +15,7 @@
  */
 import { AdminEntity } from 'src/admin/admin.entity'
 import { UserEntity } from '../../user/user.entity'
-import { RoleEntity } from '../../role/entity/role.entity'
+import { RoleEntity } from '../../role/role.entity'
 import { ResourceEntity } from '../../resource/entity/resource.entity'
 import { UploadEntity } from '../../upload/entity/upload.entity'
 import { VideoEntity } from '../../video/video.entity'

@@ -1,6 +1,6 @@
 import { Injectable, HttpException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { RoleEntity } from './entity/role.entity'
+import { RoleEntity } from './role.entity'
 import { Repository, getConnection, Like } from 'typeorm'
 import { RoleGetDto } from './dto/role.get.dto'
 

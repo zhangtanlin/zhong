@@ -36,8 +36,9 @@ export class RoleController {
   ) { }
 
   // 查询列表【有分页条件就分页查询，没有分页查询就查询所有】
-  @Post()
+  @Post('list')
   @UsePipes(DtoPipe)
+  @UseGuards(AuthAdminGuard)
   @HttpCode(200)
   async get(@Body() bodys: RoleGetDto): Promise<ResultListDto> {
     try {
