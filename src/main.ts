@@ -9,6 +9,7 @@ import * as hbs from 'hbs';
 // api文档swagger
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger'
 import { ResultInterceptor } from './common/interceptor/result.interceptor';
+import { WsAdapter } from '@nestjs/platform-ws';
 
 async function bootstrap() {
   /**
@@ -37,6 +38,9 @@ async function bootstrap() {
   app.setBaseViewsDir(join(__dirname, '..', 'views'));
   hbs.registerPartials(join(__dirname, '..', '/views/partials')); // 设置公共模板
   app.setViewEngine('hbs');
+
+  // socket适配器
+  app.useWebSocketAdapter(new WsAdapter(app))
 
   /**
    * swagger配置

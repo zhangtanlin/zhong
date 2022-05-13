@@ -23,6 +23,7 @@ import { AdModule } from './ad/ad.module'
 import { LineModule } from './line/line.module'
 import { ConfigModule } from './config/config.module'
 import { VersionModule } from './version/version.module'
+import { WsModule } from './ws/ws.module';
 @Module({
   imports: [
     /**
@@ -60,8 +61,13 @@ import { VersionModule } from './version/version.module'
     GuessModule,
     AdModule,
     LineModule,
+    WsModule,
   ],
-  controllers: [AppController],
-  providers: [AppService]
+  controllers: [
+    AppController,
+  ],
+  providers: [
+    AppService,
+  ]
 })
 export class AppModule {}

@@ -13,5 +13,22 @@
       <img class="home-open-img" src="./images/ad-open.png" alt="" srcset="">
     </div>
     <script src="./js/main.js"></script>
+    <script>
+      // 建立websocket连接
+      const socket = new WebSocket("ws://localhost:4000");
+      console.log('建立websocket连接');
+      socket.onopen = function() {
+        console.log('Connected');
+        socket.send(
+          JSON.stringify({
+            event: 'event',
+            data: 'test',
+          }),
+        );
+        socket.onmessage = (data) => {
+          console.log(`消息:${JSON.stringify(data)}`);
+        };
+      };
+    </script>
   </body>
 </html>
