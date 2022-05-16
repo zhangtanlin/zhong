@@ -14,21 +14,30 @@
     </div>
     <script src="./js/main.js"></script>
     <script>
-      // 建立websocket连接
-      const socket = new WebSocket("ws://localhost:4000");
-      console.log('建立websocket连接');
+      // 创建websocket
+      var socket = new WebSocket("ws://localhost:4000");
+      // 打开连接
       socket.onopen = function() {
-        console.log('Connected');
+        console.log("打开连接");
         socket.send(
           JSON.stringify({
-            event: 'event',
-            data: 'test',
+            event: "event",
+            data: "客户端发送的参数",
           }),
         );
-        socket.onmessage = (data) => {
-          console.log(`消息:${JSON.stringify(data)}`);
-        };
       };
+      // 接收消息
+      socket.onmessage = function(data) {
+        console.log("接收消息:", JSON.stringify(data));
+      };
+      // 关闭连接
+      socket.onclose = function(data) {
+        console.log("关闭连接:", JSON.stringify(data));
+      }
+      // 连接错误
+      socket.onerror = function(data) {
+        console.log("连接错误:", JSON.stringify(data));
+      }
     </script>
   </body>
 </html>

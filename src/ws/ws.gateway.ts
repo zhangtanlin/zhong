@@ -1,4 +1,4 @@
-import { SubscribeMessage, WebSocketGateway, WebSocketServer, WsResponse } from '@nestjs/websockets';
+import { SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { Server } from 'http';
 import { from, Observable } from 'rxjs';
 
@@ -6,7 +6,12 @@ import { from, Observable } from 'rxjs';
 @WebSocketGateway(
   4000,
   {
-    cros: true,
+    // 解决跨域
+    allowEI03: true,
+    cros: {
+      origin: /.*/,
+    },
+
   }
 )
 export class WsGateway {
@@ -15,8 +20,8 @@ export class WsGateway {
   server: Server;
 
   @SubscribeMessage('event')
-  handleMessage(client: any, payload: any): Observable<string> {
+  handleMessage(client: any, payload: any): string {
     console.log(`参数：${payload}`);
-    return from("socket返回值");
+    return `socket返回值:${payload}`;
   }
 }
