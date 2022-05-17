@@ -7,7 +7,7 @@ import {
 import { Observable } from 'rxjs'
 import { RedisService } from 'nestjs-redis'
 import * as CryptoJS from 'crypto-js'
-import { passwordKey } from '../config'
+import { passwordKey } from '../../config'
 
 // api接口-守卫
 @Injectable()

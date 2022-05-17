@@ -22,7 +22,7 @@ import { GuessModule } from './guess/guess.module'
 import { AdModule } from './ad/ad.module'
 import { LineModule } from './line/line.module'
 import { ConfigModule } from './config/config.module'
-import { WsModule } from './ws/ws.module';
+import { SocketModule } from './socket/socket.module';
 import { MsModule } from './ms/ms.module'
 @Module({
   imports: [
@@ -59,7 +59,7 @@ import { MsModule } from './ms/ms.module'
     // 线路
     LineModule,
     // socket
-    WsModule,
+    SocketModule,
     // 微服务
     MsModule,
   ],

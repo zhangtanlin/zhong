@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { Client, ClientProxy, Transport } from '@nestjs/microservices';
 import { from, Observable } from 'rxjs';
-import { port } from './common/config';
+import { port } from './config';
 
 @Injectable()
 export class AppService {

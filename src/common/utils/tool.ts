@@ -4,7 +4,7 @@
  */
 import * as fs from "fs"
 import * as path from 'path'
-import { uploadVideoBaseUrl } from "../config"
+import { uploadVideoBaseUrl } from "../../config"
 
 /**
  * 把id和pid组合成树

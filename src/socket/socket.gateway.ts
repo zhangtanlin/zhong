@@ -9,12 +9,12 @@ import { from, Observable } from 'rxjs';
     // 解决跨域
     allowEI03: true,
     cros: {
-      origin: /.*/,
+      origin: "*",
     },
 
   }
 )
-export class WsGateway {
+export class SocketGateway {
   // socket服务
   @WebSocketServer()
   server: Server;

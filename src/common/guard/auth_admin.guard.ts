@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common'
 import { RedisService } from 'nestjs-redis'
 import * as CryptoJS from 'crypto-js'
-import { passwordKey } from '../config'
+import { passwordKey } from '../../config'
 
 // 管理系统-守卫
 @Injectable()
