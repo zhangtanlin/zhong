@@ -11,6 +11,9 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger'
 import { ResultInterceptor } from './common/interceptor/result.interceptor';
 import { WsAdapter } from '@nestjs/platform-ws';
 
+// 微服务
+import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+
 async function bootstrap() {
   /**
    * 使用nestjs使用的express框架启动服务
@@ -41,6 +44,15 @@ async function bootstrap() {
 
   // socket适配器
   app.useWebSocketAdapter(new WsAdapter(app))
+  
+  // 启动主程序的微服务【端口和主程序保持一致】
+  app.connectMicroservice<MicroserviceOptions>({
+    transport: Transport.TCP,
+    options: {
+      port: port,
+    },
+  });
+  app.startAllMicroservices();
 
   /**
    * swagger配置

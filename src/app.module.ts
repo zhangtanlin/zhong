@@ -22,23 +22,11 @@ import { GuessModule } from './guess/guess.module'
 import { AdModule } from './ad/ad.module'
 import { LineModule } from './line/line.module'
 import { ConfigModule } from './config/config.module'
-import { VersionModule } from './version/version.module'
 import { WsModule } from './ws/ws.module';
+import { MsModule } from './ms/ms.module'
 @Module({
   imports: [
-    /**
-     * @require [TypeOrmModule]  - 全局注册typeorm并配置连接参数
-     * @require [RedisModule]    - redis连接
-     * @require [ConfigModule]   - 整合接口
-     * @require [AdminModule]    - 管理员
-     * @require [UserModule]     - 用户
-     * @require [UploadModule]   - 上传
-     * @require [DownloadModule] - 下载
-     * @require [GuessModule]    - 竞猜活动
-     * @require [AdModule]       - 广告
-     * @require [LineModule]     - 线路
-     * @require [VersionModule]  - 版本
-     */
+    // 全局注册typeorm并配置连接参数
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
@@ -49,19 +37,31 @@ import { WsModule } from './ws/ws.module';
       entities: allEntity,
       synchronize: true
     }),
+    // redis连接
     RedisModule.register({
       url: 'redis://:@127.0.0.1:6379/0'
     }),
+    // 整合接口
     ConfigModule,
+    // 管理员
     AdminModule,
+    // 用户
     UserModule,
+    // 上传
     UploadModule,
     VideoModule,
+    // 下载
     DownloadModule,
+    // 竞猜活动
     GuessModule,
+    // 广告
     AdModule,
+    // 线路
     LineModule,
+    // socket
     WsModule,
+    // 微服务
+    MsModule,
   ],
   controllers: [
     AppController,

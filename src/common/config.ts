@@ -8,7 +8,7 @@ export const swaggerBaseUrl: string = 'http://localhost:3002'
 export const corsBaseUrlArray: string[] = [
   'http://192.168.1.159:3001',
   'http://localhost:3001',
-  'http://localhost:8080'
+  'http://localhost:8080',
 ]
 
 // token加密/解密的密钥

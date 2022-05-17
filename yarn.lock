@@ -613,6 +613,15 @@
   "resolved" "https://registry.npmjs.org/@nestjs/mapped-types/-/mapped-types-0.1.1.tgz"
   "version" "0.1.1"
 
+"@nestjs/microservices@^7.0.0", "@nestjs/microservices@^7.6.18":
+  "integrity" "sha512-vSSl9hgHgBtTye57f2PZIg36MLcv5TRdqu3QEsS50WlUmxIjISCfAeCMLk+hWQNM8zjvlLwNbKUJW+NOZ2aovA=="
+  "resolved" "https://registry.npmjs.org/@nestjs/microservices/-/microservices-7.6.18.tgz"
+  "version" "7.6.18"
+  dependencies:
+    "iterare" "1.2.1"
+    "json-socket" "0.3.0"
+    "tslib" "2.2.0"
+
 "@nestjs/platform-express@^7.0.0":
   "integrity" "sha512-A3UYYpDFih3WORBcOCiWfPOvKoEmS6Dk7YzrXyCh5KapatqX+XvLbObcjcvqzqonk4bT3IMceyhJp/ZBSwvEPA=="
   "resolved" "https://registry.npmjs.org/@nestjs/platform-express/-/platform-express-7.6.5.tgz"
@@ -4242,6 +4251,11 @@
   "integrity" "sha1-tIDIkuWaLwWVTOcnvT8qTogvnhM="
   "resolved" "https://registry.npmjs.org/json-schema/-/json-schema-0.2.3.tgz"
   "version" "0.2.3"
+
+"json-socket@0.3.0":
+  "integrity" "sha512-jc8ZbUnYIWdxERFWQKVgwSLkGSe+kyzvmYxwNaRgx/c8NNyuHes4UHnPM3LUrAFXUx1BhNJ94n1h/KCRlbvV0g=="
+  "resolved" "https://registry.npmjs.org/json-socket/-/json-socket-0.3.0.tgz"
+  "version" "0.3.0"
 
 "json-stable-stringify-without-jsonify@^1.0.1":
   "integrity" "sha1-nbe1lJatPzz+8wp1FC0tkwrXJlE="
