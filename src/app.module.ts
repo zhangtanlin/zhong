@@ -29,10 +29,10 @@ import { MsModule } from './ms/ms.module'
     // 全局注册typeorm并配置连接参数
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'localhost',
+      host: '10.211.55.3',
       port: 3306,
       username: 'root',
-      password: '123456',
+      password: 'Qaz@123456',
       database: 'website',
       entities: allEntity,
       synchronize: true

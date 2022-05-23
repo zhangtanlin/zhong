@@ -1,6 +1,12 @@
 // 服务端口
 export const port: number = 3000;
 
+// 微服务服务端口
+export const msPort: number =4000;
+
+// socket服务端口
+export const wsPort: number =5000;
+
 // swagger文档服务地址
 export const swaggerBaseUrl: string = 'http://localhost:3002'
 

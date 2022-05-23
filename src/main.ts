@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core'
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { AppModule } from './app.module'
 import { ErrorFilter } from './common/filter/error.filter'
-import { port } from "./config"
+import { msPort, port } from "./config"
 import { join } from 'path';
 import * as hbs from 'hbs';
 
@@ -49,7 +49,7 @@ async function bootstrap() {
   app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.TCP,
     options: {
-      port: port,
+      port: msPort,
     },
   });
   app.startAllMicroservices();
