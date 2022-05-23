@@ -98,3 +98,8 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 一般写法:
 ip   域名
 表明的是：把某个域名解析到某个ip上，也可以理解为让某个域名可以访问某个ip
+
+## 端口定义
+**3000** 主程序端口号
+**4000** 微服务端口
+**5000** socket服务
