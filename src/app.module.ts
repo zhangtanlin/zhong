@@ -24,22 +24,37 @@ import { LineModule } from './line/line.module'
 import { ConfigModule } from './config/config.module'
 import { SocketModule } from './socket/socket.module';
 import { MsModule } from './ms/ms.module'
+import {
+  dbHost,
+  dbName,
+  dbPort,
+  dbPwd,
+  dbType,
+  dbUserName,
+  redisDb,
+  redisHost,
+  redisPort,
+  redisPwd,
+} from './config'
 @Module({
   imports: [
     // 全局注册typeorm并配置连接参数
     TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: '10.211.55.3',
-      port: 3306,
-      username: 'root',
-      password: 'Qaz@123456',
-      database: 'website',
+      type: dbType,
+      host: dbHost,
+      port: dbPort,
+      username: dbUserName,
+      password: dbPwd,
+      database: dbName,
       entities: allEntity,
       synchronize: true
     }),
     // redis连接
     RedisModule.register({
-      url: 'redis://:@127.0.0.1:6379/0'
+      host: redisHost,
+      port: redisPort,
+      db: redisDb,
+      password: redisPwd,
     }),
     // 整合接口
     ConfigModule,
