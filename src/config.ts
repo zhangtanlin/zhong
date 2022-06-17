@@ -35,12 +35,16 @@ export const wsPort: number =5000;
 // swagger文档服务地址
 export const swaggerBaseUrl: string = 'http://localhost:3002'
 
-// 允许跨域的地址数组
-export const corsBaseUrlArray: string[] = [
+// 允许跨域的地址
+export const corsUrlArray: string[] = [
   'http://192.168.1.159:3001',
+  'http://127.0.0.1:3030',
   'http://localhost:3001',
   'http://localhost:8080',
 ]
+
+// 允许跨域的请求方式
+export const corsMethodsArray: string[] = ['GET', 'POST', 'PUT', 'DELETE']
 
 // token加密/解密的密钥
 export const passwordKey: string = '我是密钥'

@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core'
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { AppModule } from './app.module'
 import { ErrorFilter } from './common/filter/error.filter'
-import { msPort, port } from "./config"
+import { corsMethodsArray, corsUrlArray, msPort, port } from "./config"
 import { join } from 'path';
 import * as hbs from 'hbs';
 
@@ -22,10 +22,21 @@ async function bootstrap() {
    */
   const app = await NestFactory.create<NestExpressApplication>(
     AppModule,
-    {
-      cors: true
-    }
   )
+
+  /**
+   * 设置允许跨域
+   * origin: 允许跨域的地址(字符串或者数组)
+   * methods: 允许跨域的请求方式
+   * credentials: 别问我我也不知道啥意思，就知道是证书，这个要设置为true
+   * optionsSuccessStatus: 成功状态码
+   */
+  app.enableCors({
+    origin: corsUrlArray,
+    methods: corsMethodsArray,
+    credentials: true,
+    optionsSuccessStatus: 200,
+  })
 
   // 全局错误过滤
   app.useGlobalFilters(new ErrorFilter())
