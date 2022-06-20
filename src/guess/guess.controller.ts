@@ -33,7 +33,7 @@ export class GuessController {
   constructor(private readonly guessService: GuessService) {}
   /**
    * 请求列表
-   * @param     [Get]        - 请求方式
+   * @param     [Post]       - 请求方式
    * @param     [UsePipes]   - 管道验证
    * @class     [DtoPipe]    - 自己写的管道验证器【和DownloadGetDto配合使用】
    * @param     [HttpCode]   - 请求返回状态码

@@ -50,9 +50,9 @@ export class BaiduController {
   async get(@Query() querys: BaiduGetDto): Promise<ResultDto> {
     let data = null
     try {
-      const list:BaiduEntity[] = await this.baiduService.getManyAndCount(querys);
+      const list: BaiduEntity[] = await this.baiduService.getManyAndCount(querys);
       if (!list) {
-        throw new HttpException('获取列表失败', 500)
+        throw new HttpException({ message: '获取列表失败' }, 500)
       }
       data = classToPlain(list);
     } catch (error) {
@@ -82,7 +82,7 @@ export class BaiduController {
     try {
       data = await this.baiduService.save(request)
       if (!data) {
-        throw new HttpException('获取列表失败', 502)
+        throw new HttpException({ message: '获取列表失败' }, 502)
       }
     } catch (error) {
       data = {}

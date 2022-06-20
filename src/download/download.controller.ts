@@ -38,7 +38,7 @@ export class DownloadController {
    * @param    [downloadService] - 服务别名
    * @class    [DownloadService] - 服务
    */
-  constructor(private readonly downloadService: DownloadService) {}
+  constructor(private readonly downloadService: DownloadService) { }
   /**
    * 请求列表
    * @param     [Get]        - 请求方式
@@ -63,14 +63,14 @@ export class DownloadController {
         'Content-Type': 'application/octet-stream',
         'Content-Disposition': 'attachment; filename=app.apk',
       });
-      stream.on( 'data', function( chunk ) {
+      stream.on('data', function (chunk) {
         res.write(chunk, 'binary');
       });
-      stream.on( 'end', function() {
+      stream.on('end', function () {
         res.end();
       });
     } catch (error) {
-      throw new HttpException('下载失败', 502)
+      throw new HttpException({ message: '下载失败' }, 502)
     }
   }
 }

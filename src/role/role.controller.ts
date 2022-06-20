@@ -44,7 +44,7 @@ export class RoleController {
     try {
       const list: ResultListDto = await this.roleService.getManyAndCount(bodys);
       if (!list) {
-        throw new HttpException('获取列表失败', 500)
+        throw new HttpException({ message: '获取列表失败' }, 500)
       }
       return list
     } catch (error) {
@@ -68,7 +68,7 @@ export class RoleController {
     try {
       data = await this.roleService.save(request)
       if (!data) {
-        throw new HttpException('获取列表失败', 502)
+        throw new HttpException({ message: '获取列表失败' }, 502)
       }
     } catch (error) {
       data = {}

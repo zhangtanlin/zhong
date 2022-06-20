@@ -9,7 +9,7 @@ export class VideoService {
   constructor(
     @InjectRepository(VideoEntity)
     private readonly videoRepository: Repository<VideoEntity>
-  ) {}
+  ) { }
 
   // 分页查询
   async getManyAndCount(params: VideoGetDto): Promise<any> {
@@ -30,7 +30,7 @@ export class VideoService {
       data.list = list[0]
       data.total = list[1]
     } catch (error) {
-      throw new HttpException('获取列表失败', 502)
+      throw new HttpException({ message: '获取列表失败' }, 502)
     } finally {
       return data
     }
@@ -45,7 +45,7 @@ export class VideoService {
       }
       return findOneVideo
     } catch (error) {
-      throw new HttpException('查询失败', 502)
+      throw new HttpException({ message: '查询失败' }, 502)
     }
   }
 
@@ -53,10 +53,10 @@ export class VideoService {
   async findByIds(data: any[]): Promise<VideoEntity[]> {
     const findRoleArray = await this.videoRepository
       .createQueryBuilder('role')
-      .where('role.id IN (:...ids)', { ids: data})
+      .where('role.id IN (:...ids)', { ids: data })
       .getMany()
     if (!findRoleArray) {
-      throw new HttpException('查询列表失败', 502)
+      throw new HttpException({ message: '查询列表失败' }, 502)
     }
     return findRoleArray
   }
@@ -69,9 +69,9 @@ export class VideoService {
       .into(VideoEntity)
       .values(data)
       .execute()
-      if (!save) {
-        throw new HttpException('保存角色失败', 502)
-      }
+    if (!save) {
+      throw new HttpException({ message: '保存角色失败' }, 502)
+    }
     return save
   }
 }

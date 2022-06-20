@@ -23,7 +23,7 @@ export class ResourceService {
   async find(): Promise<ResourceEntity[]> {
     const findResourceArray = await this.resourceRepository.find()
     if (!findResourceArray) {
-      throw new HttpException('查询列表失败', 502)
+      throw new HttpException({ message: '查询列表失败' }, 502)
     }
     return findResourceArray
   }
@@ -35,7 +35,7 @@ export class ResourceService {
   async findByObjCondition(data: ResourceObjectDto): Promise<ResourceEntity[]> {
     const findResourceArray = await this.resourceRepository.find(data)
     if (!findResourceArray) {
-      throw new HttpException('查询列表失败', 502)
+      throw new HttpException({ message: '查询列表失败' }, 502)
     }
     return findResourceArray
   }
@@ -50,7 +50,7 @@ export class ResourceService {
       .where('resource.id IN (:...ids)', { ids: data})
       .getMany()
     if (!findResourceArray) {
-      throw new HttpException('查询列表失败', 502)
+      throw new HttpException({ message: '查询列表失败' }, 502)
     }
     return findResourceArray
   }
@@ -65,7 +65,7 @@ export class ResourceService {
       .where("resource.id = :id", { id })
       .getOne()
     if (!findResource) {
-      throw new HttpException('查询列表失败', 502)
+      throw new HttpException({ message: '查询列表失败' }, 502)
     }
     return findResource;
   }
@@ -78,19 +78,19 @@ export class ResourceService {
       name: data.name,
     });
     if (findOneByName) {
-      throw new HttpException('资源名重复', HttpStatus.FORBIDDEN);
+      throw new HttpException({ message: '资源名重复' }, HttpStatus.FORBIDDEN);
     }
     const findOneByAlias: ResourceEntity = await this.resourceRepository.findOne({
       alias: data.alias,
     });
     if (findOneByAlias) {
-      throw new HttpException('资源别名重复', HttpStatus.FORBIDDEN);
+      throw new HttpException({ message: '资源别名重复' }, HttpStatus.FORBIDDEN);
     }
     const findOneByAddress: ResourceEntity = await this.resourceRepository.findOne({
       target: data.target,
     });
     if (findOneByAddress) {
-      throw new HttpException('资源地址重复', HttpStatus.FORBIDDEN);
+      throw new HttpException({ message: '资源地址重复' }, HttpStatus.FORBIDDEN);
     }
     const resource = new ResourceEntity(); // 初始化User
     resource.name = data.name;
@@ -98,7 +98,7 @@ export class ResourceService {
     resource.target = data.target;
     const save: ResourceEntity = await this.resourceRepository.save(resource);
     if (!save) {
-      throw new HttpException('插入数据库失败', HttpStatus.FORBIDDEN);
+      throw new HttpException({ message: '插入数据库失败' }, HttpStatus.FORBIDDEN);
     }
     return save;
   }
@@ -112,7 +112,7 @@ export class ResourceService {
     try {
       const update: any = await this.resourceRepository.update(id, data)
       if (!update) {
-        throw new HttpException('存储失败', 502)
+        throw new HttpException({ message: '存储失败' }, 502)
       }
       return update
     } catch (error) {
@@ -129,7 +129,7 @@ export class ResourceService {
     resource.id = id;
     const removeOneById = await this.resourceRepository.remove(resource);
     if (!removeOneById) {
-      throw new HttpException('删除失败', HttpStatus.FORBIDDEN);
+      throw new HttpException({ message: '删除失败' }, HttpStatus.FORBIDDEN);
     }
     return true;
   }

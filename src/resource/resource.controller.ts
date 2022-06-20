@@ -57,7 +57,7 @@ export class ResourceController {
     try {
       data = await this.resourceService.find()
       if (!data) {
-        throw new HttpException('获取列表失败', 404)
+        throw new HttpException({ message: '获取列表失败' }, 404)
       }
     } catch (error) {
       data = []
@@ -100,7 +100,7 @@ export class ResourceController {
   async add(@Body() request: ResourceAddDto): Promise<any> {
     const data: ResourceEntity = await this.resourceService.save(request)
     if (!data) {
-      throw new HttpException('新增失败', 400)
+      throw new HttpException({ message: '新增失败' }, 400)
     }
     return {
       code: 200,
@@ -141,7 +141,7 @@ export class ResourceController {
        */
       resourceIdArray = decryptTokenJSON.resources.split(",")
     } catch (error) {
-      throw new HttpException('解密token失败', 500)
+      throw new HttpException({ message: '解密token失败' }, 500)
     }
     try {
       resourceArray = await this.resourceService.findByArrIds(resourceIdArray)
@@ -155,7 +155,7 @@ export class ResourceController {
       const resourceTree = idPidToTree(resourceArray)
       return resourceTree
     } catch (error) {
-      throw new HttpException('资源树生成失败', 500)
+      throw new HttpException({ message: '资源树生成失败' }, 500)
     }
   }
 

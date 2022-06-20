@@ -54,7 +54,7 @@ export class GuessService {
       data.list = list[0]
       data.total = list[1]
     } catch (error) {
-      throw new HttpException('获取列表失败', 502)
+      throw new HttpException({ message: '获取列表失败' }, 502)
     } finally {
       return data
     }

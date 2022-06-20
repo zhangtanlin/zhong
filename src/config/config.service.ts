@@ -35,7 +35,7 @@ export class ConfigService {
       const _versionEntity: VersionEntity = await this.versionService.findOne();
       cb.version = _versionEntity;
       if (!_versionEntity) {
-        throw new HttpException('版本信息查询失败', 502);
+        throw new HttpException({ message: '版本信息查询失败' }, 502);
       }
       // 用户信息
 
@@ -46,7 +46,7 @@ export class ConfigService {
       cb.ads = _adEntity;
       return cb;
     } catch (error) {
-      throw new HttpException(error.response, error.status)
+      throw new HttpException({ message: error.response }, error.status)
     }
   }
 
@@ -69,7 +69,7 @@ export class ConfigService {
       cb = await this.configRepository.findOne();
       return cb;
     } catch (error) {
-      throw new HttpException(error.response, error.status)
+      throw new HttpException({ message: error.response }, error.status)
     }
   }
 }

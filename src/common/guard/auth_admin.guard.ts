@@ -49,7 +49,7 @@ export class AuthAdminGuard implements CanActivate {
         }
         return false
       } catch (error) {
-        throw new HttpException('暂无权限', 401)
+        throw new HttpException({ message:'暂无权限' }, 401)
       }
     }
     return true

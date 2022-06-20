@@ -219,7 +219,7 @@ export class UserController {
       const tokenJSON = JSON.parse(decryptToken)
       account = tokenJSON.account
     } catch (error) {
-      throw new HttpException('解密token失败', 500)
+      throw new HttpException({ message: '解密token失败' }, 500)
     }
     return await this.userService.logout(account)
   }

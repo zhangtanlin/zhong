@@ -95,6 +95,27 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 **5000** 服务器出错
 返回的格式是状态码采用 code 字段，至于为什么不采用 status 字段，是为的是和 http 请求的 status 进行区分
 
+## nestjs 自带的错误状态返回方法
+```
+BadRequestException           — 400(客户端请求参数错误)
+UnauthorizedException         — 401(客户端需要进行身份认证)
+ForbiddenException            — 403(客户端带有身份验证，但是这个身份有问题，所以服务端拒绝执行)
+NotFoundException             — 404(客户端请求的资源服务器找不到资源)
+NotAcceptableException        — 406(客户端请求头的值不符合服务端所需要的请求头)
+RequestTimeoutException       — 408(客户端请求超时)
+ConflictException             — 409(客户端发送的请求，服务端在处理时冲突了。一般出现在类似put请求时)
+GoneException                 — 410(客户端请求的资源以前存在，现在不存在了)
+PayloadTooLargeException      — 413(客户端的请求体太大)
+UnsupportedMediaTypeException — 415(客户端的请求头/类型/格式错误，不是服务端需要的格式)
+UnprocessableEntityException  — 422(客户端的请求头/类型/格式正确，但是对应类型的书写语法错误)
+InternalServerErrorException  — 500(服务器出问题了)
+NotImplementedException       — 501(服务器无法处理当前的方法)
+BadGatewayException           — 502(服务器从上游服务器获取到的信息表示当前响应无效)
+ServiceUnavailableException   — 503(服务器维护)
+GatewayTimeoutException       — 504(服务器请求上有服务器超时)
+```
+这里采用nestjs自带的异常处理格式 {error: '具体错误信息',message: '错误描述‘}
+
 ## host文件写法
 一般写法:
 ip   域名

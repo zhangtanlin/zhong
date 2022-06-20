@@ -30,7 +30,7 @@ import { AuthAdminGuard } from 'src/common/guard/auth_admin.guard'
 @Controller('/sys/admin')
 export class AdminController {
   constructor(private readonly adminService: AdminService) { }
-  
+
   @Get()
   @UsePipes(DtoPipe)
   @UseGuards(AuthAdminGuard)
@@ -38,7 +38,7 @@ export class AdminController {
   async get(@Query() query: AdminSearchDto): Promise<any> {
     const searchParam = new AdminSearchDto()
     const param = Object.assign(searchParam, query)
-    const list:AdminEntity[] = await this.adminService.getManyAndCount(param)
+    const list: AdminEntity[] = await this.adminService.getManyAndCount(param)
     return classToPlain(list)
   }
 
@@ -109,7 +109,7 @@ export class AdminController {
       const decryptTokenJSON = JSON.parse(decryptToken)
       account = decryptTokenJSON.account
     } catch (error) {
-      throw new HttpException('解密token失败', 500)
+      throw new HttpException({ message: '解密token失败' }, 500)
     }
     return await this.adminService.logout(account)
   }

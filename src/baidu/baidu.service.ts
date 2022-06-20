@@ -12,7 +12,7 @@ export class BaiduService {
   constructor(
     @InjectRepository(BaiduEntity)
     private readonly baiduRepository: Repository<BaiduEntity>
-  ) {}
+  ) { }
 
   /**
    * 分页查询
@@ -32,11 +32,11 @@ export class BaiduService {
         .skip((params.currentPage - 1) * params.pageSize || 0)
         .take(params.pageSize || 0)
         .getManyAndCount()
-      
+
       data.list = list[0]
       data.total = list[1]
     } catch (error) {
-      throw new HttpException('获取列表失败', 502)
+      throw new HttpException({ message: '获取列表失败' }, 502)
     } finally {
       return data
     }
@@ -48,7 +48,7 @@ export class BaiduService {
   async findOne(data: object): Promise<BaiduEntity> {
     const findOneBaidu: BaiduEntity = await this.baiduRepository.findOne(data)
     if (!findOneBaidu) {
-      throw new HttpException('查询失败', 502)
+      throw new HttpException({ message: '查询失败' }, 502)
     }
     return findOneBaidu
   }
@@ -60,10 +60,10 @@ export class BaiduService {
   async findByIds(data: any[]): Promise<BaiduEntity[]> {
     const findBaiduArray = await this.baiduRepository
       .createQueryBuilder('baidu')
-      .where('baidu.id IN (:...ids)', { ids: data})
+      .where('baidu.id IN (:...ids)', { ids: data })
       .getMany()
     if (!findBaiduArray) {
-      throw new HttpException('查询列表失败', 502)
+      throw new HttpException({ message: '查询列表失败' }, 502)
     }
     return findBaiduArray
   }
@@ -78,9 +78,9 @@ export class BaiduService {
       .into(BaiduEntity)
       .values(data)
       .execute()
-      if (!save) {
-        throw new HttpException('保存角色失败', 502)
-      }
+    if (!save) {
+      throw new HttpException({ message: '保存角色失败' }, 502)
+    }
     return save
   }
 }

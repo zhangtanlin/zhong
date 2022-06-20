@@ -39,7 +39,7 @@ export class VideoController {
     try {
       const list = await this.videoService.getManyAndCount(querys)
       if (!list) {
-        throw new HttpException('获取列表失败', 500)
+        throw new HttpException({ message: '获取列表失败' }, 500)
       }
       return list
     } catch (error) {
@@ -58,7 +58,7 @@ export class VideoController {
     try {
       const data = await this.videoService.save(request)
       if (!data) {
-        throw new HttpException('获取列表失败', 500)
+        throw new HttpException({ message: '获取列表失败' }, 500)
       }
       return data
     } catch (error) {
@@ -108,7 +108,7 @@ export class VideoController {
       }
       return cb
     } catch (error) {
-      throw new HttpException('上传检测失败', 401)
+      throw new HttpException({ message: '上传检测失败' }, 401)
     }
   }
 

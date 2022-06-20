@@ -28,7 +28,8 @@ export class ErrorFilter<T> implements ExceptionFilter {
     if (request.method !== "GET") {
       // 获取返回信息
       const status = exception.status; // 状态码
-      const message = exception.response; // 返回信息
+      const message = exception.response.message; // 错误名称
+      const error = exception.response.error; //  错误详细信息
       const data = null; // 默认 data
       const path = request.url // 请求地址
       const timestamp = new Date().toISOString() // 当前 UTC 时间
@@ -36,6 +37,7 @@ export class ErrorFilter<T> implements ExceptionFilter {
       const buildMsg = {
         code: status,
         message,
+        error,
         data,
         path,
         timestamp,

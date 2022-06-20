@@ -37,7 +37,7 @@ export class UploadService {
       cb.part = getRedis || []
       return 
     } catch (error) {
-      throw new HttpException('查询失败', 502)
+      throw new HttpException({ message: '查询失败' }, 502)
     } finally {
       return cb
     }
@@ -57,14 +57,14 @@ export class UploadService {
       // 数据库是否存在md5
       const findOne: UploadEntity = await this.uploadRepository.findOne({ md5 })
       if (!!findOne) {
-        throw new HttpException('当前文件已存在', 502)
+        throw new HttpException({ message: '当前文件已存在' }, 502)
       }
       // 存储二进制文件
       const writeFilesName = md5 + "_" + chunkNumber;
       const writeFilesBuffer = file['buffer'];
       const saveFile = await saveFileBuffer(writeFilesName, writeFilesBuffer);
       if (!saveFile) {
-        throw new HttpException('存储文件失败', 502)
+        throw new HttpException({ message: '存储文件失败' }, 502)
       }
       // 验证redis里面是否存在当前分片【无论存不存在都更新里面的数据】
       const client = this.redisService.getClient()
@@ -81,7 +81,7 @@ export class UploadService {
         const newBufferFile = Buffer.concat(bufferArray);
         const mergeFile = await saveFileBuffer(fileName, newBufferFile)
         if (!mergeFile) {
-          throw new HttpException('合并文件失败', 502)
+          throw new HttpException({ message: '合并文件失败' }, 502)
         }
         // 存储数据库
         const obj = {
@@ -92,7 +92,7 @@ export class UploadService {
         }
         const save: UploadEntity = await this.uploadRepository.save(obj)
         if (!save) {
-          throw new HttpException('存储数据库失败', 502)
+          throw new HttpException({ message: '存储数据库失败' }, 502)
         }
         // 删除临时数据
         for (let index = 0; index < Number(mergeRedis); index++){
