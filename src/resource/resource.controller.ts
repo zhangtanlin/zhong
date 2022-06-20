@@ -57,7 +57,7 @@ export class ResourceController {
     try {
       data = await this.resourceService.find()
       if (!data) {
-        throw new HttpException({ error: '获取列表失败' }, 404)
+        throw new HttpException('获取列表失败', 404)
       }
     } catch (error) {
       data = []
@@ -100,7 +100,7 @@ export class ResourceController {
   async add(@Body() request: ResourceAddDto): Promise<any> {
     const data: ResourceEntity = await this.resourceService.save(request)
     if (!data) {
-      throw new HttpException({ error: '新增失败' }, 400)
+      throw new HttpException('新增失败', 400)
     }
     return {
       code: 200,

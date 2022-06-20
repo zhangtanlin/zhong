@@ -23,7 +23,7 @@ export class ResourceService {
   async find(): Promise<ResourceEntity[]> {
     const findResourceArray = await this.resourceRepository.find()
     if (!findResourceArray) {
-      throw new HttpException({ error: '查询列表失败' }, 502)
+      throw new HttpException('查询列表失败', 502)
     }
     return findResourceArray
   }
@@ -35,7 +35,7 @@ export class ResourceService {
   async findByObjCondition(data: ResourceObjectDto): Promise<ResourceEntity[]> {
     const findResourceArray = await this.resourceRepository.find(data)
     if (!findResourceArray) {
-      throw new HttpException({ error: '查询列表失败' }, 502)
+      throw new HttpException('查询列表失败', 502)
     }
     return findResourceArray
   }
@@ -50,7 +50,7 @@ export class ResourceService {
       .where('resource.id IN (:...ids)', { ids: data})
       .getMany()
     if (!findResourceArray) {
-      throw new HttpException({ error: '查询列表失败' }, 502)
+      throw new HttpException('查询列表失败', 502)
     }
     return findResourceArray
   }
@@ -65,7 +65,7 @@ export class ResourceService {
       .where("resource.id = :id", { id })
       .getOne()
     if (!findResource) {
-      throw new HttpException({ error: '查询列表失败' }, 502)
+      throw new HttpException('查询列表失败', 502)
     }
     return findResource;
   }
@@ -112,7 +112,7 @@ export class ResourceService {
     try {
       const update: any = await this.resourceRepository.update(id, data)
       if (!update) {
-        throw new HttpException({ error: '存储失败' }, 502)
+        throw new HttpException('存储失败', 502)
       }
       return update
     } catch (error) {

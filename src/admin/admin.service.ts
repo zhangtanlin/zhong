@@ -113,7 +113,7 @@ export class AdminService {
         id: data.id
       })
       if (!findOneById) {
-        throw new HttpException({ error: 'ID不存在' }, 400)
+        throw new HttpException('ID不存在', 400)
       }
       // 如果密码存在则对密码进行加密
       if (data.password) {
@@ -122,7 +122,7 @@ export class AdminService {
       // 更新信息
       const update = await this.adminRepository.update({ id: data.id }, data)
       if (!update) {
-        throw new HttpException({ error: '更新用户失败' }, 502)
+        throw new HttpException('更新用户失败', 502)
       }
       return true
     } catch (error) {
@@ -135,7 +135,7 @@ export class AdminService {
     try {
       const deleteById = await this.adminRepository.delete(data)
       if (!deleteById) {
-        throw new HttpException({ error: '删除用户失败' }, 502)
+        throw new HttpException('删除用户失败', 502)
       }
       return true
     } catch (error) {
@@ -154,7 +154,7 @@ export class AdminService {
       account: data.account
     })
     if (!findOneByAccount) {
-      throw new HttpException({ error: '账号不存在' }, 403)
+      throw new HttpException('账号不存在', 403)
     }
     // 验证名称和密码是否匹配
     const findOneAdmin = await this.adminRepository.findOne({
@@ -162,7 +162,7 @@ export class AdminService {
       password: CryptoJS.HmacSHA512(data.password, passwordKey).toString() // 密码加密
     })
     if (!findOneAdmin) {
-      throw new HttpException({ error: '密码错误' }, 403)
+      throw new HttpException('密码错误', 403)
     }
     /**
      * 根据角色id数组查询资源
@@ -204,7 +204,7 @@ export class AdminService {
       token
     )
     if (!setexRedis) {
-      throw new HttpException({ error: 'token存储redis失败' }, 500)
+      throw new HttpException('token存储redis失败', 500)
     }
     return { token }
   }
@@ -223,7 +223,7 @@ export class AdminService {
       data = true
     } catch (error) {
       data = false
-      throw new HttpException({ error: '删除redis失败' }, 500)
+      throw new HttpException('删除redis失败', 500)
     } finally {
       return data
     }

@@ -70,7 +70,7 @@ export class DownloadController {
         res.end();
       });
     } catch (error) {
-      throw new HttpException({ error: '下载失败' }, 502)
+      throw new HttpException('下载失败', 502)
     }
   }
 }

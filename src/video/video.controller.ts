@@ -108,7 +108,7 @@ export class VideoController {
       }
       return cb
     } catch (error) {
-      throw new HttpException({ error: '上传检测失败' }, 401)
+      throw new HttpException('上传检测失败', 401)
     }
   }
 

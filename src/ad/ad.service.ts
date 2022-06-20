@@ -51,7 +51,7 @@ export class AdService {
         })
         .getMany();
     } catch (error) {
-      throw new HttpException({ error: '获取列表失败' }, 502)
+      throw new HttpException('获取列表失败', 502)
     } finally {
       return data
     }

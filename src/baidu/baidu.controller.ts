@@ -82,7 +82,7 @@ export class BaiduController {
     try {
       data = await this.baiduService.save(request)
       if (!data) {
-        throw new HttpException({ error: '获取列表失败' }, 502)
+        throw new HttpException('获取列表失败', 502)
       }
     } catch (error) {
       data = {}

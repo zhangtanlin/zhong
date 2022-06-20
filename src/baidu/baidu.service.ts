@@ -36,7 +36,7 @@ export class BaiduService {
       data.list = list[0]
       data.total = list[1]
     } catch (error) {
-      throw new HttpException({ error: '获取列表失败' }, 502)
+      throw new HttpException('获取列表失败', 502)
     } finally {
       return data
     }
@@ -48,7 +48,7 @@ export class BaiduService {
   async findOne(data: object): Promise<BaiduEntity> {
     const findOneBaidu: BaiduEntity = await this.baiduRepository.findOne(data)
     if (!findOneBaidu) {
-      throw new HttpException({ error: '查询失败' }, 502)
+      throw new HttpException('查询失败', 502)
     }
     return findOneBaidu
   }
@@ -63,7 +63,7 @@ export class BaiduService {
       .where('baidu.id IN (:...ids)', { ids: data})
       .getMany()
     if (!findBaiduArray) {
-      throw new HttpException({ error: '查询列表失败' }, 502)
+      throw new HttpException('查询列表失败', 502)
     }
     return findBaiduArray
   }
@@ -79,7 +79,7 @@ export class BaiduService {
       .values(data)
       .execute()
       if (!save) {
-        throw new HttpException({ error: '保存角色失败' }, 502)
+        throw new HttpException('保存角色失败', 502)
       }
     return save
   }

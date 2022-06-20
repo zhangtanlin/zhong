@@ -28,7 +28,7 @@ export class DtoPipe implements PipeTransform {
     const object = plainToClass(metatype, value)
     const errors = await validate(object)
     if (errors.length > 0) {
-      throw new HttpException({ error: errors }, 400)
+      throw new HttpException(errors, 400)
     }
     return value
   }

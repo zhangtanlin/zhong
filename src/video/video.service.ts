@@ -30,7 +30,7 @@ export class VideoService {
       data.list = list[0]
       data.total = list[1]
     } catch (error) {
-      throw new HttpException({ error: '获取列表失败' }, 502)
+      throw new HttpException('获取列表失败', 502)
     } finally {
       return data
     }
@@ -45,7 +45,7 @@ export class VideoService {
       }
       return findOneVideo
     } catch (error) {
-      throw new HttpException({ error: '查询失败' }, 502)
+      throw new HttpException('查询失败', 502)
     }
   }
 
@@ -56,7 +56,7 @@ export class VideoService {
       .where('role.id IN (:...ids)', { ids: data})
       .getMany()
     if (!findRoleArray) {
-      throw new HttpException({ error: '查询列表失败' }, 502)
+      throw new HttpException('查询列表失败', 502)
     }
     return findRoleArray
   }
@@ -70,7 +70,7 @@ export class VideoService {
       .values(data)
       .execute()
       if (!save) {
-        throw new HttpException({ error: '保存角色失败' }, 502)
+        throw new HttpException('保存角色失败', 502)
       }
     return save
   }

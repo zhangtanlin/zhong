@@ -42,7 +42,7 @@ export class DownloadService {
   async find(querys: any): Promise<DownloadEntity[]> {
     const data: any = await this.downloadRepository.find()
     if(!data) {
-      throw new HttpException({ error: '获取下载地址失败' }, 502)
+      throw new HttpException('获取下载地址失败', 502)
     }
     return data
   }
