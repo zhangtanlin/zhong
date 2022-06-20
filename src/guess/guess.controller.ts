@@ -1,21 +1,17 @@
 /**
  * 导入
- * @requires Controller  - nest模块common导出的控制器
- * @requires Post        - nest模块common导出的post请求方式
- * @requires HttpCode    - nest模块common导出的http状态码
- * @requires Body        - nest模块common导出的Body请求参数
- * @requires Headers     - nest模块common导出的Headers请求参数
+ * @requires Controller - nest模块common导出的控制器
+ * @requires Post       - nest模块common导出的post请求方式
+ * @requires HttpCode   - nest模块common导出的http状态码
+ * @requires Body       - nest模块common导出的Body请求参数
  */
 import {
-  HttpException,
   Controller,
   HttpCode,
   UsePipes,
-  Headers,
-  Get,
   Body,
-  Param,
-  Query,
+  HttpStatus,
+  Post,
 } from '@nestjs/common'
 import { GuessService } from './guess.service'
 import { DtoPipe } from '../common/pipe/dto.pipe'
@@ -46,22 +42,10 @@ export class GuessController {
    * @faunction [UserGetDto] - 用以验证Body参数正确与否的dto方法
    * @returns   {ResultDto}  - 返回值是一个含有提示信息的对象
    */
-  @Get()
+  @Post()
   @UsePipes(DtoPipe)
-  @HttpCode(200)
-  async get(@Headers() headersArgument: any, @Query() querys: GuessGetDto): Promise<ResultDto> {
-    let cb: ResultDto = {
-      code: 200,
-      data: null,
-      message: '成功'
-    }
-    try {
-      cb.data = await this.guessService.getManyAndCount(querys)
-    } catch (error) {
-      cb.code = error.status;
-      cb.message = error.message.error;
-    } finally {
-      return cb
-    }
+  @HttpCode(HttpStatus.OK)
+  async get(@Body() bodys: GuessGetDto): Promise<ResultDto> {
+    return await this.guessService.getManyAndCount(bodys)
   }
 }
