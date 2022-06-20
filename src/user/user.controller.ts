@@ -19,6 +19,7 @@
   UsePipes,
   UseGuards,
   Delete,
+  HttpStatus,
 } from '@nestjs/common'
 import { ApiTags, ApiResponse, ApiOperation } from '@nestjs/swagger'
 import { UserService } from './user.service'
@@ -63,7 +64,9 @@ export class UserController {
    */
   @Post('/list')
   @UsePipes(DtoPipe)
-  @HttpCode(200)
+  @UseGuards(AuthAdminGuard)
+  @ApiOperation({ summary: '用户列表' })
+  @HttpCode(HttpStatus.OK)
   async get(@Body() bodys: UserSearchDto): Promise<any> {
     const searchParam = new UserSearchDto()
     const param = Object.assign(searchParam, bodys)
@@ -77,7 +80,7 @@ export class UserController {
    * @function classToPlain 表示使用class-transformer内置方法返回数据（eg：可能涉及到排除某个字段，在entity中使用@Exclude()进行排除）
    */
    @Post('/id')
-   @HttpCode(200)
+   @HttpCode(HttpStatus.OK)
    async findOne(@Body() bodys): Promise<any> {
      const findOneById: UserEntity = await this.userService.findOneById(bodys.id);
      return classToPlain(findOneById); // 使用nestjs自带的序列化返回值成功
@@ -101,7 +104,7 @@ export class UserController {
   @Post('/add')
   @UsePipes(DtoPipe)
   @UseGuards(AuthAdminGuard)
-  @HttpCode(200)
+  @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: '新增用户' })
   @ApiResponse({
     status: 200,
@@ -131,7 +134,7 @@ export class UserController {
   @Post('/edit')
   @UsePipes(DtoPipe)
   @UseGuards(AuthAdminGuard)
-  @HttpCode(200)
+  @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: '编辑用户' })
   @ApiResponse({
     status: 200,
@@ -160,7 +163,7 @@ export class UserController {
   @Post('/delete')
   @UsePipes(DtoPipe)
   @UseGuards(AuthAdminGuard)
-  @HttpCode(200)
+  @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: '删除用户' })
   @ApiResponse({
     status: 200,
@@ -186,7 +189,7 @@ export class UserController {
   @Post('login')
   @UsePipes(DtoPipe)
   @UseGuards(AuthAdminGuard)
-  @HttpCode(200)
+  @HttpCode(HttpStatus.OK)
   async login(@Body() request: UserLoginDto): Promise<any> {
     const data: boolean = await this.userService.login(request)
     return data
@@ -206,7 +209,7 @@ export class UserController {
    */
   @Delete('logout')
   @UseGuards(AuthAdminGuard)
-  @HttpCode(200)
+  @HttpCode(HttpStatus.OK)
   async logout(@Headers() headers: any): Promise<any> {
     let account = ''
     try {

@@ -93,6 +93,7 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 **4003** 理解客户端的请求，但是拒绝执行此请求
 **4004** 服务器无法找到请求的资源（网页）
 **5000** 服务器出错
+返回的格式是状态码采用 code 字段，至于为什么不采用 status 字段，是为的是和 http 请求的 status 进行区分
 
 ## host文件写法
 一般写法:
