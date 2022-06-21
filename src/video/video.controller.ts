@@ -28,7 +28,7 @@ export class VideoController {
   constructor(
     private readonly videoService: VideoService,
     private readonly redisService: RedisService
-  ) {}
+  ) { }
 
   // 查询列表【有分页条件就分页查询，没有分页查询就查询所有】
   @Get()
@@ -43,10 +43,7 @@ export class VideoController {
       }
       return list
     } catch (error) {
-      throw new HttpException(
-        error.response,
-        error.status,
-      )
+      throw new HttpException({ message: error.response }, error.status)
     }
   }
   // 新增
@@ -62,10 +59,7 @@ export class VideoController {
       }
       return data
     } catch (error) {
-      throw new HttpException(
-        error.response,
-        error.status,
-      )
+      throw new HttpException({ message: error.response }, error.status)
     }
   }
   // 编辑
@@ -74,10 +68,7 @@ export class VideoController {
       const data = '编辑成功'
       return data
     } catch (error) {
-      throw new HttpException(
-        error.response,
-        error.status,
-      )
+      throw new HttpException({ message: error.response }, error.status,)
     }
   }
 
@@ -86,7 +77,7 @@ export class VideoController {
   @UsePipes(DtoPipe)
   @UseGuards(AuthAdminGuard)
   @HttpCode(200)
-  async uploadBefore(@Body() bodys: VideoUploadBeforeDto) : Promise<any> {
+  async uploadBefore(@Body() bodys: VideoUploadBeforeDto): Promise<any> {
     let cb = {
       isUpload: false,
       notUploadArray: []
@@ -97,7 +88,7 @@ export class VideoController {
       const getVideoUploadArray = await redisClient.get('videoUpload:' + md5)
       if (!getVideoUploadArray) {
         // 如果redis里面没有数据，就查一遍数据库看是否存在
-        const findOneVideo = await this.videoService.findOne({md5})
+        const findOneVideo = await this.videoService.findOne({ md5 })
         if (!!findOneVideo) {
           cb.isUpload = true;
         } else {

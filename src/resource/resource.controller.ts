@@ -147,7 +147,7 @@ export class ResourceController {
       resourceArray = await this.resourceService.findByArrIds(resourceIdArray)
     } catch (error) {
       throw new HttpException(
-        error.response,
+        { message: error.response },
         error.status
       )
     }

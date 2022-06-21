@@ -118,12 +118,18 @@ export class UserService {
         .andWhere('user.email like :email')
         .andWhere('user.status like :status')
         .setParameters({
-          account: `%${query.account ? query.account : ''}%`, // 账号
-          name: `%${query.name ? query.name : ''}%`,          // 用户名
-          phone: `%${query.phone ? query.phone : ''}%`,       // 电话
-          area: `%${query.area ? query.area : ''}%`, // 区域代码
-          email: `%${query.email ? query.email : ''}%`,       // 邮箱
-          status: `%${query.status ? query.status : ''}%`,    // 状态
+          // 账号
+          account: `%${query.account ? query.account : ''}%`,
+          // 用户名
+          name: `%${query.name ? query.name : ''}%`,
+          // 电话
+          phone: `%${query.phone ? query.phone : ''}%`,
+          // 区域代码
+          area: `%${query.area ? query.area : ''}%`,
+          // 邮箱
+          email: `%${query.email ? query.email : ''}%`,
+          // 状态
+          status: `%${query.status ? query.status : ''}%`,
         })
         .skip((query.page - 1) * query.pageSize)
         .take(query.pageSize)
@@ -141,23 +147,24 @@ export class UserService {
    * 新增用户
    * @class [UserInsertDto] - 新增用户dto
    */
-  async save(data: UserInsertDto): Promise<UserEntity> {
+  async save(data: UserInsertDto): Promise<boolean> {
     try {
       // 验证账号是否存在
       const findOneByAccount = await this.userRepository.findOne({
         account: data.account
       })
       if (findOneByAccount) {
-        throw new HttpException({ message: '账号已存在' }, 400)
+        throw new ConflictException({ message: '账号已存在' })
+
       }
       // 密码加密
       data.password = CryptoJS.HmacSHA512(data.password, passwordKey).toString()
       // 保存用户信息
       const save: UserEntity = await this.userRepository.save(data)
       if (!save) {
-        throw new HttpException({ message: '入库失败' }, 502)
+        throw new BadGatewayException({ message: '入库失败' })
       }
-      return save
+      return true
     } catch (error) {
       throw new HttpException(error.response, error.status)
     }
@@ -187,7 +194,7 @@ export class UserService {
       }
       return true
     } catch (error) {
-      throw new HttpException(error.response, error.status)
+      throw new HttpException({message: error.response}, error.status)
     }
   }
 
@@ -213,11 +220,12 @@ export class UserService {
    * @class [UserLoginDto] - 验证用户登陆参数的dto【用户名和密码】
    * @callback 返回token字符串
    */
-  async login(data: UserLoginDto): Promise<any> {
+  async login(data: UserLoginDto): Promise<UserLoginType> {
     // 验证account是否存在
     const findOneByAccount = await this.userRepository.findOne({
       account: data.account
     })
+    console.log('findOneByAccount', findOneByAccount)
     if (!findOneByAccount) {
       throw new HttpException({ message: '账号不存在' }, 403)
     }
@@ -235,43 +243,43 @@ export class UserService {
      * @param {array}  [roleArray]         - 角色数组
      * @param {string} [resourceIdsString] - 以逗号分隔的资源id字符串
      * @param {array}  [temporaryArray]    - 【局部变量】资源id数组【使用[...new set()]把数组去重】
-     */
-    const roleIdArray = findOneUser.roles.split(",")
-    const roleArray = await this.roleService.findByIds(roleIdArray)
-    let resourceIdsString = ''
-    if (Array.isArray(roleArray) && roleArray.length) {
-      let temporaryArray = []
-      for (const iterator of roleArray) {
-        temporaryArray.push(iterator.resources.split(","))
+       */
+      const roleIdArray = findOneUser.roles.split(",")
+      const roleArray = await this.roleService.findByIds(roleIdArray)
+      let resourceIdsString = ''
+      if (Array.isArray(roleArray) && roleArray.length) {
+        let temporaryArray = []
+        for (const iterator of roleArray) {
+          temporaryArray.push(iterator.resources.split(","))
+        }
+        temporaryArray = [...new Set(temporaryArray)]
+        resourceIdsString = String(temporaryArray)
       }
-      temporaryArray = [...new Set(temporaryArray)]
-      resourceIdsString = String(temporaryArray)
-    }
-    /**
-     * 生成token
-     * @param {string} [token] - 加密token【含账号/id/角色/资源】
-     * @require [client] - redis服务
-     * @function [addRedis] - 把token保存到redis【redis保存的key值为=>'账号:token'}】
-     */
-    const token = CryptoJS.AES.encrypt(
-      JSON.stringify({
-        account: findOneUser.account,
-        id: findOneUser.id,
-        roles: findOneUser.roles,
-        resources: resourceIdsString
-      }),
-      passwordKey
-    ).toString()
-    const client = await this.redisService.getClient()
-    const setexRedis = await client.setex(
-      findOneUser.account + ':token',
-      600000,
-      token
-    )
-    if (!setexRedis) {
-      throw new HttpException({ message: 'token存储redis失败' }, 500)
-    }
-    return { token }
+      /**
+       * 生成token
+       * @param {string} [token] - 加密token【含账号/id/角色/资源】
+       * @require [client] - redis服务
+       * @function [addRedis] - 把token保存到redis【redis保存的key值为=>'账号:token'}】
+       */
+      const token = CryptoJS.AES.encrypt(
+        JSON.stringify({
+          account: findOneUser.account,
+          id: findOneUser.id,
+          roles: findOneUser.roles,
+          resources: resourceIdsString
+        }),
+        passwordKey
+      ).toString()
+      const client = await this.redisService.getClient()
+      const setexRedis = await client.setex(
+        findOneUser.account + ':token',
+        600000,
+        token
+      )
+      if (!setexRedis) {
+        throw new HttpException({ message: 'token存储redis失败' }, 500)
+      }
+      return { token }
   }
 
   /**

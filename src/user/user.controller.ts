@@ -112,9 +112,9 @@ export class UserController {
       '状态码200表示请求成功，其他值表示失败，失败原因会写在message里面',
     type: ResultDto
   })
-  async add(@Body() bodys: UserInsertDto): Promise<any> {
-    const data: UserEntity = await this.userService.save(bodys)
-    return classToPlain(data)
+  async add(@Body() bodys: UserInsertDto): Promise<boolean> {
+    const data: boolean = await this.userService.save(bodys)
+    return data
   }
 
   /**
@@ -172,8 +172,7 @@ export class UserController {
     type: ResultDto
   })
   async delete(@Body() request: IdDto): Promise<any> {
-    const data: Boolean = await this.userService.deleteById(request)
-    return data
+    return await this.userService.deleteById(request)
   }
 
   /**
@@ -191,8 +190,7 @@ export class UserController {
   @UseGuards(AuthAdminGuard)
   @HttpCode(HttpStatus.OK)
   async login(@Body() request: UserLoginDto): Promise<any> {
-    const data: boolean = await this.userService.login(request)
-    return data
+    return await this.userService.login(request)
   }
 
   /**

@@ -41,18 +41,7 @@ export class RoleController {
   @UseGuards(AuthAdminGuard)
   @HttpCode(200)
   async get(@Body() bodys: RoleGetDto): Promise<ResultListDto> {
-    try {
-      const list: ResultListDto = await this.roleService.getManyAndCount(bodys);
-      if (!list) {
-        throw new HttpException({ message: '获取列表失败' }, 500)
-      }
-      return list
-    } catch (error) {
-      throw new HttpException(
-        error.response,
-        error.status,
-      )
-    }
+    return await this.roleService.getManyAndCount(bodys);
   }
   /**
    * 新增
@@ -64,38 +53,13 @@ export class RoleController {
   @UseGuards(AuthAdminGuard)
   @HttpCode(200)
   async add(@Body() request: RoleAddDto): Promise<ResultDto> {
-    let data = null
-    try {
-      data = await this.roleService.save(request)
-      if (!data) {
-        throw new HttpException({ message: '获取列表失败' }, 502)
-      }
-    } catch (error) {
-      data = {}
-    } finally {
-      return {
-        code: 200,
-        message: '成功',
-        data
-      }
-    }
+    return await this.roleService.save(request)
   }
   /**
    * 编辑
    * @param [] -
    */
-  async edit(@Body() request: RoleAddDto): Promise<ResultDto> {
-    let data = null
-    try {
-      data = '编辑成功'
-    } catch (error) {
-      data = '编辑失败'
-    } finally {
-      return {
-        code: 200,
-        message: '成功',
-        data
-      }
-    }
+  async edit(@Body() request: RoleAddDto) {
+    return {}
   }
 }
