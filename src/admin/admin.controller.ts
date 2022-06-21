@@ -31,6 +31,11 @@ import { AuthAdminGuard } from 'src/common/guard/auth_admin.guard'
 export class AdminController {
   constructor(private readonly adminService: AdminService) { }
 
+  /**
+   * 请求搜索列表
+   * @param query 
+   * @returns 
+   */
   @Get()
   @UsePipes(DtoPipe)
   @UseGuards(AuthAdminGuard)

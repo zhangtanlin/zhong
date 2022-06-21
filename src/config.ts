@@ -1,13 +1,15 @@
 // 服务端口
 export const port: number = 3000;
 
-// 数据库
-// dbType: 数据库类型
-// dbHost: 数据库ip
-// dbPort: 数据库端口
-// dbUserName: 数据库用户名
-// dbPwd: 数据库密码
-// dbName: 数据库名称
+/**
+ * 数据库
+ * dbType: 数据库类型
+ * dbHost: 数据库ip
+ * dbPort: 数据库端口
+ * dbUserName: 数据库用户名
+ * dbPwd: 数据库密码
+ * dbName: 数据库名称
+ */
 export const dbType: any = 'mysql'
 export const dbHost: string = '10.211.55.3'
 export const dbPort: number = 3306
@@ -15,12 +17,14 @@ export const dbUserName: string = 'root'
 export const dbPwd: string = 'Qaz@123456'
 export const dbName: string = 'website'
 
-// redis
-// redisType: 数据库类型
-// redisHost: 数据库ip
-// redisPort: 数据库端口
-// redisPwd: 数据库密码
-// redisDb: 数据库名称
+/**
+ * redis
+ * redisType: 数据库类型
+ * redisHost: 数据库ip
+ * redisPort: 数据库端口
+ * redisPwd: 数据库密码
+ * redisDb: 数据库名称
+ */
 export const redisHost: string = '10.211.55.3'
 export const redisPort: number = 6379
 export const redisPwd: string = 'Qaz@123456'
