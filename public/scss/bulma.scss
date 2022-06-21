@@ -1,0 +1,86 @@
+@charset "utf-8";
+
+// 颜色
+$transparent: transparent;
+$white: hsl(0, 0%, 100%);
+$grey_default: rgba(0, 0, 0, .4);
+$grey_dark: hsl(0, 0%, 29%);
+$black: hsl(0, 0%, 4%);
+$orange_default: rgb(247, 68, 33);
+// 样式
+$normal: normal;
+// 阴影
+$shadow_default: 0 0.5em 1em -0.125em rgba($black, 0.1),
+0 0px 0 1px rgba($black, 0.02);
+// 圆角
+$radius_default: .25rem;
+
+
+// 更新bulma的全局变量
+$danger: $orange_default;
+$primary: hsl(171, 100%, 41%);
+$column-gap: .5rem;
+$body-background-color: rgb(247, 248, 249); // body背景色
+
+
+// 更改 navbar 导航组件变量
+$navbar-background-color: $grey_default;
+$navbar-item-color: $white;
+$navbar-item-hover-color: $white;
+$navbar-item-hover-background-color: $grey_dark;
+$navbar-item-active-color: $white;
+$navbar-item-active-background-color: $grey_dark;
+$navbar-dropdown-background-color: $grey_default;
+$navbar-dropdown-item-hover-color: $white;
+$navbar-dropdown-item-hover-background-color: $grey_dark;
+$navbar-dropdown-item-active-color: $white;
+$navbar-dropdown-item-active-background-color: $grey_dark;
+$navbar-dropdown-arrow: $white;
+// 更改 card 卡片组件变量
+$card-radius: $radius_default;
+$card-header-weight: $normal;
+$card-content-padding: .0 .75rem .75rem .75rem;
+// 更改 image 图片组件变量
+$dimensions: 12 14 16 24 32 48 64 96 128;
+// 更改 breadcrumb 面包屑组件变量
+$breadcrumb-item-color: $black;
+$breadcrumb-item-hover-color: $orange_default;
+$breadcrumb-item-active-color: $orange_default;
+$breadcrumb-item-padding-horizontal: .5rem;
+// 更改 Pagination 分页组件变量
+$pagination-current-background-color: $orange_default;
+$pagination-current-border-color: $orange_default;
+$pagination-active-border-color: $orange_default;
+$pagination-hover-border-color: $orange_default;
+$pagination-focus-border-color: $orange_default;
+// 更改 box 盒子组件变量
+$box-padding: 0.75rem 1.25rem 0rem 1rem;
+
+
+// 只从bulma导入需要的组件
+@import "../../node_modules/bulma/sass/base/_all.sass";
+
+@import "../../node_modules/bulma/sass/form/_all.sass";
+
+@import "../../node_modules/bulma/sass/utilities/_all.sass";
+
+@import "../../node_modules/bulma/sass/elements/button.sass";
+@import "../../node_modules/bulma/sass/elements/image.sass";
+@import "../../node_modules/bulma/sass/elements/box.sass";
+@import "../../node_modules/bulma/sass/elements/title.sass";
+
+@import "../../node_modules/bulma/sass/components/navbar.sass";
+@import "../../node_modules/bulma/sass/components/dropdown.sass";
+@import "../../node_modules/bulma/sass/components/card.sass";
+@import "../../node_modules/bulma/sass/components/pagination.sass";
+@import "../../node_modules/bulma/sass/components/breadcrumb.sass";
+@import "../../node_modules/bulma/sass/components/modal.sass";
+
+@import "../../node_modules/bulma/sass/grid/columns.sass";
+
+@import "../../node_modules/bulma/sass/helpers/visibility.sass";
+@import "../../node_modules/bulma/sass/helpers/spacing.sass";
+@import "../../node_modules/bulma/sass/helpers/flexbox.sass";
+@import "../../node_modules/bulma/sass/helpers/typography.sass";
+@import "../../node_modules/bulma/sass/helpers/color.sass";
+@import "../../node_modules/bulma/sass/helpers/position.sass";

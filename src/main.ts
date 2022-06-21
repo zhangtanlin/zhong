@@ -47,10 +47,16 @@ async function bootstrap() {
    */
   app.useGlobalInterceptors(new ResultInterceptor());
 
-  // 模板
+  /**
+   * 模板
+   * useStaticAssets:设置模板静态资源目录
+   * setBaseViewsDir:设置模板目录
+   * registerPartials:设置公共模板
+   * setViewEngine:设置模板引擎
+   */
   app.useStaticAssets(join(__dirname, '..', 'public'));
   app.setBaseViewsDir(join(__dirname, '..', 'views'));
-  hbs.registerPartials(join(__dirname, '..', '/views/partials')); // 设置公共模板
+  hbs.registerPartials(join(__dirname, '..', '/views/partials'));
   app.setViewEngine('hbs');
 
   // socket适配器
