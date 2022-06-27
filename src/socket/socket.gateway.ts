@@ -21,7 +21,6 @@ export class SocketGateway {
 
   @SubscribeMessage('event')
   handleMessage(client: any, payload: any): string {
-    console.log(`参数：${payload}`);
     return `socket返回值:${payload}`;
   }
 }
