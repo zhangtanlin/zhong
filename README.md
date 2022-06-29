@@ -155,3 +155,12 @@ npm run css-build
 # 监听 bulma 依赖更改,进行构建
 npm run css-watch
 ```
+
+## 部署
+建议使用pm2部署
+```javascript
+# 在pm2上启动服务
+pm2 start --name "在pm2中的名字" main.js
+# 设置开机启动
+pm2 save
+```
