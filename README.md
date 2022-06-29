@@ -59,6 +59,29 @@
 使用**bulma**作为**ui**框架,<br/>
 未完待续......
 
+## 服务器
+**在linux服务器上开启相关端口的方法**<br />
+注意:需要开启redis的6379，mysql的3306，以及我们的nestjs的3000端口。
+```bash
+# 第一步：查看zone名称命令：
+firewall-cmd --get-active-zones
+# 显示
+public
+  interfaces: ens33
+# 第二步：开启6379端口命令：
+firewall-cmd --zone=public --add-port=6379/tcp --permanent
+# 显示
+success
+# 第三步：重启防火墙命令：
+firewall-cmd --reload
+# 显示
+success
+# 第四步：检查端口是否开启命令：
+firewall-cmd --query-port=6379/tcp
+# 显示
+yes
+```
+
 ## 服务端相关
 
 ###### 运行程序的一些方法
