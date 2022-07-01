@@ -1,17 +1,17 @@
 /**
  * entity导入表
- * @requires [AdminEntity]    - 管理员
- * @requires [UserEntity]     - 用户
- * @requires [RoleEntity]     - 角色
- * @requires [ResourceEntity] - 资源
- * @requires [UploadEntity]   - 上传
- * @requires [VideoEntity]    - 视频
- * @requires [DownloadEntity] - 下载
- * @requires [GuessEntity]    - 活动
- * @requires [AdEntity]       - 广告
- * @requires [LineEntity]     - 线路
- * @requires [VersionEntity]  - 版本号
- * @requires [ConfigEntity]   - 配置信息
+ * @requires [AdminEntity]        - 管理员
+ * @requires [UserEntity]         - 用户
+ * @requires [RoleEntity]         - 角色
+ * @requires [ResourceEntity]     - 资源
+ * @requires [UploadEntity]       - 上传
+ * @requires [VideoEntity]        - 视频
+ * @requires [DownloadEntity]     - 下载
+ * @requires [GuessEntity]        - 活动
+ * @requires [AdEntity]           - 广告
+ * @requires [LineEntity]         - 线路
+ * @requires [VersionEntity]      - 版本号
+ * @requires [SystemConfigEntity] - 系统配置
  */
 import { AdminEntity } from 'src/admin/admin.entity'
 import { UserEntity } from '../../user/user.entity'
@@ -24,7 +24,7 @@ import { GuessEntity } from '../../guess/entity/guess.entity'
 import { AdEntity } from '../../ad/ad.entity'
 import { LineEntity } from 'src/line/line.entity'
 import { VersionEntity } from 'src/version/version.entity'
-import { ConfigEntity } from 'src/config/config.entity'
+import { SystemConfigEntity } from 'src/system/system.config.entity'
 
 /**
  * allEntity导出
@@ -42,5 +42,5 @@ export const allEntity: any[] = [
   AdEntity,
   LineEntity,
   VersionEntity,
-  ConfigEntity,
+  SystemConfigEntity,
 ]

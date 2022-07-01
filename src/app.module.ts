@@ -21,7 +21,7 @@ import { DownloadModule } from './download/download.module'
 import { GuessModule } from './guess/guess.module'
 import { AdModule } from './ad/ad.module'
 import { LineModule } from './line/line.module'
-import { ConfigModule } from './config/config.module'
+import { SystemModule } from './system/system.module'
 import { SocketModule } from './socket/socket.module';
 import { MsModule } from './ms/ms.module'
 import {
@@ -56,14 +56,15 @@ import {
       db: redisDb,
       password: redisPwd,
     }),
-    // 整合接口
-    ConfigModule,
+    // 系统
+    SystemModule,
     // 管理员
     AdminModule,
     // 用户
     UserModule,
     // 上传
     UploadModule,
+    // 视频
     VideoModule,
     // 下载
     DownloadModule,
