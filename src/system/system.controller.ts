@@ -35,7 +35,7 @@ export class SystemController {
  * 系统配置信息
  * 测试第二个控制器
  */
-@Controller('/admin/config')
+@Controller('/api/config')
 export class SystemConfigController {
   constructor(private readonly systemService: SystemService) { }
   // 整合接口
