@@ -179,8 +179,27 @@ npm run css-build
 npm run css-watch
 ```
 
-## 部署
-建议使用pm2部署
+## 打包/部署
+###### 打包
+由于项目中views/src/public在同一个层级，所以在打包时需要在nestjs-cli.json中配置
+```json
+  "compilerOptions": {    
+    "assets": [
+      {
+        "include": "../assets",
+        "outDir": "dist/public",
+        "watchAssets": true
+      },
+      {
+        "include": "../views",
+        "outDir": "dist/views",
+        "watchAssets": true
+      }
+    ],
+  }
+```
+这样才会在打包时把public/views两个文件打包到dist文件夹内。
+###### 建议使用pm2部署
 ```javascript
 # 在pm2上启动服务
 pm2 start --name "在pm2中的名字" main.js

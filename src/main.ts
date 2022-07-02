@@ -54,10 +54,10 @@ async function bootstrap() {
    * registerPartials:设置公共模板
    * setViewEngine:设置模板引擎
    */
-  app.useStaticAssets(join(__dirname, '..', 'public'));
-  app.setBaseViewsDir(join(__dirname, '..', 'views'));
-  hbs.registerPartials(join(__dirname, '..', '/views/partials'));
+  app.useStaticAssets(join(__dirname, '../public'));
+  app.setBaseViewsDir(join(__dirname, '../views'));
   app.setViewEngine('hbs');
+  hbs.registerPartials(join(__dirname, '../views/partials'));
 
   // socket适配器
   app.useWebSocketAdapter(new WsAdapter(app))

@@ -1,43 +1,31 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-  <head>
-    {{>head}}
-    {{!-- 页面描述 --}}
-    <meta name="description" content="这是首页"/>
-    <title>xx官网</title>
-    <link rel="stylesheet" href="./css/style.css">
-  </head>
-  <body>
-    <div class="home">
-      {{ message }}
-      <img class="home-open-img" src="./images/ad-open.png" alt="" srcset="">
-    </div>
-    <script src="./js/main.js"></script>
-    <script>
-      // 创建websocket
-      var socket = new WebSocket("ws://127.0.0.1:5000");
-      // 打开连接
-      socket.onopen = function() {
-        console.log("打开连接");
-        socket.send(
-          JSON.stringify({
-            event: "event",
-            data: "客户端发送的参数",
-          }),
-        );
-      };
-      // 接收消息
-      socket.onmessage = function(data) {
-        console.log("接收消息:", JSON.stringify(data));
-      };
-      // 关闭连接
-      socket.onclose = function(data) {
-        console.log("关闭连接:", JSON.stringify(data));
-      }
-      // 连接错误
-      socket.onerror = function(data) {
-        console.log("连接错误:", JSON.stringify(data));
-      }
-    </script>
-  </body>
-</html>
+<div class="home">
+  {{ message }}
+  <img class="home-open-img" src="./images/ad-open.png" alt="" srcset="">
+</div>
+<script src="./js/main.js"></script>
+<script>
+  // 创建websocket
+  var socket = new WebSocket("ws://127.0.0.1:5000");
+  // 打开连接
+  socket.onopen = function () {
+    console.log("打开连接");
+    socket.send(
+      JSON.stringify({
+        event: "event",
+        data: "客户端发送的参数",
+      }),
+    );
+  };
+  // 接收消息
+  socket.onmessage = function (data) {
+    console.log("接收消息:", JSON.stringify(data));
+  };
+  // 关闭连接
+  socket.onclose = function (data) {
+    console.log("关闭连接:", JSON.stringify(data));
+  }
+  // 连接错误
+  socket.onerror = function (data) {
+    console.log("连接错误:", JSON.stringify(data));
+  }
+</script>
