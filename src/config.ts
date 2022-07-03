@@ -11,7 +11,7 @@ export const port: number = 3000;
  * dbName: 数据库名称
  */
 export const dbType: any = 'mysql'
-export const dbHost: string = '10.211.55.3'
+export const dbHost: string = '127.0.0.1'
 export const dbPort: number = 3306
 export const dbUserName: string = 'root'
 export const dbPwd: string = 'Qaz@123456'
@@ -25,7 +25,7 @@ export const dbName: string = 'website'
  * redisPwd: 数据库密码
  * redisDb: 数据库名称
  */
-export const redisHost: string = '10.211.55.3'
+export const redisHost: string = '127.0.0.1'
 export const redisPort: number = 6379
 export const redisPwd: string = 'Qaz@123456'
 export const redisDb: number = 0
