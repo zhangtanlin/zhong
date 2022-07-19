@@ -1,4 +1,4 @@
-import { Injectable, HttpException, Inject, forwardRef, HttpStatus } from '@nestjs/common'
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { ResourceEntity } from './entity/resource.entity'
 import { Repository } from 'typeorm'
@@ -33,7 +33,9 @@ export class ResourceService {
    * @param {object} data - 资源列表条件【注意是对象】
    */
   async findByObjCondition(data: ResourceObjectDto): Promise<ResourceEntity[]> {
-    const findResourceArray = await this.resourceRepository.find(data)
+    const findResourceArray = await this.resourceRepository.find({
+      where: data
+    })
     if (!findResourceArray) {
       throw new HttpException({ message: '查询列表失败' }, 502)
     }
@@ -47,7 +49,7 @@ export class ResourceService {
   async findByArrIds(data: any[]): Promise<ResourceEntity[]> {
     const findResourceArray = await this.resourceRepository
       .createQueryBuilder('resource')
-      .where('resource.id IN (:...ids)', { ids: data})
+      .where('resource.id IN (:...ids)', { ids: data })
       .getMany()
     if (!findResourceArray) {
       throw new HttpException({ message: '查询列表失败' }, 502)
@@ -74,19 +76,19 @@ export class ResourceService {
    * 保存
    */
   async save(data: ResourceAddDto): Promise<ResourceEntity> {
-    const findOneByName: ResourceEntity = await this.resourceRepository.findOne({
+    const findOneByName: ResourceEntity = await this.resourceRepository.findOneBy({
       name: data.name,
     });
     if (findOneByName) {
       throw new HttpException({ message: '资源名重复' }, HttpStatus.FORBIDDEN);
     }
-    const findOneByAlias: ResourceEntity = await this.resourceRepository.findOne({
+    const findOneByAlias: ResourceEntity = await this.resourceRepository.findOneBy({
       alias: data.alias,
     });
     if (findOneByAlias) {
       throw new HttpException({ message: '资源别名重复' }, HttpStatus.FORBIDDEN);
     }
-    const findOneByAddress: ResourceEntity = await this.resourceRepository.findOne({
+    const findOneByAddress: ResourceEntity = await this.resourceRepository.findOneBy({
       target: data.target,
     });
     if (findOneByAddress) {

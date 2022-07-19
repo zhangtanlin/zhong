@@ -12,6 +12,11 @@
         "include": "../views",
         "outDir": "dist/views",
         "watchAssets": true
+      },
+      {
+        "include": "../env",
+        "outDir": "dist/env",
+        "watchAssets": true
       }
     ]
   }

@@ -1,10 +1,9 @@
 import { SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { Server } from 'http';
-import { wsPort } from 'src/config';
 
 // socket网关
 @WebSocketGateway(
-  wsPort,
+  5000,
   {
     // 解决跨域
     allowEI03: true,

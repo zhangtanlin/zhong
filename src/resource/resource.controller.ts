@@ -23,9 +23,9 @@ import { ResourceAddDto } from './dto/resource.add.dto'
 import { ResourceEntity } from './entity/resource.entity'
 import { ResourceObjectDto } from './dto/resource.object.dto'
 import { idPidToTree } from '../common/utils/tool'
-import * as CryptoJS from 'crypto-js'
-import { passwordKey } from '../config'
+import { AES, enc } from 'crypto-js'
 import { AuthAdminGuard } from 'src/common/guard/auth_admin.guard'
+import { ConfigService } from '@nestjs/config'
 
 /**
  * 资源控制器
@@ -36,7 +36,8 @@ export class ResourceController {
    * 函数
    */
   constructor(
-    private readonly resourceService: ResourceService
+    private readonly resourceService: ResourceService,
+    private readonly configService: ConfigService,
   ) { }
 
   /**
@@ -128,8 +129,11 @@ export class ResourceController {
        * @param [decryptToken]     - 解密请求头的authorization参数
        * @param [decryptTokenJSON] - 把解密后的字符串转换成json格式
        */
-      const decryptToken = CryptoJS.AES.decrypt(headersArgument.authorization, passwordKey).toString(
-        CryptoJS.enc.Utf8
+      const decryptToken = AES.decrypt(
+        headersArgument.authorization,
+        this.configService.get('TOKEN_KEY'),
+      ).toString(
+        enc.Utf8
       )
       const decryptTokenJSON = JSON.parse(decryptToken)
       /**

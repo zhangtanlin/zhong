@@ -4,7 +4,6 @@
  */
 import * as fs from "fs"
 import * as path from 'path'
-import { uploadVideoBaseUrl } from "../../config"
 
 /**
  * 把id和pid组合成树
@@ -34,7 +33,11 @@ export const idPidToTree = (arr) => {
  * @param {buffer} [buffer]      - 传递过来的二进制文件
  * @returns {boolean} [cb] - 返回成功失败的状态    
  */
-export const saveFileBuffer = async (fileName, buffer, filePath = uploadVideoBaseUrl) => {
+export const saveFileBuffer = async (
+  fileName,
+  buffer,
+  filePath,
+) => {
   var cb = true
   const writeFilesUrl = path.join(filePath + fileName)
   try {
@@ -51,7 +54,10 @@ export const saveFileBuffer = async (fileName, buffer, filePath = uploadVideoBas
  * @param {buffer} [buffer] - 传递过来的二进制文件
  * @returns {any} [cb] - 返回值为null或者buffer
  */
-export const readFileBuffer = async (fileName, filePath = uploadVideoBaseUrl) => {
+export const readFileBuffer = async (
+  fileName,
+  filePath,
+) => {
   var cb = null;
   const readFilesPath = path.join(filePath + fileName)
   try {
@@ -68,7 +74,7 @@ export const readFileBuffer = async (fileName, filePath = uploadVideoBaseUrl) =>
  * @param {buffer} [buffer] - 传递过来的二进制文件
  * @returns {any} [cb] - 返回值为null或者buffer
  */
-export const unlinkFile = async (fileName, filePath = uploadVideoBaseUrl) => {
+export const unlinkFile = async (fileName: string, filePath: string,) => {
   var cb = false;
   const unlinkFilesPath = path.join(filePath + fileName)
   try {

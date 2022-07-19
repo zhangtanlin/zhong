@@ -5,9 +5,10 @@ import {
   HttpException
 } from '@nestjs/common'
 import { Observable } from 'rxjs'
-import { RedisService } from 'nestjs-redis'
-import * as CryptoJS from 'crypto-js'
-import { passwordKey } from '../../config'
+import { ConfigService } from '@nestjs/config'
+import { InjectRedis } from '@liaoliaots/nestjs-redis'
+import { AES, enc } from 'crypto-js'
+import Ioredis from 'ioredis'
 
 // api接口-守卫
 @Injectable()
@@ -16,10 +17,13 @@ export class AuthApiGuard implements CanActivate {
    * 私有方法注册
    * @param redisService - redis服务注册
    */
-  constructor(private readonly redisService: RedisService) { }
+  constructor(
+    private readonly configService: ConfigService,
+    @InjectRedis()
+    private readonly ioredis: Ioredis,
+  ) { }
 
   /**
-   * @param [redisClient]      - 连接redis的服务
    * @param [request]          - 客户端请求参数
    * @param [token]            - 客户端的authorization值
    * @param [decryptToken]     - 服务端解密token【解密后的值是字符串】
@@ -29,26 +33,27 @@ export class AuthApiGuard implements CanActivate {
   canActivate(
     context: ExecutionContext
   ): boolean | Promise<boolean> | Observable<boolean> {
-    const redisClient = this.redisService.getClient()
     const request = context.switchToHttp().getRequest()
     const token = request.headers.authorization
-    console.log('地址：', request.url, request.body);
-    // if (request.url !== '/api/user/login') {
-    //   try {
-    //     const decryptToken = CryptoJS.AES.decrypt(token, passwordKey).toString(
-    //       CryptoJS.enc.Utf8
-    //     )
-    //     const decryptTokenJSON = JSON.parse(decryptToken)
-    //     const decryptTokenName = decryptTokenJSON.name
-    //     const getRedisToken = redisClient.get(decryptTokenName + ':token')
-    //     if (!getRedisToken) {
-    //       return false
-    //     }
-    //     return true
-    //   } catch (error) {
-    //     throw new HttpException({ error: '暂无权限' }, 401)
-    //   }
-    // }
+    if (request.url !== '/api/user/login') {
+      try {
+        const decryptToken = AES.decrypt(
+          token,
+          this.configService.get('TOKEN_KEY'),
+        ).toString(
+          enc.Utf8
+        )
+        const tokenJSON = JSON.parse(decryptToken)
+        const account = tokenJSON.account
+        const getRedisToken = this.ioredis.get(account + ':token')
+        if (!getRedisToken) {
+          return false
+        }
+        return true
+      } catch (error) {
+        throw new HttpException({ error: '暂无权限' }, 401)
+      }
+    }
     return true
   }
 }

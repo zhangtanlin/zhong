@@ -3,19 +3,21 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UploadEntity } from './entity/upload.entity';
 import { Repository } from 'typeorm';
 import { Md5Dto } from '../common/dto/md5.dto';
-import { RedisService } from 'nestjs-redis';
-import * as path from 'path'
-import { saveFileBuffer, readFileBuffer, unlinkFile } from "../common/utils/tool"
-import { rejects } from 'assert';
-import { resolve } from 'dns';
+import Ioredis from 'ioredis'
+import path from 'path'
+import { readFileBuffer, saveFileBuffer, unlinkFile } from "../common/utils/tool"
+import { InjectRedis } from '@liaoliaots/nestjs-redis';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class UploadService {
   constructor(
     @InjectRepository(UploadEntity)
     private readonly uploadRepository: Repository<UploadEntity>,
-    private readonly redisService: RedisService,
-  ) {}
+    @InjectRedis()
+    private readonly ioredis: Ioredis,
+    private readonly configService: ConfigService,
+  ) { }
 
   /**
    * 根据md5查询一条数据
@@ -27,15 +29,14 @@ export class UploadService {
       part: null
     }
     try {
-      const findOne: UploadEntity = await this.uploadRepository.findOne(body)
+      const findOne: UploadEntity = await this.uploadRepository.findOneBy(body)
       if (!!findOne) {
         cb.uploaded = true
         return
       }
-      const client = this.redisService.getClient()
-      const getRedis = await client.zrange(body.md5, 0, -1);
+      const getRedis = await this.ioredis.zrange(body.md5, 0, -1);
       cb.part = getRedis || []
-      return 
+      return
     } catch (error) {
       throw new HttpException({ message: '查询失败' }, 502)
     } finally {
@@ -55,31 +56,43 @@ export class UploadService {
     try {
       let { md5, file, chunkNumber, chunkAll, fileName } = bodys;
       // 数据库是否存在md5
-      const findOne: UploadEntity = await this.uploadRepository.findOne({ md5 })
+      const findOne: UploadEntity = await this.uploadRepository.findOneBy({
+        md5
+      })
       if (!!findOne) {
         throw new HttpException({ message: '当前文件已存在' }, 502)
       }
       // 存储二进制文件
       const writeFilesName = md5 + "_" + chunkNumber;
       const writeFilesBuffer = file['buffer'];
-      const saveFile = await saveFileBuffer(writeFilesName, writeFilesBuffer);
+      const saveFile = await saveFileBuffer(
+        writeFilesName,
+        writeFilesBuffer,
+        this.configService.get('UPLOAD_VIDEO_BASEURL'),
+      );
       if (!saveFile) {
         throw new HttpException({ message: '存储文件失败' }, 502)
       }
       // 验证redis里面是否存在当前分片【无论存不存在都更新里面的数据】
-      const client = this.redisService.getClient()
-      await client.zadd(md5, chunkNumber, chunkNumber); // 同步添加一条有序数组
+      await this.ioredis.zadd(md5, chunkNumber, chunkNumber); // 同步添加一条有序数组
       // 分片是否已经全部上传
-      const mergeRedis = await client.zcard(md5);
+      const mergeRedis = await this.ioredis.zcard(md5);
       if (Number(mergeRedis) === Number(chunkAll)) {
         // 合并模块
         let bufferArray = [];
-        for (let index = 0; index < Number(mergeRedis); index++){
-          let readBuffer = await readFileBuffer(md5 + "_" + index);
+        for (let index = 0; index < Number(mergeRedis); index++) {
+          let readBuffer = await readFileBuffer(
+            md5 + "_" + index,
+            this.configService.get('UPLOAD_VIDEO_BASEURL'),
+          );
           bufferArray.push(readBuffer);
         }
         const newBufferFile = Buffer.concat(bufferArray);
-        const mergeFile = await saveFileBuffer(fileName, newBufferFile)
+        const mergeFile = await saveFileBuffer(
+          fileName,
+          newBufferFile,
+          this.configService.get('UPLOAD_VIDEO_BASEURL'),
+        )
         if (!mergeFile) {
           throw new HttpException({ message: '合并文件失败' }, 502)
         }
@@ -95,10 +108,13 @@ export class UploadService {
           throw new HttpException({ message: '存储数据库失败' }, 502)
         }
         // 删除临时数据
-        for (let index = 0; index < Number(mergeRedis); index++){
-          await unlinkFile(md5 + "_" + index); // 删除缓存文件
-        } 
-        client.del(md5); // 清除redis里的数据
+        for (let index = 0; index < Number(mergeRedis); index++) {
+          await unlinkFile(
+            md5 + "_" + index,
+            this.configService.get('UPLOAD_VIDEO_BASEURL'),
+          ); // 删除缓存文件
+        }
+        this.ioredis.del(md5); // 清除redis里的数据
         cb.upload = true;
         cb.chunk = true;
       } else {

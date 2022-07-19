@@ -53,32 +53,31 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { UserEntity } from './user.entity'
 import { UserInsertDto } from './dto/user.insert.dto'
-import { RedisService } from 'nestjs-redis'
 import { UserLoginDto } from './dto/user.login.dto'
-import * as CryptoJS from 'crypto-js'
-import { passwordKey } from '../config'
 import { UserSearchDto } from './dto/user.search.dto'
 import { RoleService } from '../role/role.service'
 import { UserUpdateDto } from './dto/user.update.dto'
 import { IdDto } from '../common/dto/id.dto'
+import { InjectRedis } from '@liaoliaots/nestjs-redis'
+import { ConfigService } from '@nestjs/config'
+import { AES, HmacSHA512 } from 'crypto-js'
+import Ioredis from 'ioredis'
 
 @Injectable()
 export class UserService {
-  /**
-   * 函数
-   */
+  // 函数
   constructor(
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
     private readonly roleService: RoleService,
-    private readonly redisService: RedisService
+    private readonly configService: ConfigService,
+    @InjectRedis()
+    private readonly ioredis: Ioredis,
   ) { }
 
-  /**
-   * 查询用户【根据query条件】
-   */
+  // 查询用户【根据query条件】
   find(querys: UserSearchDto): Promise<UserEntity[]> {
-    return this.userRepository.find(querys)
+    return this.userRepository.find({ where: querys })
   }
 
   /**
@@ -88,7 +87,7 @@ export class UserService {
    */
   async findOneById(id: number): Promise<UserEntity> {
     try {
-      const findUserById: UserEntity = await this.userRepository.findOne(id);
+      const findUserById: UserEntity = await this.userRepository.findOneBy({ id });
       if (!findUserById) {
         throw new HttpException({ message: '当前id不存在数据库中' }, 502);
       }
@@ -96,7 +95,7 @@ export class UserService {
     } catch (error) {
       throw new HttpException(error.response, error.status)
     }
-}
+  }
 
   /**
    * 分页模糊查询
@@ -150,15 +149,17 @@ export class UserService {
   async save(data: UserInsertDto): Promise<boolean> {
     try {
       // 验证账号是否存在
-      const findOneByAccount = await this.userRepository.findOne({
+      const findOneByAccount = await this.userRepository.findOneBy({
         account: data.account
       })
       if (findOneByAccount) {
         throw new ConflictException({ message: '账号已存在' })
-
       }
       // 密码加密
-      data.password = CryptoJS.HmacSHA512(data.password, passwordKey).toString()
+      data.password = HmacSHA512(
+        data.password,
+        this.configService.get('TOKEN_KEY'),
+      ).toString()
       // 保存用户信息
       const save: UserEntity = await this.userRepository.save(data)
       if (!save) {
@@ -177,7 +178,7 @@ export class UserService {
   async updateById(data: UserUpdateDto): Promise<boolean> {
     try {
       // 验证id是否存在
-      const findOneById: UserEntity = await this.userRepository.findOne({
+      const findOneById: UserEntity = await this.userRepository.findOneBy({
         id: data.id
       })
       if (!findOneById) {
@@ -185,7 +186,10 @@ export class UserService {
       }
       // 如果密码存在则对密码进行加密
       if (data.password) {
-        data.password = CryptoJS.HmacSHA512(data.password, passwordKey).toString()
+        data.password = HmacSHA512(
+          data.password,
+          this.configService.get('TOKEN_KEY'),
+        ).toString()
       }
       // 更新用户信息
       const update = await this.userRepository.update({ id: data.id }, data)
@@ -194,7 +198,7 @@ export class UserService {
       }
       return true
     } catch (error) {
-      throw new HttpException({message: error.response}, error.status)
+      throw new HttpException({ message: error.response }, error.status)
     }
   }
 
@@ -223,16 +227,22 @@ export class UserService {
   async login(data: UserLoginDto): Promise<UserLoginType> {
     // 验证account是否存在
     const findOneByAccount = await this.userRepository.findOne({
-      account: data.account
+      where: {
+        account: data.account
+      }
     })
-    console.log('findOneByAccount', findOneByAccount)
     if (!findOneByAccount) {
       throw new HttpException({ message: '账号不存在' }, 403)
     }
     // 验证用户名和密码是否匹配
     const findOneUser = await this.userRepository.findOne({
-      account: data.account,
-      password: CryptoJS.HmacSHA512(data.password, passwordKey).toString() // 密码加密
+      where: {
+        account: data.account,
+        password: HmacSHA512(
+          data.password,
+          this.configService.get('TOKEN_KEY'),
+        ).toString() // 密码加密
+      }
     })
     if (!findOneUser) {
       throw new HttpException({ message: '密码错误' }, 403)
@@ -244,42 +254,41 @@ export class UserService {
      * @param {string} [resourceIdsString] - 以逗号分隔的资源id字符串
      * @param {array}  [temporaryArray]    - 【局部变量】资源id数组【使用[...new set()]把数组去重】
        */
-      const roleIdArray = findOneUser.roles.split(",")
-      const roleArray = await this.roleService.findByIds(roleIdArray)
-      let resourceIdsString = ''
-      if (Array.isArray(roleArray) && roleArray.length) {
-        let temporaryArray = []
-        for (const iterator of roleArray) {
-          temporaryArray.push(iterator.resources.split(","))
-        }
-        temporaryArray = [...new Set(temporaryArray)]
-        resourceIdsString = String(temporaryArray)
+    const roleIdArray = findOneUser.roles.split(",")
+    const roleArray = await this.roleService.findByIds(roleIdArray)
+    let resourceIdsString = ''
+    if (Array.isArray(roleArray) && roleArray.length) {
+      let temporaryArray = []
+      for (const iterator of roleArray) {
+        temporaryArray.push(iterator.resources.split(","))
       }
-      /**
-       * 生成token
-       * @param {string} [token] - 加密token【含账号/id/角色/资源】
-       * @require [client] - redis服务
-       * @function [addRedis] - 把token保存到redis【redis保存的key值为=>'账号:token'}】
-       */
-      const token = CryptoJS.AES.encrypt(
-        JSON.stringify({
-          account: findOneUser.account,
-          id: findOneUser.id,
-          roles: findOneUser.roles,
-          resources: resourceIdsString
-        }),
-        passwordKey
-      ).toString()
-      const client = await this.redisService.getClient()
-      const setexRedis = await client.setex(
-        findOneUser.account + ':token',
-        600000,
-        token
-      )
-      if (!setexRedis) {
-        throw new HttpException({ message: 'token存储redis失败' }, 500)
-      }
-      return { token }
+      temporaryArray = [...new Set(temporaryArray)]
+      resourceIdsString = String(temporaryArray)
+    }
+    /**
+     * 生成token
+     * @param {string} [token] - 加密token【含账号/id/角色/资源】
+     * @require [client] - redis服务
+     * @function [addRedis] - 把token保存到redis【redis保存的key值为=>'账号:token'}】
+     */
+    const token = AES.encrypt(
+      JSON.stringify({
+        account: findOneUser.account,
+        id: findOneUser.id,
+        roles: findOneUser.roles,
+        resources: resourceIdsString
+      }),
+      this.configService.get('TOKEN_KEY'),
+    ).toString()
+    const setexRedis = await this.ioredis.setex(
+      findOneUser.account + ':token',
+      600000,
+      token
+    )
+    if (!setexRedis) {
+      throw new HttpException({ message: 'token存储redis失败' }, 500)
+    }
+    return { token }
   }
 
   /**
@@ -291,8 +300,7 @@ export class UserService {
   async logout(account: string): Promise<any> {
     let data: Boolean = null
     try {
-      const client = await this.redisService.getClient()
-      await client.del(account + ':token')
+      await this.ioredis.del(account + ':token')
       data = true
     } catch (error) {
       data = false

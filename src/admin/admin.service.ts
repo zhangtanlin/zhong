@@ -6,14 +6,15 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { AdminEntity } from './admin.entity'
 import { AdminInsertDto } from './dto/admin.insert.dto'
-import { RedisService } from 'nestjs-redis'
 import { AdminLoginDto } from './dto/admin.login.dto'
-import * as CryptoJS from 'crypto-js'
-import { passwordKey } from '../config'
+import { AES, HmacSHA512 } from 'crypto-js'
+import Ioredis from 'ioredis'
 import { AdminSearchDto } from './dto/admin.search.dto'
 import { RoleService } from '../role/role.service'
 import { AdminUpdateDto } from './dto/admin.update.dto'
 import { IdDto } from '../common/dto/id.dto'
+import { ConfigService } from '@nestjs/config'
+import { InjectRedis } from '@liaoliaots/nestjs-redis'
 
 // 管理员
 @Injectable()
@@ -22,18 +23,20 @@ export class AdminService {
     @InjectRepository(AdminEntity)
     private readonly adminRepository: Repository<AdminEntity>,
     private readonly roleService: RoleService,
-    private readonly redisService: RedisService
+    private readonly configService: ConfigService,
+    @InjectRedis()
+    private readonly ioredis: Ioredis,
   ) { }
 
   // 查询所有【根据query条件】
   find(querys: AdminSearchDto): Promise<AdminEntity[]> {
-    return this.adminRepository.find(querys)
+    return this.adminRepository.find({ where: querys })
   }
 
   // 根据id查询
   async findOneById(id: number): Promise<AdminEntity> {
     try {
-      const findAdminById: AdminEntity = await this.adminRepository.findOne(id);
+      const findAdminById: AdminEntity = await this.adminRepository.findOneBy({ id });
       if (!findAdminById) {
         throw new HttpException({ message: '当前id不存在数据库中' }, 502);
       }
@@ -86,14 +89,17 @@ export class AdminService {
   async save(data: AdminInsertDto): Promise<AdminEntity> {
     try {
       // 验证是否存在
-      const findOneByAccount = await this.adminRepository.findOne({
+      const findOneByAccount = await this.adminRepository.findOneBy({
         account: data.account
       })
       if (findOneByAccount) {
         throw new HttpException({ message: '账号已存在' }, 400)
       }
       // 密码加密
-      data.password = CryptoJS.HmacSHA512(data.password, passwordKey).toString()
+      data.password = HmacSHA512(
+        data.password,
+        this.configService.get('TOKEN_KEY'),
+      ).toString()
       // 保存信息
       const save: AdminEntity = await this.adminRepository.save(data)
       if (!save) {
@@ -109,7 +115,7 @@ export class AdminService {
   async updateById(data: AdminUpdateDto): Promise<boolean> {
     try {
       // 验证id是否存在
-      const findOneById: AdminEntity = await this.adminRepository.findOne({
+      const findOneById: AdminEntity = await this.adminRepository.findOneBy({
         id: data.id
       })
       if (!findOneById) {
@@ -117,7 +123,10 @@ export class AdminService {
       }
       // 如果密码存在则对密码进行加密
       if (data.password) {
-        data.password = CryptoJS.HmacSHA512(data.password, passwordKey).toString()
+        data.password = HmacSHA512(
+          data.password,
+          this.configService.get('TOKEN_KEY'),
+        ).toString()
       }
       // 更新信息
       const update = await this.adminRepository.update({ id: data.id }, data)
@@ -150,16 +159,19 @@ export class AdminService {
    */
   async login(data: AdminLoginDto): Promise<any> {
     // 验证 account 是否存在
-    const findOneByAccount = await this.adminRepository.findOne({
+    const findOneByAccount = await this.adminRepository.findOneBy({
       account: data.account
     })
     if (!findOneByAccount) {
       throw new HttpException({ message: '账号不存在' }, 403)
     }
     // 验证名称和密码是否匹配
-    const findOneAdmin = await this.adminRepository.findOne({
+    const findOneAdmin = await this.adminRepository.findOneBy({
       account: data.account,
-      password: CryptoJS.HmacSHA512(data.password, passwordKey).toString() // 密码加密
+      password: HmacSHA512(
+        data.password,
+        this.configService.get('TOKEN_KEY'),
+      ).toString() // 密码加密
     })
     if (!findOneAdmin) {
       throw new HttpException({ message: '密码错误' }, 403)
@@ -188,17 +200,16 @@ export class AdminService {
      * @require [client] - redis服务
      * @function [addRedis] - 把token保存到redis【redis保存的key值为=>'账号:token'}】
      */
-    const token = CryptoJS.AES.encrypt(
+    const token = AES.encrypt(
       JSON.stringify({
         account: findOneAdmin.account,
         id: findOneAdmin.id,
         roles: findOneAdmin.roles,
         resources: resourceIdsString
       }),
-      passwordKey
+      this.configService.get('TOKEN_KEY'),
     ).toString()
-    const client = await this.redisService.getClient()
-    const setexRedis = await client.setex(
+    const setexRedis = await this.ioredis.setex(
       findOneAdmin.account + ':token',
       600000,
       token
@@ -218,8 +229,7 @@ export class AdminService {
   async logout(account: string): Promise<any> {
     let data: Boolean = null
     try {
-      const client = await this.redisService.getClient()
-      await client.del(account + ':token')
+      await this.ioredis.del(account + ':token')
       data = true
     } catch (error) {
       data = false

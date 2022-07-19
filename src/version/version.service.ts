@@ -13,8 +13,12 @@ export class VersionService {
   ) { }
 
   // 版本信息
-  findOne(): Promise<VersionEntity> {
-    return this.versionRepository.findOne()
+  async findOne(): Promise<any> {
+    return this.versionRepository.find({
+      where: {
+        id: 1
+      }
+    })
   }
 
 }

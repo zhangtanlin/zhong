@@ -14,9 +14,7 @@ import { UserEntity } from "./user.entity";
 import { RoleModule } from "../role/role.module";
 @Module({
   imports: [
-    /**
-     * 连接用户表
-     */
+    // 连接用户表
     TypeOrmModule.forFeature([UserEntity]),
     RoleModule,
   ],

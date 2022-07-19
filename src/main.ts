@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core'
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { AppModule } from './app.module'
 import { ErrorFilter } from './common/filter/error.filter'
-import { corsMethodsArray, corsUrlArray, msPort, port } from "./config"
+import { ConfigService } from '@nestjs/config';
 import { join } from 'path';
 import * as hbs from 'hbs';
 
@@ -24,6 +24,13 @@ async function bootstrap() {
     AppModule,
   )
 
+  // 获取环境变量
+  const configService = await app.get(ConfigService);
+  const crossUrl = await configService.get('CROSS_URL').split(',')
+  const crossMethod = await configService.get('CROSS_METHOD').split(',')
+  const port = await configService.get('NEST_PORT')
+  const msPort = await configService.get('MS_PORT')
+
   /**
    * 设置允许跨域
    * origin: 允许跨域的地址(字符串或者数组)
@@ -32,8 +39,8 @@ async function bootstrap() {
    * optionsSuccessStatus: 成功状态码
    */
   app.enableCors({
-    origin: corsUrlArray,
-    methods: corsMethodsArray,
+    origin: crossUrl,
+    methods: crossMethod,
     credentials: true,
     optionsSuccessStatus: 200,
   })
@@ -67,6 +74,8 @@ async function bootstrap() {
     transport: Transport.TCP,
     options: {
       port: msPort,
+      retryAttempts: 5,
+      retryDelay: 3000,
     },
   });
   app.startAllMicroservices();

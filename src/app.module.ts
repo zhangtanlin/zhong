@@ -8,12 +8,11 @@
  * @requires [allEntity]     - 所有的entity模块【entity组成的数组】
  */
 import { Module } from '@nestjs/common'
-import { TypeOrmModule } from '@nestjs/typeorm'
+import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm'
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
 import { UserModule } from './user/user.module'
 import { allEntity } from './common/entity/allEntity'
-import { RedisModule } from 'nestjs-redis'
 import { AdminModule } from './admin/admin.module'
 import { UploadModule } from './upload/upload.module';
 import { VideoModule } from './video/video.module'
@@ -24,37 +23,55 @@ import { LineModule } from './line/line.module'
 import { SystemModule } from './system/system.module'
 import { SocketModule } from './socket/socket.module';
 import { MsModule } from './ms/ms.module'
-import {
-  dbHost,
-  dbName,
-  dbPort,
-  dbPwd,
-  dbType,
-  dbUserName,
-  redisDb,
-  redisHost,
-  redisPort,
-  redisPwd,
-} from './config'
+import { ConfigModule, ConfigService } from '@nestjs/config'
+import { RedisModule, RedisModuleOptions } from '@liaoliaots/nestjs-redis'
 @Module({
   imports: [
-    // 全局注册typeorm并配置连接参数
-    TypeOrmModule.forRoot({
-      type: dbType,
-      host: dbHost,
-      port: dbPort,
-      username: dbUserName,
-      password: dbPwd,
-      database: dbName,
-      entities: allEntity,
-      synchronize: true
+    // 环境变量
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: [`./env/.env.${process.env.NODE_ENV}`],
     }),
-    // redis连接
-    RedisModule.register({
-      host: redisHost,
-      port: redisPort,
-      db: redisDb,
-      password: redisPwd,
+    // 全局注册typeorm并配置连接参数
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => {
+        const tempHost = await configService.get('MYSQL_HOST')
+        const tempPort = await configService.get('MYSQL_PORT')
+        const tempUser = await configService.get('MYSQL_USER')
+        const tempPassword = await configService.get('MYSQL_PASSWORD')
+        const tempName = await configService.get('MYSQL_NAME')
+        return {
+          type: 'mysql',
+          host: tempHost,
+          port: tempPort,
+          username: tempUser,
+          password: tempPassword,
+          database: tempName,
+          entities: allEntity,
+          synchronize: true
+        } as TypeOrmModuleOptions
+      },
+    }),
+    // redis
+    RedisModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService): Promise<RedisModuleOptions> => {
+        const tempHost = await configService.get('REDIS_HOST')
+        const tempPort = await configService.get('REDIS_PORT')
+        const tempPassword = await configService.get('REDIS_PASSWORD')
+        const tempName = await configService.get('REDIS_NAME')
+        return {
+          config: {
+            host: tempHost,
+            port: tempPort,
+            password: tempPassword,
+            db: tempName,
+          }
+        };
+      }
     }),
     // 系统
     SystemModule,
@@ -82,8 +99,5 @@ import {
   controllers: [
     AppController,
   ],
-  providers: [
-    AppService,
-  ]
 })
-export class AppModule {}
+export class AppModule { }

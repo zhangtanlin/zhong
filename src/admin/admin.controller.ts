@@ -19,17 +19,20 @@ import { AdminLoginDto } from './dto/admin.login.dto'
 import { DtoPipe } from '../common/pipe/dto.pipe'
 import { AdminEntity } from './admin.entity'
 import { AdminSearchDto } from './dto/admin.search.dto'
-import * as CryptoJS from 'crypto-js'
-import { passwordKey } from '../config'
+import { AES, enc } from 'crypto-js'
 import { AdminUpdateDto } from './dto/admin.update.dto'
 import { IdDto } from '../common/dto/id.dto'
 import { classToPlain } from 'class-transformer'
 import { AuthAdminGuard } from 'src/common/guard/auth_admin.guard'
+import { ConfigService } from '@nestjs/config'
 
 // 管理员
 @Controller('/sys/admin')
 export class AdminController {
-  constructor(private readonly adminService: AdminService) { }
+  constructor(
+    private readonly adminService: AdminService,
+    private readonly configService: ConfigService,
+  ) { }
 
   /**
    * 请求搜索列表
@@ -108,8 +111,11 @@ export class AdminController {
        * @param [decryptToken]     - 解密请求头的authorization参数
        * @param [decryptTokenJSON] - 把解密后的字符串转换成json格式
        */
-      const decryptToken = CryptoJS.AES.decrypt(headersArgument.authorization, passwordKey).toString(
-        CryptoJS.enc.Utf8
+      const decryptToken = AES.decrypt(
+        headersArgument.authorization,
+        this.configService.get('TOKEN_KEY'),
+      ).toString(
+        enc.Utf8
       )
       const decryptTokenJSON = JSON.parse(decryptToken)
       account = decryptTokenJSON.account

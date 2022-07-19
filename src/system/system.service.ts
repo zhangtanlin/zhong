@@ -79,7 +79,7 @@ export class SystemService {
       uploadVideoUrl: "",
     };
     try {
-      cb = await this.systemConfigRepository.findOne();
+      cb = await this.systemConfigRepository.findOne({});
       return cb;
     } catch (error) {
       throw new HttpException({ message: error.response }, error.status)

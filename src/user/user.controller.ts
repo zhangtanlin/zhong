@@ -9,7 +9,7 @@
  * @requires ApiResponse - api文档swagger返回值模块
  * @requires UserService - 用户服务模块
  */
- import {
+import {
   HttpException,
   Controller,
   Post,
@@ -29,12 +29,12 @@ import { DtoPipe } from '../common/pipe/dto.pipe'
 import { ResultDto } from '../common/dto/result.dto'
 import { UserEntity } from './user.entity'
 import { UserSearchDto } from './dto/user.search.dto'
-import * as CryptoJS from 'crypto-js'
-import { passwordKey } from '../config'
+import { AES, enc } from 'crypto-js'
 import { UserUpdateDto } from './dto/user.update.dto'
 import { IdDto } from '../common/dto/id.dto'
 import { classToPlain } from 'class-transformer'
 import { AuthAdminGuard } from 'src/common/guard/auth_admin.guard'
+import { ConfigService } from '@nestjs/config'
 
 /**
  * 用户控制器
@@ -51,7 +51,10 @@ export class UserController {
    * @param    [userService] - 用户服务别名
    * @class    [UserService] - 用户服务
    */
-  constructor(private readonly userService: UserService) { }
+  constructor(
+    private readonly userService: UserService,
+    private readonly configService: ConfigService,
+  ) { }
   /**
    * 获取用户列表
    * @param     [Post]          - 请求方式
@@ -70,7 +73,7 @@ export class UserController {
   async get(@Body() bodys: UserSearchDto): Promise<any> {
     const searchParam = new UserSearchDto()
     const param = Object.assign(searchParam, bodys)
-    const list:UserEntity[] = await this.userService.getManyAndCount(param)
+    const list: UserEntity[] = await this.userService.getManyAndCount(param)
     return classToPlain(list)
   }
 
@@ -79,13 +82,13 @@ export class UserController {
    * @param Param 用户id
    * @function classToPlain 表示使用class-transformer内置方法返回数据（eg：可能涉及到排除某个字段，在entity中使用@Exclude()进行排除）
    */
-   @Post('/id')
-   @HttpCode(HttpStatus.OK)
-   async findOne(@Body() bodys): Promise<any> {
-     const findOneById: UserEntity = await this.userService.findOneById(bodys.id);
-     return classToPlain(findOneById); // 使用nestjs自带的序列化返回值成功
-   }
-   
+  @Post('/id')
+  @HttpCode(HttpStatus.OK)
+  async findOne(@Body() bodys): Promise<any> {
+    const findOneById: UserEntity = await this.userService.findOneById(bodys.id);
+    return classToPlain(findOneById); // 使用nestjs自带的序列化返回值成功
+  }
+
   /**
    * 新增用户
    * @param     [Post]           - 请求方式
@@ -211,8 +214,11 @@ export class UserController {
   async logout(@Headers() headers: any): Promise<any> {
     let account = ''
     try {
-      const decryptToken = CryptoJS.AES.decrypt(headers.authorization, passwordKey).toString(
-        CryptoJS.enc.Utf8
+      const decryptToken = AES.decrypt(
+        headers.authorization,
+        this.configService.get('TOKEN_KEY'),
+      ).toString(
+        enc.Utf8
       )
       const tokenJSON = JSON.parse(decryptToken)
       account = tokenJSON.account

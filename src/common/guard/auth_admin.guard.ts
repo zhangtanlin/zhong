@@ -1,12 +1,13 @@
+import { InjectRedis } from '@liaoliaots/nestjs-redis'
 import {
   CanActivate,
   ExecutionContext,
   Injectable,
   HttpException,
 } from '@nestjs/common'
-import { RedisService } from 'nestjs-redis'
-import * as CryptoJS from 'crypto-js'
-import { passwordKey } from '../../config'
+import { ConfigService } from '@nestjs/config'
+import { AES, enc } from 'crypto-js'
+import Ioredis from 'ioredis'
 
 // 管理系统-守卫
 @Injectable()
@@ -15,7 +16,11 @@ export class AuthAdminGuard implements CanActivate {
    * 私有方法注册
    * @param redisService - redis服务注册
    */
-  constructor(private readonly redisService: RedisService) { }
+  constructor(
+    private readonly configService: ConfigService,
+    @InjectRedis()
+    private readonly ioredis: Ioredis,
+  ) { }
 
   /**
    * 自定义权限验证
@@ -33,17 +38,19 @@ export class AuthAdminGuard implements CanActivate {
   async canActivate(
     context: ExecutionContext
   ): Promise<boolean> {
-    const redisClient = this.redisService.getClient()
     const request = context.switchToHttp().getRequest()
     const token = request.headers.authorization
     if (request.url !== '/admin/user/login') {
       try {
-        const decryptToken = CryptoJS.AES.decrypt(token, passwordKey).toString(
-          CryptoJS.enc.Utf8
+        const decryptToken = AES.decrypt(
+          token,
+          this.configService.get('TOKEN_KEY'),
+        ).toString(
+          enc.Utf8
         )
         const tokenJSON = JSON.parse(decryptToken)
         const account = tokenJSON.account
-        const getRedisToken = await redisClient.get(account + ':token')
+        const getRedisToken = await this.ioredis.get(account + ':token')
         if (!!getRedisToken) {
           return true
         }
