@@ -1,15 +1,14 @@
 import { NestFactory } from '@nestjs/core'
 import { NestExpressApplication } from '@nestjs/platform-express';
+import { ConfigService } from '@nestjs/config';
 import { AppModule } from './app.module'
 import { ErrorFilter } from './common/filter/error.filter'
-import { ConfigService } from '@nestjs/config';
+import { ResultInterceptor } from './common/interceptor/result.interceptor';
 import { join } from 'path';
 import * as hbs from 'hbs';
 
 // api文档swagger
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger'
-import { ResultInterceptor } from './common/interceptor/result.interceptor';
-import { WsAdapter } from '@nestjs/platform-ws';
 
 // 微服务
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
@@ -66,9 +65,6 @@ async function bootstrap() {
   app.setViewEngine('hbs');
   hbs.registerPartials(join(__dirname, '../views/partials'));
 
-  // socket适配器
-  app.useWebSocketAdapter(new WsAdapter(app))
-  
   // 启动主程序的微服务【端口和主程序保持一致】
   app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.TCP,

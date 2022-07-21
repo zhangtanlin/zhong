@@ -1,25 +1,33 @@
-import { SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
-import { Server } from 'http';
+import {
+  MessageBody,
+  SubscribeMessage,
+  WebSocketGateway,
+  WebSocketServer,
+} from '@nestjs/websockets';
+import { from, map, Observable } from 'rxjs';
+import { Server } from 'socket.io';
 
 // socket网关
-@WebSocketGateway(
-  5000,
-  {
-    // 解决跨域
-    allowEI03: true,
-    cros: {
-      origin: "*",
-    },
-
-  }
-)
+@WebSocketGateway({
+  // 解决跨域
+  cros: {
+    origin: "*",
+  },
+})
 export class SocketGateway {
   // socket服务
   @WebSocketServer()
   server: Server;
 
-  @SubscribeMessage('event')
-  handleMessage(client: any, payload: any): string {
-    return `socket返回值:${payload}`;
+  @SubscribeMessage('events')
+  findAll(@MessageBody() data: any): Observable<any> {
+    return from(
+      [1, 2, 3]
+    ).pipe(map(item => ({ event: 'events', data: item })));
+  }
+
+  @SubscribeMessage('identity')
+  async identity(@MessageBody() data: number): Promise<number> {
+    return data;
   }
 }

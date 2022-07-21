@@ -4,28 +4,21 @@
 </div>
 <script src="./js/main.js"></script>
 <script>
-  // 创建websocket
-  var socket = new WebSocket("ws://127.0.0.1:5000");
-  // 打开连接
-  socket.onopen = function () {
-    console.log("打开连接");
-    socket.send(
-      JSON.stringify({
-        event: "event",
-        data: "客户端发送的参数",
-      }),
+  const socket = io('http://localhost:3000');
+  socket.on('connect', function () {
+    console.log('Connected');
+    socket.emit('events', { test: 'test' });
+    socket.emit('identity', 0, response =>
+      console.log('Identity:', response),
     );
-  };
-  // 接收消息
-  socket.onmessage = function (data) {
-    console.log("接收消息:", JSON.stringify(data));
-  };
-  // 关闭连接
-  socket.onclose = function (data) {
-    console.log("关闭连接:", JSON.stringify(data));
-  }
-  // 连接错误
-  socket.onerror = function (data) {
-    console.log("连接错误:", JSON.stringify(data));
-  }
+  });
+  socket.on('events', function (data) {
+    console.log('event', data);
+  });
+  socket.on('exception', function (data) {
+    console.log('event', data);
+  });
+  socket.on('disconnect', function () {
+    console.log('Disconnected');
+  });
 </script>
