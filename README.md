@@ -59,7 +59,7 @@
 使用**bulma**作为**ui**框架,<br/>
 未完待续......
 
-## 服务器
+## 服务器相关
 **在linux服务器上开启相关端口的方法**<br />
 注意:需要开启redis的6379，mysql的3306，以及我们的nestjs的3000端口。
 ```bash
@@ -170,7 +170,7 @@ GatewayTimeoutException       — 504(服务器请求上有服务器超时)
 ## 客户端
 
 ###### bulma 样式自定义
-在 **./theme/reset_bulma.scss** 文件内修改相关的配置;<br/>
+步骤一：在 **./theme/reset_bulma.scss** 文件内修改相关的配置;<br/>
 步骤二：运行下面的方法，可以供构建和监听 bulma 的 css 样式生成。
 ```bash
 # 构建 bulma 的 css 样式
@@ -178,6 +178,7 @@ npm run css-build
 # 监听 bulma 依赖更改,进行构建
 npm run css-watch
 ```
+注意：这里构建bulma的css时，需要使用node-sass。但是我们现在使用的版本是v18，还没有对应的node-sass版本所以这里暂不使用。
 
 ## 打包/部署
 ###### 打包
