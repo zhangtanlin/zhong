@@ -1,10 +1,9 @@
-import { Body, Controller, Get, Post, Render } from "@nestjs/common";
-import { from, Observable } from "rxjs";
-import { AppService } from './app.service';
+import { Controller, Get, Render } from "@nestjs/common";
 
 @Controller()
 export class AppController {
 
+  // 获取首页模板
   @Get()
   @Render('index')
   root() {

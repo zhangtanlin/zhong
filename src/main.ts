@@ -65,7 +65,7 @@ async function bootstrap() {
   app.setViewEngine('hbs');
   hbs.registerPartials(join(__dirname, '../views/partials'));
 
-  // 启动主程序的微服务【端口和主程序保持一致】
+  // 启动主程序的微服务【所有子微服务的端口需要和主微服务的端口保持一致】
   app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.TCP,
     options: {

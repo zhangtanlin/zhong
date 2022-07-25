@@ -27,9 +27,9 @@ export class ErrorFilter<T> implements ExceptionFilter {
     // 判定非 GET 请求的异常返回数据格式
     if (request.method !== "GET") {
       // 获取返回信息
-      const status = exception.status; // 状态码
-      const message = exception.response.message; // 错误名称
-      const error = exception.response.error; //  错误详细信息
+      const status = exception?.status; // 状态码
+      const message = exception?.response?.message; // 错误名称
+      const error = exception?.response?.error; //  错误详细信息
       const data = null; // 默认 data
       const path = request.url // 请求地址
       const timestamp = new Date().toISOString() // 当前 UTC 时间
