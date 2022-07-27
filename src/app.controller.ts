@@ -9,5 +9,14 @@ export class AppController {
   root() {
     return { message: '官网!' };
   }
+}
 
+// 控制器-测试3d
+@Controller('/3d')
+export class ThirdController {
+  @Get()
+  @Render('3d')
+  root() {
+    return { message: '3d' };
+  }
 }

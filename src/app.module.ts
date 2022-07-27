@@ -9,7 +9,7 @@
  */
 import { Module } from '@nestjs/common'
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm'
-import { AppController } from './app.controller'
+import { AppController, ThirdController } from './app.controller'
 import { AppService } from './app.service'
 import { UserModule } from './user/user.module'
 import { allEntity } from './common/entity/allEntity'
@@ -98,6 +98,7 @@ import { RedisModule, RedisModuleOptions } from '@liaoliaots/nestjs-redis'
   ],
   controllers: [
     AppController,
+    ThirdController,
   ],
 })
 export class AppModule { }

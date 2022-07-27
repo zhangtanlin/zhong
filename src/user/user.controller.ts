@@ -192,8 +192,8 @@ export class UserController {
   @UsePipes(DtoPipe)
   @UseGuards(AuthAdminGuard)
   @HttpCode(HttpStatus.OK)
-  async login(@Body() request: UserLoginDto): Promise<any> {
-    return await this.userService.login(request)
+  async login(@Body() bodys: UserLoginDto): Promise<any> {
+    return await this.userService.login(bodys)
   }
 
   /**
