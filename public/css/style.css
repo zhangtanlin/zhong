@@ -1,53 +1,270 @@
 /* reset */
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
 }
+
 /* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, 
-footer, header, hgroup, menu, nav, section {
-	display: block;
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
 }
+
 body {
-	line-height: 1;
+  line-height: 1;
 }
-ol, ul {
-	list-style: none;
+
+ol,
+ul {
+  list-style: none;
 }
-blockquote, q {
-	quotes: none;
+
+blockquote,
+q {
+  quotes: none;
 }
-blockquote:before, blockquote:after,
-q:before, q:after {
-	content: '';
-	content: none;
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: '';
+  content: none;
 }
+
 table {
-	border-collapse: collapse;
-	border-spacing: 0;
+  border-collapse: collapse;
+  border-spacing: 0;
 }
 
 /* 首页 */
-.home {
-	display: flex;
+body {
+  background-color: rgb(254, 243, 176);
+  animation: myfirst 15s;
+  -moz-animation: myfirst 15s infinite;
+  /* Firefox */
+  -webkit-animation: myfirst 15s infinite;
+  /* Safari and Chrome */
 }
-.home-open-img {
-	width: 1rem;
-	height: 1rem;
+
+
+.content h1 {
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+.content p {
+  padding: 0;
+  margin: 0;
+  text-indent: 24px;
+}
+
+.content h1+p {
+  text-indent: 0;
+}
+
+.content p:last-child {
+  text-indent: 0;
+}
+
+/* base */
+@keyframes myfirst {
+  0% {
+    background: rgb(254, 243, 176);
+  }
+
+  17% {
+    background: rgb(172, 234, 222);
+  }
+
+  33% {
+    background: rgb(211, 181, 230);
+  }
+
+  50% {
+    background: rgb(208, 199, 190);
+  }
+
+  67% {
+    background: rgb(254, 177, 189);
+  }
+
+  83% {
+    background: rgb(192, 224, 237);
+  }
+
+  100% {
+    background: rgb(254, 243, 176);
+  }
+}
+
+/* Firefox */
+@-moz-keyframes myfirst {
+  0% {
+    background: rgb(254, 243, 176);
+  }
+
+  17% {
+    background: rgb(172, 234, 222);
+  }
+
+  33% {
+    background: rgb(211, 181, 230);
+  }
+
+  50% {
+    background: rgb(208, 199, 190);
+  }
+
+  67% {
+    background: rgb(254, 177, 189);
+  }
+
+  83% {
+    background: rgb(192, 224, 237);
+  }
+
+  100% {
+    background: rgb(254, 243, 176);
+  }
+}
+
+/* Safari and Chrome */
+@-webkit-keyframes myfirst {
+  0% {
+    background: rgb(254, 243, 176);
+  }
+
+  17% {
+    background: rgb(172, 234, 222);
+  }
+
+  33% {
+    background: rgb(211, 181, 230);
+  }
+
+  50% {
+    background: rgb(208, 199, 190);
+  }
+
+  67% {
+    background: rgb(254, 177, 189);
+  }
+
+  83% {
+    background: rgb(192, 224, 237);
+  }
+
+  100% {
+    background: rgb(254, 243, 176);
+  }
+}
+
+#main .content {
+  max-width: 466px;
+  width: 100%;
+  padding: 18px;
+  box-sizing: border-box;
+}
+
+#main a {
+  color: #0000ff;
+  text-decoration: none;
+}
+
+#main a:hover {
+  text-decoration: underline;
 }

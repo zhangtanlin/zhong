@@ -1,7 +1,21 @@
 {{!-- 首页 --}}
-<div class="home">
+<main class="main" id="main">
+  <div class="content">
+    <h1>CHRYS NASELOS<br />DESIGN &amp; ART DIRECTION</h1>
+    <p>I am a Designer and Art Director working across branding, digital media, and web design. Bold ideas and effective simplicity are my core design principles.</p>
+    <p>Based in London, where I co-founded and ran my own design practice from 2007–2012, I have worked for renowned agencies such as <a href="http://www.wolffolins.com/" target="_blank" rel="noopener">Wolff Olins</a>, <a href="https://www.wearedesignstudio.com/" target="_blank" rel="noopener">Design Studio</a>, <a href="http://proxy.vc/" target="_blank" rel="noopener">Proxy Ventures</a> and <a href="http://www.moving-picture.com/" target="_blank" rel="noopener">Moving Picture Company</a>.</p>
+    <p>My projects include Visa, <a href="https://www.artfinder.com/" target="_blank" rel="noopener">Artfinder</a>, <a href="http://www.dar.com/" target="_blank" rel="noopener">Dar</a>, Ag2r La Mondiale, Laurence King Publications, Abbey Road Studios, Technicolor, Athens 2004 Olympic Games and the UK’s Technology Strategy Board.</p>
+    <p>My work has been exhibited at the BFI Southbank, the Institute of Contemporary Art and the Royal College of Art.</p>
+    <p>Currently collaborating with <a href="http://rejanedalbello.com/" target="_blank" rel="noopener">Studio Rejane Dal Bello</a>.</p>
+    <p>Please get in touch to request a portfolio or see more on <a href="https://www.linkedin.com/in/chrysostomosnaselos/" target="_blank" rel="noopener">LinkedIn</a>.</p>
+    <p>—<br />
+    <a href="mailto:hello@chrysnaselos.com" target="_blank" rel="noopener noreferrer">hello@chrysnaselos.com</a><br />
+    +44 (0)7854 774 349</p>
+  </div>
+</main>
+<div style="display: none;">
   {{ message }}
-  <img class="home-open-img" src="./images/ad-open.png" alt="" srcset="">
+  <img class="home-open-img" src="./images/ad-open.png" alt="logo" />
 </div>
 <script src="./js/main.js"></script>
 <script>
@@ -14,10 +28,10 @@
     );
   });
   socket.on('events', function (data) {
-    console.log('event', data);
+    console.log('Events', data);
   });
   socket.on('exception', function (data) {
-    console.log('event', data);
+    console.log('Exception', data);
   });
   socket.on('disconnect', function () {
     console.log('Disconnected');
