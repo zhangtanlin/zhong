@@ -207,3 +207,22 @@ pm2 start --name "在pm2中的名字" main.js
 # 设置开机启动
 pm2 save
 ```
+
+## 其他补充知识
+涉及到项目所需要使用的一些相关技术。
+
+###### RxJS
+-[RxJS中文博主的总结](https://juejin.cn/post/6910943445569765384)
+
+###### 循环、迭代、遍历和递归
+loop、iterate、traversal和recursion这几个词是计算机技术书中经常会出现的几个词汇。分别翻译为：循环、迭代、遍历和递归。乍一看，这几个词好像都与重复（repeat）有关，但有的又好像不完全是重复的意思。<br/>
+- 循环（loop），指的是在满足条件的情况下，重复执行同一段代码。比如，while语句。
+- 迭代（iterate），指的是按照某种顺序逐个访问列表中的每一项。比如，for语句。
+- 遍历（traversal），指的是按照一定的规则访问树形结构中的每个节点，而且每个节点都只访问一次。
+- 递归（recursion），指的是一个函数不断调用自身的行为。比如，以编程方式输出著名的斐波纳契数列。<br/>
+严格来讲，它们似乎都属于算法的范畴。换句话说，它们只不过是解决问题的不同手段和方式，而本质上则都是计算机编程中达成特定目标的途径。其中或者可以说迭代器等于遍历器。
+
+学习：[js中同步异步，Promise，Async/await， Observable](https://blog.csdn.net/jingjingchen1014/article/details/96142466)
+
+###### 全站案例
+- [node-nest-vue-nuxt-cms](https://github.com/givebest/node-nest-vue-nuxt-cms)

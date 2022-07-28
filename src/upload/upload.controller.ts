@@ -5,8 +5,9 @@ import { AuthApiGuard } from '../common/guard/auth_api.guard';
 import { ResultDto } from '../common/dto/result.dto';
 import { Md5Dto } from '../common/dto/md5.dto';
 import { UploadService } from './upload.service';
+import { from, Observable } from 'rxjs';
 
-@Controller('/api/upload')
+@Controller('/admin/upload')
 export class UploadController {
 
   /**
@@ -19,64 +20,32 @@ export class UploadController {
     private readonly uploadService: UploadService
   ) {}
 
-  /**
-   * 上传之前验证
-   */
-  @Post('/before')
+  // 上传视频之前验证
+  @Post('/video_before')
   @UsePipes(DtoPipe)
   @UseGuards(AuthApiGuard)
   @HttpCode(200)
-  async uploadBeforeImg(@Body() bodys: Md5Dto): Promise<ResultDto> {
-    let cb: ResultDto = {
-      code: 200,
-      data: {
-        uploaded: false, // 是否已经上传成功
-        part: [] // 哪些片段未上传
-      },
-      message: '成功'
-    }
-    try {
-      cb.data = await this.uploadService.getOneByMd5(bodys);
-    } catch (error) {
-      cb.code = error.status;
-      cb.message = error.message.error;
-    } finally {
-      return cb
-    }
+  async uploadBeforeImg(@Body() bodys: Md5Dto): Promise<UploadBeforeType> {
+    return this.uploadService.getOneByMd5(bodys);
   }
 
-  /**
-   * 上传
-   */
-  @Post('/')
+  // 上传视频
+  @Post('/video')
   @UsePipes(DtoPipe)
   @UseGuards(AuthApiGuard)
   @UseInterceptors(FileInterceptor('file'))
   @HttpCode(200)
-  async uploadFile(@UploadedFile() file, @Body() bodys): Promise<ResultDto> {
-    let cb: ResultDto = {
-      code: 200,
-      message: '成功',
-      data: {
-        chunk: false,
-        upload: false
-      }
-    }
+  uploadFile(@UploadedFile() file, @Body() bodys): Observable<any> {
     const { md5, chunkNumber, chunkAll, fileName }  = bodys
-    try {
-      const temporaryObject = {
-        file,
-        md5,
-        chunkNumber,
-        chunkAll,
-        fileName
-      }
-      cb.data = await this.uploadService.upload(temporaryObject)
-    } catch (error) {
-      cb.code = error.status;
-      cb.message = error.message.error;
-    } finally {
-      return cb
+    const temporaryObject = {
+      file,
+      md5,
+      chunkNumber,
+      chunkAll,
+      fileName
     }
+    return from(this.uploadService.upload(
+      temporaryObject
+    ))
   }
 }

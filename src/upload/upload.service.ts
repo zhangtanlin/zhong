@@ -23,24 +23,21 @@ export class UploadService {
    * 根据md5查询一条数据
    * @param {object} [body] - id查询条件的dto验证
    */
-  async getOneByMd5(body: Md5Dto): Promise<any> {
-    let cb = {
+  async getOneByMd5(body: Md5Dto): Promise<UploadBeforeType> {
+    let cb: UploadBeforeType = {
       uploaded: false,
-      part: null
+      part: []
     }
     try {
-      const findOne: UploadEntity = await this.uploadRepository.findOneBy(body)
+      const findOne = await this.uploadRepository.findOneBy(body)
       if (!!findOne) {
         cb.uploaded = true
-        return
+        const getRedis: any = await this.ioredis.zrange(body.md5, 0, -1) || [];
+        cb.part = getRedis || []
       }
-      const getRedis = await this.ioredis.zrange(body.md5, 0, -1);
-      cb.part = getRedis || []
-      return
+      return cb
     } catch (error) {
       throw new HttpException({ message: '查询失败' }, 502)
-    } finally {
-      return cb
     }
   }
 

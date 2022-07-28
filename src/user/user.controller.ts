@@ -21,7 +21,7 @@ import {
   Delete,
   HttpStatus,
 } from '@nestjs/common'
-import { ApiTags, ApiResponse, ApiOperation } from '@nestjs/swagger'
+import { ApiTags, ApiResponse, ApiOperation, ApiProperty, ApiParam } from '@nestjs/swagger'
 import { UserService } from './user.service'
 import { UserInsertDto } from './dto/user.insert.dto'
 import { UserLoginDto } from './dto/user.login.dto'
@@ -69,6 +69,18 @@ export class UserController {
   @UsePipes(DtoPipe)
   @UseGuards(AuthAdminGuard)
   @ApiOperation({ summary: '用户列表' })
+  @ApiProperty({
+    minimum: 3,
+    maximum: 30,
+    required: true,
+    example: 'hello',
+  })
+  @ApiParam({
+    name: 'params',
+    required: true,
+    description: '我参数params的描述',
+    type: 'string',
+  })
   @HttpCode(HttpStatus.OK)
   async get(@Body() bodys: UserSearchDto): Promise<any> {
     const searchParam = new UserSearchDto()
