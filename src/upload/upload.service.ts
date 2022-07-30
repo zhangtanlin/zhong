@@ -41,9 +41,7 @@ export class UploadService {
     }
   }
 
-  /**
-   * 上传
-   */
+  // 视频上传
   async upload(bodys: any): Promise<any> {
     // 返回值{chunk:表示 当前分片是否上传成功,upload:上传是否成功}
     let cb = {
