@@ -60,6 +60,9 @@
 未完待续......
 
 ## 服务器相关
+- [centos8下载地址](http://ftp.jaist.ac.jp/pub/Linux/CentOS-vault/8.0.1905/isos/x86_64/)
+- [docker部署nestjs方法](https://www.tomray.dev/nestjs-docker-production)
+
 **在linux服务器上开启相关端口的方法**<br />
 注意:需要开启redis的6379，mysql的3306，以及我们的nestjs的3000端口。
 ```bash
@@ -81,8 +84,6 @@ firewall-cmd --query-port=6379/tcp
 # 显示
 yes
 ```
-
-## 服务端相关
 
 ###### 运行程序的一些方法
 ```bash

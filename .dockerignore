@@ -1,0 +1,14 @@
+# docker 打包忽略的配置文件
+Dockerfile
+
+# docker 打包忽略当前文件
+.dockerignore
+
+# docker 打包忽略依赖文件
+node_modules
+
+# docker 忽略打印日志
+npm-debug.log
+
+# docker 打包忽略 dist 文件夹
+dist

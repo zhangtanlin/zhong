@@ -24,9 +24,18 @@ async function bootstrap() {
   )
 
   // 获取环境变量
-  const configService = await app.get(ConfigService);
-  const crossUrl = await configService.get('CROSS_URL').split(',')
-  const crossMethod = await configService.get('CROSS_METHOD').split(',')
+  const configService = app.get(ConfigService);
+  let crossUrlString: string = configService.get<string>('CROSS_URL')
+  let crossUrlArr: string[] = []
+  if (crossUrlString) {
+    crossUrlArr = crossUrlString.split(',')
+  }
+  let crossMethodsStr: string = configService.get<string>('CROSS_METHOD')
+  let crossMethodsStrArr: string[] = []
+  if (crossMethodsStr) {
+    crossMethodsStrArr = crossMethodsStr.split(',')
+  }
+
   const port = await configService.get('NEST_PORT')
   const msPort = await configService.get('MS_PORT')
 
@@ -38,8 +47,8 @@ async function bootstrap() {
    * optionsSuccessStatus: 成功状态码
    */
   app.enableCors({
-    origin: crossUrl,
-    methods: crossMethod,
+    origin: crossUrlArr,
+    methods: crossMethodsStrArr,
     credentials: true,
     optionsSuccessStatus: 200,
   })
