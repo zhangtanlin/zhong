@@ -73,7 +73,10 @@ COPY --chown=test_user:test_user --from=build /usr/src/app/dist ./dist
 # 生产-使用生产构架开启服务
 CMD ["node", "dist/main.js"]
 
-# 注意:更新了 Dockerfile 需要重新运行命令来构建镜像
+# 构建镜像
 # docker build -t zhong-cloud .
-# 注意:启动容器的命令(第一个3000表示容器端口，第二个端口表示程序端口)：
-# docker run -p3000:3000 zhong-cloud
+
+# 启动容器
+# 注意1:第一个3000表示容器端口，第二个端口表示程序端口。
+# 注意2:"--name=zhong-docker"要写在镜像名称前面，写在后面识别不了。
+# docker run -p3000:3000 --name=zhong-docker zhong-cloud

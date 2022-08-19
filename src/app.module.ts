@@ -49,6 +49,12 @@ import { RedisModule, RedisModuleOptions } from '@liaoliaots/nestjs-redis'
           username: tempUser,
           password: tempPassword,
           database: tempName,
+
+          // host: '10.211.55.3',
+          // port: 3306,
+          // username: 'root',
+          // password: 'Qaz@123456',
+          // database: 'website',
           entities: allEntity,
           synchronize: true
         } as TypeOrmModuleOptions
@@ -69,9 +75,14 @@ import { RedisModule, RedisModuleOptions } from '@liaoliaots/nestjs-redis'
             port: tempPort,
             password: tempPassword,
             db: tempName,
+
+            // host: '10.211.55.3',
+            // port: 6379,
+            // password: 'Qaz@123456',
+            // db: 0,
           }
         };
-      }
+      },
     }),
     // 系统
     SystemModule,
