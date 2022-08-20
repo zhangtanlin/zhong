@@ -77,6 +77,6 @@ CMD ["node", "dist/main.js"]
 # docker build -t zhong-cloud .
 
 # 启动容器
-# 注意1:第一个3000表示容器端口，第二个端口表示程序端口。
+# 注意1:"3000:3000"第一个3000表示容器端口，第二个端口表示程序端口。
 # 注意2:"--name=zhong-docker"要写在镜像名称前面，写在后面识别不了。
-# docker run -p3000:3000 --name=zhong-docker zhong-cloud
+# docker run -p 3000:3000 --name=zhong-docker zhong-cloud

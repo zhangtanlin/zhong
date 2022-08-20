@@ -27,21 +27,27 @@ import { ConfigModule, ConfigService } from '@nestjs/config'
 import { RedisModule, RedisModuleOptions } from '@liaoliaots/nestjs-redis'
 @Module({
   imports: [
-    // 环境变量
+    /**
+     * 环境变量
+     * @params isGlobal 是否全局使用
+     * @params ignoreEnvFile 是否忽略环境变量文件
+     * @params envFilePath 环境变量路径
+     */
     ConfigModule.forRoot({
       isGlobal: true,
+      ignoreEnvFile: false,
       envFilePath: [`./env/.env.${process.env.NODE_ENV}`],
     }),
     // 全局注册typeorm并配置连接参数
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: async (configService: ConfigService) => {
-        const tempHost = await configService.get('MYSQL_HOST')
-        const tempPort = await configService.get('MYSQL_PORT')
-        const tempUser = await configService.get('MYSQL_USER')
-        const tempPassword = await configService.get('MYSQL_PASSWORD')
-        const tempName = await configService.get('MYSQL_NAME')
+      useFactory: (configService: ConfigService): TypeOrmModuleOptions => {
+        const tempHost = configService.get<string>('MYSQL_HOST')
+        const tempPort = configService.get<number>('MYSQL_PORT')
+        const tempUser = configService.get<string>('MYSQL_USER')
+        const tempPassword = configService.get<string>('MYSQL_PASSWORD')
+        const tempName = configService.get<string>('MYSQL_NAME')
         return {
           type: 'mysql',
           host: tempHost,
@@ -49,37 +55,26 @@ import { RedisModule, RedisModuleOptions } from '@liaoliaots/nestjs-redis'
           username: tempUser,
           password: tempPassword,
           database: tempName,
-
-          // host: '10.211.55.3',
-          // port: 3306,
-          // username: 'root',
-          // password: 'Qaz@123456',
-          // database: 'website',
           entities: allEntity,
           synchronize: true
-        } as TypeOrmModuleOptions
+        };
       },
     }),
     // redis
     RedisModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: async (configService: ConfigService): Promise<RedisModuleOptions> => {
-        const tempHost = await configService.get('REDIS_HOST')
-        const tempPort = await configService.get('REDIS_PORT')
-        const tempPassword = await configService.get('REDIS_PASSWORD')
-        const tempName = await configService.get('REDIS_NAME')
+      useFactory: (configService: ConfigService): RedisModuleOptions => {
+        const tempHost = configService.get<string>('REDIS_HOST')
+        const tempPort = configService.get<number>('REDIS_PORT')
+        const tempPassword = configService.get<string>('REDIS_PASSWORD')
+        const tempName = configService.get<number>('REDIS_NAME')
         return {
           config: {
             host: tempHost,
             port: tempPort,
             password: tempPassword,
             db: tempName,
-
-            // host: '10.211.55.3',
-            // port: 6379,
-            // password: 'Qaz@123456',
-            // db: 0,
           }
         };
       },
