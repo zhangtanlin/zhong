@@ -1,0 +1,36 @@
+# docker-compose 配置文件
+version: '2.6.1' # yml 依从的 compose 版本
+services:
+  api:
+    build: .
+    depends_on:
+      - redis
+      - mysql_db
+  redis: # redis 容器名称
+    image: nest_redis
+    volumes:
+      - redis:/data
+  mysql: 
+    image: mysql:8
+    restart: always
+    container_name: mysql8
+    ports:
+      -3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=Qaz@123456
+      - MYSQL_PASSWORD=Qaz@123456
+      - MYSQL_USER=root
+      - MYSQL_DATABASE=website
+    volumes:
+      - ./mysql:/var/lib/mysql
+      - ./conf:/etc/mysql/conf.d
+      - ./logs:/logs
+volumes:
+  redis:
+    driver: local
+
+
+
+
+
+

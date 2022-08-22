@@ -227,3 +227,62 @@ loop、iterate、traversal和recursion这几个词是计算机技术书中经常
 
 ###### 全站案例
 - [node-nest-vue-nuxt-cms](https://github.com/givebest/node-nest-vue-nuxt-cms)
+
+## docker
+- [容器和镜像导入导出的区别](https://www.jianshu.com/p/8408e06b7273)
+```bash
+# 镜像的保存
+docker images
+REPOSITORY                TAG                 IMAGE ID            CREATED             SIZE
+tomcat8                   3.0                 90457edaf6ff        6 hours ago         1.036 GB
+[root@centos-7 mac]# docker save 9045 > tomcat8-apr.tar
+# 镜像的导入(这个方法是没有填写容器名称和容器版本号的)
+[root@centos-7 mac]# docker load < tomcat8-apr.tar
+60685807648a: Loading layer [==================================================>] 442.7 MB/442.7 MB
+[root@centos-7 mac]# yer [>                                                  ] 527.7 kB/442.7 MB
+[root@centos-7 mac]# docker images
+REPOSITORY                TAG                 IMAGE ID            CREATED             SIZE
+<none>                    <none>              90457edaf6ff        7 hours ago         1.036 GB
+# 镜像的重命名和版本号设置
+[root@centos-7 mac]# docker tag 9045 tomcat8-apr:3.0
+[root@centos-7 mac]# docker images
+REPOSITORY                TAG                 IMAGE ID            CREATED             SIZE
+tomcat8-apr               3.0                 90457edaf6ff        7 hours ago         1.036 GB
+# 容器作为镜像导出
+[root@centos-7 mac]# docker ps 
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS                               NAMES
+b91d9ad83efa        9045                "/bin/bash"         18 seconds ago      Up 15 seconds                                           trusting_colden
+[root@centos-7 mac]# docker export b91d9ad83efa > tomcat80824.tar
+注意:镜像导出的文件比容器导出文件大。
+# 容器作为镜像导入
+[root@centos-7 mac]# docker import tomcat80824.tar
+sha256:880fc96a6bb6abdfa949a56d40ef76f32f086fa11024ddcfb4e4e8b22041d5f2
+[root@centos-7 mac]# docker images
+REPOSITORY                TAG                 IMAGE ID            CREATED             SIZE
+<none>                    <none>              880fc96a6bb6        6 seconds ago       971.9 MB
+# 镜像的重命名和版本号设置
+[root@centos-7 mac]# docker tag 880f tomcat80824:1.0
+[root@centos-7 mac]# docker images
+REPOSITORY                TAG                 IMAGE ID            CREATED              SIZE
+tomcat80824               1.0                 880fc96a6bb6        About a minute ago   971.9 MB
+# 镜像导入和容器导入的区别：
+1）容器导入是将当前容器 变成一个新的镜像
+2）镜像导入是复制的过程
+save 和 export区别：
+1）save 保存镜像所有的信息-包含历史
+2）export 只导出当前的信息
+# 查看当前镜像的历史信息(这也是镜像比容器大的原因)
+docker history 880fc96a6bb6
+```
+- 解决docker内部无法使用vim
+
+``` bash
+# 运行这个命令的作用是：同步/etc/apt/sources.list和/etc/apt/sources.list.d中列出的源的索引，这样能获取最新的软件包
+apt-get update
+# 等更新完毕以后运行命令安装vim
+apt-get install vim
+```
+- 修改nginx之后重启方式
+```
+docker exec nginx-test nginx -s reload
+```

@@ -43,11 +43,26 @@ import { RedisModule, RedisModuleOptions } from '@liaoliaots/nestjs-redis'
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService): TypeOrmModuleOptions => {
-        const tempHost = configService.get<string>('MYSQL_HOST')
-        const tempPort = configService.get<number>('MYSQL_PORT')
-        const tempUser = configService.get<string>('MYSQL_USER')
-        const tempPassword = configService.get<string>('MYSQL_PASSWORD')
-        const tempName = configService.get<string>('MYSQL_NAME')
+        let tempHost = configService.get<string>('MYSQL_HOST')
+        let tempPort = configService.get<number>('MYSQL_PORT')
+        let tempUser = configService.get<string>('MYSQL_USER')
+        let tempPassword = configService.get<string>('MYSQL_PASSWORD')
+        let tempName = configService.get<string>('MYSQL_NAME')
+        if (!tempHost) {
+          tempHost = '10.211.55.3'
+        }
+        if (!tempPort) {
+          tempPort = 3306
+        }
+        if (!tempUser) {
+          tempUser = 'root'
+        }
+        if (!tempPassword) {
+          tempPassword = 'Qaz@123456'
+        }
+        if (!tempName) {
+          tempName = 'website'
+        }
         return {
           type: 'mysql',
           host: tempHost,
@@ -65,10 +80,22 @@ import { RedisModule, RedisModuleOptions } from '@liaoliaots/nestjs-redis'
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService): RedisModuleOptions => {
-        const tempHost = configService.get<string>('REDIS_HOST')
-        const tempPort = configService.get<number>('REDIS_PORT')
-        const tempPassword = configService.get<string>('REDIS_PASSWORD')
-        const tempName = configService.get<number>('REDIS_NAME')
+        let tempHost = configService.get<string>('REDIS_HOST')
+        let tempPort = configService.get<number>('REDIS_PORT')
+        let tempPassword = configService.get<string>('REDIS_PASSWORD')
+        let tempName = configService.get<number>('REDIS_NAME')
+        if (!tempHost) {
+          tempHost = '10.211.55.3'
+        }
+        if (!tempPort) {
+          tempPort = 6379
+        }
+        if (!tempPassword) {
+          tempPassword = 'Qaz@123456'
+        }
+        if (!tempName) {
+          tempName = 0
+        }
         return {
           config: {
             host: tempHost,
