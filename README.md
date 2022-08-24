@@ -284,5 +284,13 @@ apt-get install vim
 ```
 - 修改nginx之后重启方式
 ```
+# 进入nginx容器内
+# 如果使用的是"18-alpine3.15..."等alpine3版本，
+# 需要使用"/bin/sh"打开终端,其他的好像是"/bin/bash"或者"bash".
+
+docker exec -it container_nginx /bin/sh
+# 重启nginx1:
 docker exec nginx-test nginx -s reload
+# 重启nginx2:在nginx容器内使用:
+nginx -s reload
 ```
