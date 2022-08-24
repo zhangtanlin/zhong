@@ -294,3 +294,4 @@ docker exec nginx-test nginx -s reload
 # 重启nginx2:在nginx容器内使用:
 nginx -s reload
 ```
+- [nestjs+docker文档](https://juejin.cn/post/6955840578751823903)
