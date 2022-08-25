@@ -295,3 +295,4 @@ docker exec nginx-test nginx -s reload
 nginx -s reload
 ```
 - [nestjs+docker文档](https://juejin.cn/post/6955840578751823903)
+- 获取 docker 内的 ip 地址:`docker inspect 容器id | grep IPAddress`
