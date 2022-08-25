@@ -10,18 +10,18 @@ FROM node:18.0.0-alpine3.15 As development
 WORKDIR /usr/src/nestjs
 
 # 构建开发-通配符复制 package.json 和 package-lock.json 文件
-# 注意:使用 COPY 指令时，最好添加一个标志以确保用户拥有正确的权限。可以使用(--chown=node:node)来实现.
+# 注意:使用 COPY 指令时,最好添加一个标志以确保用户拥有正确的权限.可以使用(--chown=node:node)来实现.
 COPY --chown=test_user:test_user package*.json ./
 
 # 构建开发-安装应用依赖
-# 注意: `npm ci` 与 `npm install` 类似，但它旨在用于自动化环境，例如测试平台、持续集成和部署或任何您希望确保干净安装依赖项的情况。
+# 注意: `npm ci` 与 `npm install` 类似,但它旨在用于自动化环境,例如测试平台、持续集成和部署或任何您希望确保干净安装依赖项的情况.
 RUN npm ci
 
 # 构建开发-捆绑应用资源
 COPY --chown=test_user:test_user . .
 
 # 构建开发-添加用户权限
-# 注意:默认情况下，如果未使用 USER 在 Dockerfile 中添加指定指令，映像默认使用 root 权限运行。有安全风险，因此我们将使用 USER 在 Dockerfile 中添加一条指令。
+# 注意:默认情况下,如果未使用 USER 在 Dockerfile 中添加指定指令,映像默认使用 root 权限运行.有安全风险,因此我们将使用 USER 在 Dockerfile 中添加一条指令.
 USER test_user
 
 ####################
@@ -34,7 +34,7 @@ FROM node:18.0.0-alpine3.15 As build
 # 构建生产-应用目录
 WORKDIR /usr/src/nestjs
 
-# 构建生产-为了运行 `npm run build`，我们需要使用 Nest CLI 的依赖项。之前开发阶段已经运行了 `npm ci`，已安装所有依赖项，所以可以从开发镜像中复制 node_modules 目录
+# 构建生产-为了运行 `npm run build`,我们需要使用 Nest CLI 的依赖项.之前开发阶段已经运行了 `npm ci`,已安装所有依赖项,所以可以从开发镜像中复制 node_modules 目录
 COPY --chown=test_user:test_user --from=development /usr/src/nestjs/node_modules ./node_modules
 
 # 构建生产-捆绑应用资源
@@ -44,12 +44,10 @@ COPY --chown=test_user:test_user . .
 RUN npm run build
 
 # 构建生产-设置环境变量
-# 注意:使用 NODE_ENV 设置环境变量时，许多库都内置优化 production
+# 注意:使用 NODE_ENV 设置环境变量时,许多库都内置优化 production
 ENV NODE_ENV production
-ENV HOST 0.0.0.0
-ENV PORT 3000
 
-# 构建生产-运行 `npm ci` 会删除现有的 node_modules 目录并传入 --only=production 确保仅安装生产依赖项。这样可以确保 node_modules 目录尽可能优化
+# 构建生产-运行 `npm ci` 会删除现有的 node_modules 目录并传入 --only=production 确保仅安装生产依赖项.这样可以确保 node_modules 目录尽可能优化
 RUN npm ci --only=production && npm cache clean --force
 
 ####################
@@ -63,15 +61,14 @@ FROM node:18.0.0-alpine3.15 As production
 WORKDIR /usr/src/nestjs
 
 # 生产-将绑定的代码从构建阶段复制生产镜像
-COPY --chown=test_user:test_user --from=build /usr/src/nestjs/dist ./dist
-COPY --chown=test_user:test_user --from=build /usr/src/nestjs/node_modules ./dist/node_modules
-COPY --chown=test_user:test_user --from=build /usr/src/nestjs/package.json ./dist/package.json
+COPY --chown=test_user:test_user --from=build /usr/src/nestjs/dist/ ./
+COPY --chown=test_user:test_user --from=build /usr/src/nestjs/node_modules ./node_modules
 
 # 开放端口
 EXPOSE 3000
 
 # 生产-使用生产构架开启服务
-CMD ["node", "dist/main.js"]
+CMD ["node", "main.js"]
 
 # 构建镜像
 # 注意: 最好是使用下划线.
@@ -79,8 +76,8 @@ CMD ["node", "dist/main.js"]
 
 # 启动容器
 # 注意1: 最好是使用下划线.
-# 注意2:"3000:3000"第一个3000表示容器端口，第二个端口表示程序端口.
-# 注意3:"--name=zhong-docker"要写在镜像名称前面，写在后面识别不了.
+# 注意2:"3000:3000"第一个3000表示容器端口,第二个端口表示程序端口.
+# 注意3:"--name=zhong-docker"要写在镜像名称前面,写在后面识别不了.
 # 注意3:"-d"表示启动之后退出(回复到启动之前的状态).
 # 注意4:"--restart=always"表示docker启动时自动运行.
 # docker run -p 0.0.0.0:3000:3000 --name=container_nestjs -d --restart=always image_nestjs

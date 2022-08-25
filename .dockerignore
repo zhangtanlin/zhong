@@ -16,6 +16,11 @@ dist
 # docker 打包忽略 .git 文件夹
 .git
 
+# 排除测试文件等
+**/*.js.map
+**/*.d.ts
+**/tsconfig.build.tsbuildinfo
+
 # 其他需要排除的文件
 程序架构图.txt
 build.sh
