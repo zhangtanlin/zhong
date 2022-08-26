@@ -1,18 +1,33 @@
 {
   "compilerOptions": {
+    // 生成代码的模块标准
     "module": "commonjs",
+    // 是否生成声明文件(.d.ts文件)
     "declaration": true,
+    // 删除注释
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
+    // 目标语言的版本
     "target": "es2017",
+    // 是否生成目标文件的 sourceMap(.map文件)
     "sourceMap": true,
+    // 指定输出目录
     "outDir": "./dist",
+    // 解析非相对模块的基地址
     "baseUrl": "./",
+    // 是否增量编译
     "incremental": true,
     "skipLibCheck": true
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist"]
+  // 需要编译的文件或目录
+  "include": [
+    "src/"
+  ],
+  // 不需要编译的文件或目录
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
 }

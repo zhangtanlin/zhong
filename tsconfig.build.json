@@ -1,9 +1,14 @@
+// 在 tsconfig.json 基础上进行更新
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "sourceMap": false, // 不要 map
-    "declaration": false, // 不要 .d.ts
-    "incremental": false, // 不要增量编译
+    "composite": false,
+    // 是否生成声明文件(.d文件)
+    "declaration": false,
+    // 是否生成目标文件的 sourceMap(.map文件)
+    "sourceMap": false,
+    // 是否增量编译
+    "incremental": false,
   },
   "exclude": [
     "node_modules",
