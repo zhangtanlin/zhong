@@ -78,18 +78,26 @@ FROM node:18.0.0-alpine3.15 As production
 # 打包-用户
 USER root
 
+# 打包-设置环境变量
+# 注意1:使用 NODE_ENV 设置环境变量时,许多库都内置优化 production.
+# 注意2:这里设置环境变量是为了构建之后,更新环境.
+ARG NODE_ENV=production
+ENV NODE_ENV={NODE_ENV}
+
 # 生产-应用目录
 WORKDIR /usr/src/nestjs
 
 # 生产-将绑定的代码从构建阶段复制到镜像
 COPY --chown=root:root --from=build /usr/src/nestjs/dist ./dist
-COPY --chown=root:root --from=build /usr/src/nestjs/node_modules ./dist/node_modules
+COPY --chown=root:root --from=build /usr/src/nestjs/node_modules ./node_modules
+COPY --chown=root:root --from=build /usr/src/nestjs/package.json ./package.json
 
 # 生产-开放端口
 EXPOSE 3000
 
 # 生产-使用生产构架开启服务
-CMD ["node", "dist/main"]
+CMD ["npm", "run", "start:prod"]
+# CMD ["sh", "-l", "NODE_ENV=production node ./dist/main"]
 
 # 构建镜像
 # 注意: 最好是使用下划线.

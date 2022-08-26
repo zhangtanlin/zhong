@@ -12,6 +12,7 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger'
 
 // 微服务
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+import { Logger } from '@nestjs/common';
 
 async function bootstrap() {
   /**
@@ -37,6 +38,7 @@ async function bootstrap() {
   }
 
   const port = await configService.get('NEST_PORT')
+  Logger.log(`主程序端口:${port}`);
   const msPort = await configService.get('MS_PORT')
 
   /**
