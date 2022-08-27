@@ -1,34 +1,66 @@
+###############################
 # docker-compose 配置文件
-version: '2.6.1' # yml 依从的 compose 版本
-services:
-  api:
-    build: .
-    depends_on:
-      - redis
-      - mysql_db
-  redis: # redis 容器名称
-    image: nest_redis
-    volumes:
-      - redis:/data
-  mysql: 
-    image: mysql:8
-    restart: always
-    container_name: mysql8
-    ports:
-      -3306:3306
-    environment:
-      - MYSQL_ROOT_PASSWORD=Qaz@123456
-      - MYSQL_PASSWORD=Qaz@123456
-      - MYSQL_USER=root
-      - MYSQL_DATABASE=website
-    volumes:
-      - ./mysql:/var/lib/mysql
-      - ./conf:/etc/mysql/conf.d
-      - ./logs:/logs
-volumes:
-  redis:
-    driver: local
+# 注意1:运行方式:docker-compose up -d
+# 注意2:运行方式:docker-compose up -d
+###############################
 
+# yml 依赖的 compose 版本
+version: '2.6.1'
+
+# yml 配置的服务
+services:
+  # nestjs 服务
+  nestjs:
+    # 镜像使用 node:18
+    image: "node:18.0.0"
+    # 容器名称
+    container_name: container-nestjs-9
+    # docker 内的工作空间
+    working_dir: /usr/src/test-nestjs/
+    # 数据目录
+    volumns:
+      # 当前路径下的 app 目录，对应容器里的 /workspace 目录.
+      - ./app:/workspace
+    # 重启策略
+    restart: always
+    # 容器一直运行
+    tty: true
+    # 应用程序可以连接到的服务.
+    # 注意:链接允许定义额外的别名，通过别名可以从另一个服务访问.
+    links:
+      # 连接 mysql
+      - "db:mysql"
+    # 可访问的容器
+    depends_on:
+      - db:mysql
+    # 映射的端口
+    ports:
+      - 3000:3000
+    # 暴露的端口
+    expose:
+      - 3000
+    # 运行的命令
+    command: "npm start"
+    # 环境变量
+    environment:
+      - NODE_ENV=production
+  # mysql 服务
+  mysql_nestjs_8:
+    image: mysql:8.0.21
+    conatainer_name: mysql_nestjs_8
+    restart: always
+    ports:
+      - 3306:3306
+    # 密码策略,
+    command: 
+      _ 
+  # redis 服务
+  redis_nestjs_latest:
+    image: redis:latest
+    conatainer_name: redis_nestjs_latest
+    restart: always
+    ports:
+      - 6379:6379
 
 
 
