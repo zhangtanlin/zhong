@@ -1,57 +1,8 @@
 <p align="center">
   <a href="http://nestjs.com/" target="blank">
-    <img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" />
+    <img src="https://nestjs.com/img/logo_text.svg" width="160" alt="Nest Logo" />
   </a>
 </p>
-
-[travis-image]: https://api.travis-ci.org/nestjs/nest.svg?branch=master
-[travis-url]: https://travis-ci.org/nestjs/nest
-[linux-image]: https://img.shields.io/travis/nestjs/nest/master.svg?label=linux
-[linux-url]: https://travis-ci.org/nestjs/nest
-  
-<p align="center">
-  A progressive
-  <a href="http://nodejs.org" target="blank">Node.js</a>
-  framework for building efficient and scalable server-side applications, heavily inspired by
-  <a href="https://angular.io" target="blank">Angular</a>.
-</p>
-<p align="center">
-  <a href="https://www.npmjs.com/~nestjscore">
-    <img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" />
-  </a>
-  <a href="https://www.npmjs.com/~nestjscore">
-    <img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" />
-  </a>
-  <a href="https://www.npmjs.com/~nestjscore">
-    <img src="https://img.shields.io/npm/dm/@nestjs/core.svg" alt="NPM Downloads" />
-  </a>
-  <a href="https://travis-ci.org/nestjs/nest">
-    <img src="https://api.travis-ci.org/nestjs/nest.svg?branch=master" alt="Travis" />
-  </a>
-  <a href="https://travis-ci.org/nestjs/nest">
-    <img src="https://img.shields.io/travis/nestjs/nest/master.svg?label=linux" alt="Linux" />
-  </a>
-  <a href="https://coveralls.io/github/nestjs/nest?branch=master">
-    <img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#5" alt="Coverage" />
-  </a>
-  <a href="https://gitter.im/nestjs/nestjs?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=body_badge">
-    <img src="https://badges.gitter.im/nestjs/nestjs.svg" alt="Gitter" />
-  </a>
-  <a href="https://opencollective.com/nest#backer">
-    <img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" />
-  </a>
-  <a href="https://opencollective.com/nest#sponsor">
-    <img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" />
-  </a>
-  <a href="https://paypal.me/kamilmysliwiec">
-    <img src="https://img.shields.io/badge/Donate-PayPal-dc3d53.svg"/>
-  </a>
-  <a href="https://twitter.com/nestframework">
-    <img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow">
-  </a>
-</p>
-<!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-[![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
 ###### 描述
 这是一个使用**nestjs**构建的应用，包含服务端（含有**api接口**和**管理系统接口**）,<br/>
@@ -232,39 +183,22 @@ loop、iterate、traversal和recursion这几个词是计算机技术书中经常
 - [容器和镜像导入导出的区别](https://www.jianshu.com/p/8408e06b7273)
 ```bash
 # 镜像的保存
-docker images
-REPOSITORY                TAG                 IMAGE ID            CREATED             SIZE
-tomcat8                   3.0                 90457edaf6ff        6 hours ago         1.036 GB
-[root@centos-7 mac]# docker save 9045 > tomcat8-apr.tar
-# 镜像的导入(这个方法是没有填写容器名称和容器版本号的)
-[root@centos-7 mac]# docker load < tomcat8-apr.tar
-60685807648a: Loading layer [==================================================>] 442.7 MB/442.7 MB
-[root@centos-7 mac]# yer [>                                                  ] 527.7 kB/442.7 MB
-[root@centos-7 mac]# docker images
-REPOSITORY                TAG                 IMAGE ID            CREATED             SIZE
-<none>                    <none>              90457edaf6ff        7 hours ago         1.036 GB
-# 镜像的重命名和版本号设置
-[root@centos-7 mac]# docker tag 9045 tomcat8-apr:3.0
-[root@centos-7 mac]# docker images
-REPOSITORY                TAG                 IMAGE ID            CREATED             SIZE
-tomcat8-apr               3.0                 90457edaf6ff        7 hours ago         1.036 GB
+# 注意:9045 是镜像 id,tomcat8-apr.tar 是打包之后的文件名称.
+docker save 9045 > tomcat8-apr.tar
+# 镜像的导入
+# 注意1:该方法没有填写容器名称和容器版本号.
+# 注意2:tomcat8-apr.tar 是导出的镜像.
+docker load < tomcat8-apr.tar
 # 容器作为镜像导出
-[root@centos-7 mac]# docker ps 
-CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS                               NAMES
-b91d9ad83efa        9045                "/bin/bash"         18 seconds ago      Up 15 seconds                                           trusting_colden
-[root@centos-7 mac]# docker export b91d9ad83efa > tomcat80824.tar
-注意:镜像导出的文件比容器导出文件大。
+# 注意1:b91d9ad83efa 是容器 id,tomcat80824.tar 是打包之后的镜像名称.
+# 注意2:镜像导出的文件比容器导出文件大.
+docker export b91d9ad83efa > tomcat80824.tar
 # 容器作为镜像导入
-[root@centos-7 mac]# docker import tomcat80824.tar
-sha256:880fc96a6bb6abdfa949a56d40ef76f32f086fa11024ddcfb4e4e8b22041d5f2
-[root@centos-7 mac]# docker images
-REPOSITORY                TAG                 IMAGE ID            CREATED             SIZE
-<none>                    <none>              880fc96a6bb6        6 seconds ago       971.9 MB
+# 注意:tomcat80824.tar 是通过容器到处的镜像(rongqi).
+docker import tomcat80824.tar
 # 镜像的重命名和版本号设置
-[root@centos-7 mac]# docker tag 880f tomcat80824:1.0
-[root@centos-7 mac]# docker images
-REPOSITORY                TAG                 IMAGE ID            CREATED              SIZE
-tomcat80824               1.0                 880fc96a6bb6        About a minute ago   971.9 MB
+# 注意:880f 是镜像的 id,tomcat80824:1.0 中前面是镜像名称后面是镜像版本号.
+docker tag 880f tomcat80824:1.0
 # 镜像导入和容器导入的区别：
 1）容器导入是将当前容器 变成一个新的镜像
 2）镜像导入是复制的过程
@@ -274,10 +208,13 @@ save 和 export区别：
 # 查看当前镜像的历史信息(这也是镜像比容器大的原因)
 docker history 880fc96a6bb6
 ```
-- 解决docker内部无法使用vim
-
-``` bash
-# 运行这个命令的作用是：同步/etc/apt/sources.list和/etc/apt/sources.list.d中列出的源的索引，这样能获取最新的软件包
+- 解决docker内部无法使用vim(最好不修改容器).
+```bash
+# 运行这个命令的作用是：
+# 同步
+# /etc/apt/sources.list
+# 和/etc/apt/sources.list.d中
+# 列出的源的索引,这样能获取最新的软件包.
 apt-get update
 # 等更新完毕以后运行命令安装vim
 apt-get install vim
@@ -287,7 +224,6 @@ apt-get install vim
 # 进入nginx容器内
 # 如果使用的是"18-alpine3.15..."等alpine3版本，
 # 需要使用"/bin/sh"打开终端,其他的好像是"/bin/bash"或者"bash".
-
 docker exec -it container_nginx /bin/sh
 # 重启nginx1:
 docker exec nginx-test nginx -s reload
