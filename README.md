@@ -194,8 +194,9 @@ docker load < tomcat8-apr.tar
 # 注意2:镜像导出的文件比容器导出文件大.
 docker export b91d9ad83efa > tomcat80824.tar
 # 容器作为镜像导入
-# 注意:tomcat80824.tar 是通过容器到处的镜像(rongqi).
-docker import tomcat80824.tar
+# 注意1:tomcat80824.tar 是通过容器到处的镜像(容器).
+# 注意2:`nestjs_image:1.0.0`是可选参数,前者为镜像名称,后者为镜像版本.
+docker import tomcat80824.tar nestjs_image:1.0.0
 # 镜像的重命名和版本号设置
 # 注意:880f 是镜像的 id,tomcat80824:1.0 中前面是镜像名称后面是镜像版本号.
 docker tag 880f tomcat80824:1.0
