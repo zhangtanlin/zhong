@@ -42,27 +42,14 @@ import { RedisModule, RedisModuleOptions } from '@liaoliaots/nestjs-redis'
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (configService: ConfigService): TypeOrmModuleOptions => {
-        let tempHost = configService.get<string>('MYSQL_HOST')
-        let tempPort = configService.get<number>('MYSQL_PORT')
-        let tempUser = configService.get<string>('MYSQL_USER')
-        let tempPassword = configService.get<string>('MYSQL_PASSWORD')
-        let tempName = configService.get<string>('MYSQL_NAME')
-        if (!tempHost) {
-          tempHost = '10.211.55.3'
-        }
-        if (!tempPort) {
-          tempPort = 3306
-        }
-        if (!tempUser) {
-          tempUser = 'root'
-        }
-        if (!tempPassword) {
-          tempPassword = 'Qaz@123456'
-        }
-        if (!tempName) {
-          tempName = 'website'
-        }
+      useFactory: async (
+        configService: ConfigService,
+      ): Promise<TypeOrmModuleOptions> => {
+        const tempHost: string = await configService.get('MYSQL_HOST')
+        const tempPort: number = await configService.get('MYSQL_PORT')
+        const tempUser: string = await configService.get('MYSQL_USER')
+        const tempPassword: string = await configService.get('MYSQL_PASSWORD')
+        const tempName: string = await configService.get('MYSQL_NAME')
         return {
           type: 'mysql',
           host: tempHost,
@@ -79,23 +66,13 @@ import { RedisModule, RedisModuleOptions } from '@liaoliaots/nestjs-redis'
     RedisModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (configService: ConfigService): RedisModuleOptions => {
-        let tempHost = configService.get<string>('REDIS_HOST')
-        let tempPort = configService.get<number>('REDIS_PORT')
-        let tempPassword = configService.get<string>('REDIS_PASSWORD')
-        let tempName = configService.get<number>('REDIS_NAME')
-        if (!tempHost) {
-          tempHost = '10.211.55.3'
-        }
-        if (!tempPort) {
-          tempPort = 6379
-        }
-        if (!tempPassword) {
-          tempPassword = 'Qaz@123456'
-        }
-        if (!tempName) {
-          tempName = 0
-        }
+      useFactory: async (
+        configService: ConfigService,
+      ): Promise<RedisModuleOptions> => {
+        const tempHost: string = await configService.get('REDIS_HOST')
+        const tempPort: number = await configService.get('REDIS_PORT')
+        const tempPassword: string = await configService.get('REDIS_PASSWORD')
+        const tempName: number = await configService.get('REDIS_NAME')
         return {
           config: {
             host: tempHost,
@@ -133,5 +110,8 @@ import { RedisModule, RedisModuleOptions } from '@liaoliaots/nestjs-redis'
     AppController,
     ThirdController,
   ],
+  providers: [
+    AppService,
+  ]
 })
 export class AppModule { }

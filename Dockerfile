@@ -91,13 +91,15 @@ WORKDIR /usr/src/nestjs
 COPY --chown=root:root --from=build /usr/src/nestjs/dist ./dist
 COPY --chown=root:root --from=build /usr/src/nestjs/node_modules ./node_modules
 COPY --chown=root:root --from=build /usr/src/nestjs/package.json ./package.json
+COPY --chown=root:root --from=development /usr/src/nestjs/env ./env
+COPY --chown=root:root --from=development /usr/src/nestjs/public ./public
+COPY --chown=root:root --from=development /usr/src/nestjs/views ./views
 
 # 生产-开放端口
 EXPOSE 3000
 
 # 生产-使用生产构架开启服务
 CMD ["npm", "run", "start:prod"]
-# CMD ["sh", "-l", "NODE_ENV=production node ./dist/main"]
 
 # 构建镜像
 # 注意: 最好是使用下划线.

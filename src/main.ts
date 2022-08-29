@@ -12,7 +12,6 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger'
 
 // 微服务
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
-import { Logger } from '@nestjs/common';
 
 async function bootstrap() {
   /**
@@ -25,21 +24,20 @@ async function bootstrap() {
   )
 
   // 获取环境变量
-  const configService = app.get(ConfigService);
-  let crossUrlString: string = configService.get<string>('CROSS_URL')
+  const configService: ConfigService = await app.get(ConfigService);
+  let crossUrlString: string = await configService.get('CROSS_URL')
   let crossUrlArr: string[] = []
   if (crossUrlString) {
     crossUrlArr = crossUrlString.split(',')
   }
-  let crossMethodsStr: string = configService.get<string>('CROSS_METHOD')
+  let crossMethodsStr: string = await configService.get('CROSS_METHOD')
   let crossMethodsStrArr: string[] = []
   if (crossMethodsStr) {
     crossMethodsStrArr = crossMethodsStr.split(',')
   }
 
-  const port = await configService.get('NEST_PORT')
-  Logger.log(`主程序端口:${port}`);
-  const msPort = await configService.get('MS_PORT')
+  const port: number = await configService.get('NEST_PORT')
+  const msPort: number = await configService.get('MS_PORT');
 
   /**
    * 设置允许跨域
