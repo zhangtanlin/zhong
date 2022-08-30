@@ -103,7 +103,7 @@ CMD ["npm", "run", "start:prod"]
 
 # 构建镜像
 # 注意: 最好是使用下划线.
-# docker build -t image_nestjs .
+# docker build -t nestjs_image .
 
 # 启动容器
 # 注意1: 最好是使用下划线.
@@ -111,4 +111,4 @@ CMD ["npm", "run", "start:prod"]
 # 注意3:"--name=zhong-docker"要写在镜像名称前面,写在后面识别不了.
 # 注意3:"-d"表示启动之后退出(回复到启动之前的状态).
 # 注意4:"--restart=always"表示docker启动时自动运行.
-# docker run -p 0.0.0.0:3000:3000 --name=container_nestjs -d --restart=always image_nestjs
+# docker run -p 0.0.0.0:3000:3000 --name=nestjs_container -d --restart=always nestjs_image
