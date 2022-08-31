@@ -233,3 +233,9 @@ nginx -s reload
 ```
 - [nestjs+docker文档](https://juejin.cn/post/6955840578751823903)
 - 获取 docker 内的 ip 地址:`docker inspect 容器id | grep IPAddress`
+- docker 内使用 redis 的一些命令:
+```bash
+# 注意:这里和一般的命令有点区别的是最后是使用的是 redis-cli ,
+# 而不是 /bin/sh 和 /bin/bash. 
+docker exec -it docker容器id redis-cli
+```
