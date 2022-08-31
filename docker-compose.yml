@@ -80,12 +80,12 @@ services:
     container_name: redis6_c
     # restart: always
     ports:
-      - 6380:6380
+      - 6379:6379
     environment:
       # 设置密码(默认开启密码的)
       - REDIS_PASSWORD=Qaz@123456
-    # volumes:
-    #   - /usr/local/var/db/redis/:/redis/data
+    volumes:
+      - /usr/src/redis/redis.conf:/usr/local/etc/redis.conf
     # networks:
     #   - backend
 
