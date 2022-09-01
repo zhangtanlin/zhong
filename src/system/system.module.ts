@@ -1,8 +1,8 @@
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { AdModule } from "src/ad/ad.module";
-import { UserModule } from "src/user/user.module";
-import { VersionModule } from "src/version/version.module";
+import { AdModule } from "../ad/ad.module";
+import { UserModule } from "../user/user.module";
+import { VersionModule } from "../version/version.module";
 import { SystemConfigEntity } from "./system.config.entity";
 import { 
   SystemController,

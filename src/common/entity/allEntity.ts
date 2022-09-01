@@ -13,7 +13,7 @@
  * @requires [VersionEntity]      - 版本号
  * @requires [SystemConfigEntity] - 系统配置
  */
-import { AdminEntity } from 'src/admin/admin.entity'
+import { AdminEntity } from '../../admin/admin.entity'
 import { UserEntity } from '../../user/user.entity'
 import { RoleEntity } from '../../role/role.entity'
 import { ResourceEntity } from '../../resource/entity/resource.entity'
@@ -22,9 +22,9 @@ import { VideoEntity } from '../../video/video.entity'
 import { DownloadEntity } from '../../download/entity/download.entity'
 import { GuessEntity } from '../../guess/entity/guess.entity'
 import { AdEntity } from '../../ad/ad.entity'
-import { LineEntity } from 'src/line/line.entity'
-import { VersionEntity } from 'src/version/version.entity'
-import { SystemConfigEntity } from 'src/system/system.config.entity'
+import { LineEntity } from '../../line/line.entity'
+import { VersionEntity } from '../../version/version.entity'
+import { SystemConfigEntity } from '../../system/system.config.entity'
 
 /**
  * allEntity导出

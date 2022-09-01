@@ -24,7 +24,7 @@ import { ResourceEntity } from './entity/resource.entity'
 import { ResourceObjectDto } from './dto/resource.object.dto'
 import { idPidToTree } from '../common/utils/tool'
 import { AES, enc } from 'crypto-js'
-import { AuthAdminGuard } from 'src/common/guard/auth_admin.guard'
+import { AuthAdminGuard } from '../common/guard/auth_admin.guard'
 import { ConfigService } from '@nestjs/config'
 
 /**

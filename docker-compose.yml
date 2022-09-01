@@ -5,6 +5,11 @@
 #      --compatibility 是兼容性命令.
 #      up 是从拉取到构建运行的全套指令.
 #      -d 是后台运行.
+# yml 内的一些注意事项:
+# 1:双引号不会对字符串里面的特殊字符进行转义.
+# 2:单引号会对字符串里面的特殊字符进行转义，使其失去转义功能，始终是一个普通的字符串.
+# 3:yml 中如果键没有填写对应的值则等价于填入了null,
+#   这时传入null就需要用引号包裹(但双引号皆可).
 ###############################
 
 # yml 依赖的 docker-compose 版本
@@ -13,82 +18,89 @@ version: 2.6.1
 name: nestjs_componse
 # yml 配置的服务
 services:
-  # mysql 服务
-  mysql8:
-    # 镜像名
-    image: mysql:8.0
-    # 容器名称
-    container_name: mysql8_c
-    # 重启策略
-    # restart: always
-    # 环境变量
-    environment:
-      # 时区上海
-      TZ: Asiz/Shanghai
-      # root 密码
-      MYSQL_ROOT_PASSWORD: Qaz@123456
-      # 访问地址
-      MYSQL_HOST: localhost
-      # 访问端口
-      MYSQL_PORT: 3306
-      # 初始化用户
-      # 注意:不能是 root,因为会报错,后面需要给新用户赋予权力.
-      MYSQL_USER: admin
-      # 访问密码
-      MYSQL_PASSWORD: Qaz@123456
-      # 访问数据库名字
-      MYSQL_DATABASE: website
-      # 是否允许空的密码
-      MYSQL_ALLOW_EMPTY_PASSWORD: true
-      # 是否允许随机密码
-      MYSQL_RANDOM_ROOT_PASSWORD: false
-    # 端口
-    ports:
-      - 3306:3306
-    # 目录
-    # volumes:
-    #   # 数据目录
-    #   # - data:/var/lib/mysql
-    #   # 日志
-    #   - /usr/local/var/mysql/logs:/var/log/mysql
-    #   # 配置文件目录
-    #   - /usr/local/var/mysql/data:/var/log/mysql
-    #   # 初始化目录挂载
-    #   # - /mac/init/:/docker-entrypoint-initdb.d/
-    #   # 配置文件
-    #   # 注意1:my.cnf 设置字符集为 utf8mb4 解决 emoji 表情等特殊字符存储问题.
-    #   # 注意2:这里的 /usr/local/etc/my.cnf 路径是 mac 的路径.
-    #   - /usr/local/etc/my.cnf:/etc/my.cnf
-    #   # /usr/local/Cellar/mysql/8.0.23_1/bin/mysqld
-    #   # /usr/local/var/mysql/ is case insensitive
-    #   # /usr/local/Cellar/mysql/8.0.23_1/share/mysql/charsets/
-    #   # Timestamp, Thread, Type, Details
-    #   # /usr/local/Cellar/mysql/8.0.23_1/bin/mysqld
-    #   # 8.0.23
-    #   # /tmp/mysqlx.sock
-    #   # /tmp/mysql.sock
-    # 密码策略,
-    # 将mysql8.0默认密码策略修改为老策略.
-    # 注意:mysql8.0对其默认策略做了更改,会导致密码无法匹配s.
-    command: --default-authentication-plugin=mysql_native_password --explicit_defaults_for_timestamp=true --collation-server=utf8mb4_general_ci --character-set-server=utf8mb4 --lower_case_table_names=1 --max_allowed_packet=128M
-    # networks:
-    #   - backend
+  # # mysql 服务
+  # mysql8:
+  #   # 镜像名
+  #   image: mysql:8.0
+  #   # 容器名称
+  #   container_name: mysql8_c
+  #   # 重启策略
+  #   # restart: always
+  #   # 环境变量
+  #   environment:
+  #     # 时区上海
+  #     TZ: Asiz/Shanghai
+  #     # root 密码
+  #     MYSQL_ROOT_PASSWORD: Qaz@123456
+  #     # 访问地址
+  #     MYSQL_HOST: localhost
+  #     # 访问端口
+  #     MYSQL_PORT: 3306
+  #     # 自定义数据库-初始化用户名
+  #     # 注意:不能是 root,因为会报错,后面需要给新用户赋予权力.
+  #     MYSQL_USER: admin
+  #     # 自定义数据库-访问密码
+  #     MYSQL_PASSWORD: Qaz@123456
+  #     # 自定义数据库-数据库名字
+  #     MYSQL_DATABASE: website
+  #     # 是否允许空的密码
+  #     MYSQL_ALLOW_EMPTY_PASSWORD: true
+  #     # 是否允许随机密码
+  #     MYSQL_RANDOM_ROOT_PASSWORD: false
+  #   # 端口
+  #   ports:
+  #     - 3306:3306
+  #   # 目录
+  #   # volumes:
+  #   #   # 数据目录
+  #   #   # - data:/var/lib/mysql
+  #   #   # 日志
+  #   #   - /usr/local/var/mysql/logs:/var/log/mysql
+  #   #   # 配置文件目录
+  #   #   - /usr/local/var/mysql/data:/var/log/mysql
+  #   #   # 初始化目录挂载
+  #   #   # - /mac/init/:/docker-entrypoint-initdb.d/
+  #     # 配置文件
+  #     # 注意1:my.cnf 设置字符集为 utf8mb4 解决 emoji 表情等特殊字符存储问题.
+  #     # 注意2:这里的 /usr/local/etc/my.cnf 路径是 mac 的路径.
+  #     # - ./docker/mysql/my.cnf:/etc/my.cnf
+  #   #   # /usr/local/Cellar/mysql/8.0.23_1/bin/mysqld
+  #   #   # /usr/local/var/mysql/ is case insensitive
+  #   #   # /usr/local/Cellar/mysql/8.0.23_1/share/mysql/charsets/
+  #   #   # Timestamp, Thread, Type, Details
+  #   #   # /usr/local/Cellar/mysql/8.0.23_1/bin/mysqld
+  #   #   # 8.0.23
+  #   #   # /tmp/mysqlx.sock
+  #   #   # /tmp/mysql.sock
 
   # redis 服务
   redis6:
     image: redis:6.2.1
     container_name: redis6_c
-    # restart: always
+    restart: always
     ports:
       - 6379:6379
     environment:
-      # 设置密码(默认开启密码的)
-      - REDIS_PASSWORD=Qaz@123456
+      - TZ=Asia/Shanghai
+      - LANG=en_US.UTF-8
     volumes:
-      - /usr/src/redis/redis.conf:/usr/local/etc/redis.conf
-    # networks:
-    #   - backend
+      # 挂载 /data 到容器.
+      - ./docker/redis/data:/data
+      # 挂载 /redis.conf 到容器
+      - ./docker/redis/redis.conf:/usr/local/src/redis/redis.conf
+      # 挂载 /log 到容器
+      - ./docker/redis/logs:/logs
+    # docker 的运行是使用容器内的配置文件运行
+    command: redis-server --requirepass Qaz@123456
 
+    # 控制日志参数
+    logging:
+      options:
+        max-size: '100m'
+        max-file: '10'
+    # 不知道啥意思
+    privileged: true
+    
   # nestjs 服务
   nestjs:
     # 镜像名
@@ -112,28 +124,11 @@ services:
     # 暴露的端口
     expose:
       - 3000
-    # volumes:
-    #   - .:/usr/src/nestjs
-    # 应用程序可以连接到的服务.
-    # 注意:链接允许定义额外的别名，通过别名可以从另一个服务访问.
-    # links:
-    #   - mysql8:mysql8
-    #   - redis6:redis6
-    # # 可访问的容器.
-    # depends_on:
-    #   - mysql8:mysql8
-    #   - redis6:redis6
-    # # 环境变量
-    # environment:
-    #   - NODE_ENV=production
-    # 关联的网络
-    # networks:
-    #   - backend
-
-# 网络配置
-# 注意: backend 表示后端的网络.
-# 注意:这里的网络配置如果各个服务要单独引入才能在同一网络下.
-# networks:
-#   default:
-#     external:
-#       name: nestjs_network
+    # 当前服务依赖于哪些服务
+    # 注意1:redis6 会比当前服务更早启动.
+    # 注意2:当前服务不会等 redis6 再次启动才启动(redis6 未正确启动时可能会再次启动).
+    depends_on:
+      - redis6
+    # 确保每次都能连接 redis 数据库
+    links:
+      - redis6

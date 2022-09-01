@@ -24,8 +24,8 @@ import { RoleAddDto } from './dto/role.add.dto'
 import { DtoPipe } from '../common/pipe/dto.pipe'
 import { ResultDto } from '../common/dto/result.dto'
 import { RoleGetDto } from './dto/role.get.dto'
-import { AuthAdminGuard } from 'src/common/guard/auth_admin.guard'
-import { ResultListDto } from 'src/common/dto/result.list.dto'
+import { AuthAdminGuard } from '../common/guard/auth_admin.guard'
+import { ResultListDto } from '../common/dto/result.list.dto'
 
 // 角色
 @Controller('/admin/role')

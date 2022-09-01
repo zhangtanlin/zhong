@@ -20,7 +20,7 @@ import { VideoGetDto } from './dto/video.get.dto'
 import { VideoAddDto } from './dto/video.add.dto'
 import { VideoUploadBeforeDto } from './dto/video.upload.before.dto'
 import { FileInterceptor } from '@nestjs/platform-express'
-import { AuthAdminGuard } from 'src/common/guard/auth_admin.guard'
+import { AuthAdminGuard } from '../common/guard/auth_admin.guard'
 import { InjectRedis } from '@liaoliaots/nestjs-redis'
 
 @Controller('/admin/video')

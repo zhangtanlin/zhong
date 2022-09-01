@@ -23,7 +23,7 @@ import { AES, enc } from 'crypto-js'
 import { AdminUpdateDto } from './dto/admin.update.dto'
 import { IdDto } from '../common/dto/id.dto'
 import { classToPlain } from 'class-transformer'
-import { AuthAdminGuard } from 'src/common/guard/auth_admin.guard'
+import { AuthAdminGuard } from '../common/guard/auth_admin.guard'
 import { ConfigService } from '@nestjs/config'
 
 // 管理员

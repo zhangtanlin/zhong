@@ -92,13 +92,17 @@ async function bootstrap() {
    * @param [setHost]    - 设置api文档swagger的基础路径
    * 注意：swagger需要服务 npm run start ,访问地址：http://localhost:3001/swagger/
    */
+  const swaggerTitle: string = await configService.get('SWAGGER_TITLE');
+  const swaggerDescript: string = await configService.get('SWAGGER_DESCRIPTION');
+  const swaggerVersion: string = await configService.get('SWAGGER_VERSION');
+  const swaggerPathname: string = await configService.get('SWAGGER_PATHNAME');
   const options = new DocumentBuilder()
-    .setTitle('主后台管理系统api文档')
-    .setDescription('描述文件')
-    .setVersion('1.0.0')
+    .setTitle(swaggerTitle)
+    .setDescription(swaggerDescript)
+    .setVersion(swaggerVersion)
     .build()
   const document = SwaggerModule.createDocument(app, options)
-  SwaggerModule.setup('swagger', app, document)
+  SwaggerModule.setup(swaggerPathname, app, document)
 
   // 绑定端口号
   await app.listen(port)

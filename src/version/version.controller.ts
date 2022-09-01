@@ -5,7 +5,7 @@ import {
   Post,
   UseGuards
 } from '@nestjs/common'
-import { AuthApiGuard } from 'src/common/guard/auth_api.guard';
+import { AuthApiGuard } from '../common/guard/auth_api.guard';
 import { VersionService } from './version.service'
 
 /**
