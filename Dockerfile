@@ -23,7 +23,6 @@ WORKDIR /usr/src/nestjs
 # 注意1:使用 COPY 指令最好添加 --chown=node:node 确保有正确权限.
 # 注意2:因为不是多阶段此处的的拷贝只在当前阶段起作用.
 COPY --chown=root:root package*.json ./
-COPY --chown=root:root /env/.env.* ./env/
 
 # 开发-安装应用依赖
 # 注意1:运行 npm ci 会删除现有的 node_modules 目录.
@@ -92,9 +91,9 @@ WORKDIR /usr/src/nestjs
 COPY --chown=root:root --from=build /usr/src/nestjs/dist ./dist
 COPY --chown=root:root --from=build /usr/src/nestjs/node_modules ./node_modules
 COPY --chown=root:root --from=build /usr/src/nestjs/package.json ./package.json
-COPY --chown=root:root --from=development /usr/src/nestjs/env/.env.* ./env/
-COPY --chown=root:root --from=development /usr/src/nestjs/public ./public
+COPY --chown=root:root --from=development /usr/src/nestjs/env ./env
 COPY --chown=root:root --from=development /usr/src/nestjs/views ./views
+COPY --chown=root:root --from=development /usr/src/nestjs/public ./public
 
 # 生产-开放端口
 EXPOSE 3000

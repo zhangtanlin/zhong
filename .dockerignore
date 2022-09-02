@@ -25,3 +25,6 @@ dist
 程序架构图.txt
 build.sh
 README.md
+
+# 不能忽略的文件
+!.env.*
