@@ -1,7 +1,7 @@
 ###############################
 # docker-compose 配置文件
 # 注意1:运行方式:docker-compose up -d
-# 注意2:首次执行尽量使用:docker-compose --compatibility up 
+# 注意2:首次执行尽量使用:docker-compose --compatibility up
 #      --compatibility 是兼容性命令.
 #      up 是从拉取到构建运行的全套指令.
 #      -d 是后台运行.
@@ -10,12 +10,16 @@
 # 2:单引号会对字符串里面的特殊字符进行转义，使其失去转义功能，始终是一个普通的字符串.
 # 3:yml 中如果键没有填写对应的值则等价于填入了null,
 #   这时传入null就需要用引号包裹(但双引号皆可).
+# 参考文档:https://zhuanlan.zhihu.com/p/387840381
 ###############################
 
 # yml 依赖的 docker-compose 版本
 version: 2.6.1
+
 # docker-compose 昵称
-name: nestjs_componse
+# 如果未指定容器名称会在此基础上拼接生成镜像名.
+name: componse
+
 # yml 配置的服务
 services:
   # # mysql 服务
@@ -75,55 +79,62 @@ services:
 
   # redis 服务
   redis6:
-    image: redis:6.2.1
+    # 镜像名
+    image: redis:6.2.7-alpine3.16
     container_name: redis6_c
     restart: always
     ports:
       - 6379:6379
+    # 暴露的端口
+    # expose:
+      # - 6379
     environment:
       - TZ=Asia/Shanghai
       - LANG=en_US.UTF-8
     volumes:
       # 挂载 /data 到容器.
-      - ./docker/redis/data:/data
+      - ./compose/redis/data:/usr/local/redis-6.2.7/data
       # 挂载 /redis.conf 到容器
-      - ./docker/redis/redis.conf:/usr/local/src/redis/redis.conf
+      - ./compose/redis/redis.conf:/usr/local/redis-6.2.7/redis.conf
       # 挂载 /log 到容器
-      - ./docker/redis/logs:/logs
+      - ./compose/redis/log-redis.log:/usr/local/redis-6.2.7/log-redis.log
     # docker 的运行是使用容器内的配置文件运行
-    command: redis-server --requirepass Qaz@123456
+    command: redis-server /usr/local/redis-6.2.7/redis.conf
 
     # 控制日志参数
     logging:
       options:
         max-size: '100m'
         max-file: '10'
-    # 不知道啥意思
-    privileged: true
+    # 配置网络
+    networks:
+      - default_network
     
   # nestjs 服务
   nestjs:
     # 镜像名
-    image: nestjs:1.0.0
+    # 如果同时指定了 build 和 image,构建的结果会被标记为相应的名字,
+    # 否则会自己拼接名字,但是控制台会报一个警告,所以不建议设置.
+    # image: nestjs
     # 容器名称
     container_name: nestjs_c
     # 重启策略
     # restart: always
     # 容器一直运行
-    tty: true
+    # tty: true
     # 从 dockerfile 构建
     build:
       context: .
       target: production
-      dockerfile: ./Dockerfile
+      dockerfile: Dockerfile
     # 运行的命令
-    command: npm run start:prod
+    # command: npm run start:prod
     # 映射的端口
-    ports:
-      - 3000:3000
+    # ports:
+    #   - 3000:3000
     # 暴露的端口
-    expose:
-      - 3000
+    # expose:
+    #   - 3000
     # 当前服务依赖于哪些服务
     # 注意1:redis6 会比当前服务更早启动.
     # 注意2:当前服务不会等 redis6 再次启动才启动(redis6 未正确启动时可能会再次启动).
@@ -132,3 +143,20 @@ services:
     # 确保每次都能连接 redis 数据库
     links:
       - redis6
+    # 配置网络
+    networks:
+      - default_network
+
+# 网络
+networks:
+  # 网络名称
+  default_network:
+    # 指定使用哪个驱动程序,
+    # 默认使用 bridge 表示单个主机上的网络,
+    # overlay 代表跨多个节点的网络群.
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        # 网段
+        - subnet: 193.169.1.0/25

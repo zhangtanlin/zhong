@@ -40,5 +40,5 @@ yarn-error.log
 /benchmarks/memory
 build/config\.gypi
 
-# redis
-dump.rdb
+# docker-compose
+/compose/redis/data/*
