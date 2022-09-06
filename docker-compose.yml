@@ -10,7 +10,9 @@
 # 2:单引号会对字符串里面的特殊字符进行转义，使其失去转义功能，始终是一个普通的字符串.
 # 3:yml 中如果键没有填写对应的值则等价于填入了null,
 #   这时传入null就需要用引号包裹(但双引号皆可).
-# 参考文档:https://zhuanlan.zhihu.com/p/387840381
+# 4:在 YAML 中,避免歧义的安全做法是对字符串加上引号包围.
+# 参考文档1:https://zhuanlan.zhihu.com/p/387840381
+# 参考文档2:https://segmentfault.com/a/1190000020340570
 ###############################
 
 # yml 依赖的 docker-compose 版本
@@ -114,7 +116,9 @@ services:
   nestjs:
     # 镜像名
     # 如果同时指定了 build 和 image,构建的结果会被标记为相应的名字,
-    # 否则会自己拼接名字,但是控制台会报一个警告,所以不建议设置.
+    # 否则会自己拼接名字,
+    # 但是控制台会报一个警告,所以不建议设置,使用 compose 默认自动生成方法:
+    # docker-compose昵称+docker-compose服务的默认生成方法(下横线连接).
     # image: nestjs
     # 容器名称
     container_name: nestjs_c
@@ -122,16 +126,25 @@ services:
     # restart: always
     # 容器一直运行
     # tty: true
-    # 从 dockerfile 构建
+    # 从 Dockerfile 构建
+    # context:表示包含 Dockerfile 的文件夹,也可以是指向 git repository 的 URL.
+    # args:构建参数.通常用于设置 Dockerfile 内的 ARG 参数.
+    # 注意:如果指定了一个相对路径,这个路径是相对于当前 yml 文件,
+    #     也会被传递给 Docker daemon 用于构建.
     build:
-      context: .
+      context: ./
       target: production
       dockerfile: Dockerfile
+      args:
+        - ARG NODE_ENV=production
     # 运行的命令
+    # 覆盖容器内默认的 command, 也可被指定为一个列表,
+    # 这也是更被推荐的方式,和 dockerfile 的格式统一.
     # command: npm run start:prod
     # 映射的端口
-    # ports:
-    #   - 3000:3000
+    # 注意:如果不设置端口映射,端口会为空,所以需要设置.
+    ports:
+      - 3000:3000
     # 暴露的端口
     # expose:
     #   - 3000
@@ -150,6 +163,7 @@ services:
 # 网络
 networks:
   # 网络名称
+  # 注意:这里的网络名称会追加到 docker-compose 的 name 后面(下滑线连接),共同组成默认网络名称.
   default_network:
     # 指定使用哪个驱动程序,
     # 默认使用 bridge 表示单个主机上的网络,
