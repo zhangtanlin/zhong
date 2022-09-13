@@ -1,0 +1,50 @@
+1:C 13 Sep 2022 15:40:07.370 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+1:C 13 Sep 2022 15:40:07.372 # Redis version=6.2.7, bits=64, commit=00000000, modified=0, pid=1, just started
+1:C 13 Sep 2022 15:40:07.374 # Configuration loaded
+1:M 13 Sep 2022 15:40:07.378 * monotonic clock: POSIX clock_gettime
+1:M 13 Sep 2022 15:40:07.389 # A key '__redis__compare_helper' was added to Lua globals which is not on the globals allow list nor listed on the deny list.
+1:M 13 Sep 2022 15:40:07.393 * Running mode=standalone, port=6379.
+1:M 13 Sep 2022 15:40:07.399 # Server initialized
+1:M 13 Sep 2022 15:40:07.416 * DB loaded from append only file: 0.010 seconds
+1:M 13 Sep 2022 15:40:07.418 * Ready to accept connections
+1:M 13 Sep 2022 15:55:08.052 * 1 changes in 900 seconds. Saving...
+1:M 13 Sep 2022 15:55:08.055 * Background saving started by pid 16
+16:C 13 Sep 2022 15:55:08.062 * DB saved on disk
+16:C 13 Sep 2022 15:55:08.063 * RDB: 0 MB of memory used by copy-on-write
+1:M 13 Sep 2022 15:55:08.161 * Background saving terminated with success
+1:signal-handler (1663076592) Received SIGTERM scheduling shutdown...
+1:M 13 Sep 2022 21:43:12.821 # User requested shutdown...
+1:M 13 Sep 2022 21:43:12.823 * Calling fsync() on the AOF file.
+1:M 13 Sep 2022 21:43:12.824 * Saving the final RDB snapshot before exiting.
+1:M 13 Sep 2022 21:43:12.840 * DB saved on disk
+1:M 13 Sep 2022 21:43:12.842 # Redis is now ready to exit, bye bye...
+1:C 13 Sep 2022 21:43:15.001 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+1:C 13 Sep 2022 21:43:15.004 # Redis version=6.2.7, bits=64, commit=00000000, modified=0, pid=1, just started
+1:C 13 Sep 2022 21:43:15.005 # Configuration loaded
+1:M 13 Sep 2022 21:43:15.012 * monotonic clock: POSIX clock_gettime
+1:M 13 Sep 2022 21:43:15.027 # A key '__redis__compare_helper' was added to Lua globals which is not on the globals allow list nor listed on the deny list.
+1:M 13 Sep 2022 21:43:15.039 * Running mode=standalone, port=6379.
+1:M 13 Sep 2022 21:43:15.045 # Server initialized
+1:M 13 Sep 2022 21:43:15.052 * DB loaded from append only file: 0.003 seconds
+1:M 13 Sep 2022 21:43:15.053 * Ready to accept connections
+1:signal-handler (1663077000) Received SIGTERM scheduling shutdown...
+1:M 13 Sep 2022 21:50:00.194 # User requested shutdown...
+1:M 13 Sep 2022 21:50:00.199 * Calling fsync() on the AOF file.
+1:M 13 Sep 2022 21:50:00.201 * Saving the final RDB snapshot before exiting.
+1:M 13 Sep 2022 21:50:00.217 * DB saved on disk
+1:M 13 Sep 2022 21:50:00.219 # Redis is now ready to exit, bye bye...
+1:C 13 Sep 2022 21:51:52.553 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+1:C 13 Sep 2022 21:51:52.555 # Redis version=6.2.7, bits=64, commit=00000000, modified=0, pid=1, just started
+1:C 13 Sep 2022 21:51:52.556 # Configuration loaded
+1:M 13 Sep 2022 21:51:52.559 * monotonic clock: POSIX clock_gettime
+1:M 13 Sep 2022 21:51:52.561 # A key '__redis__compare_helper' was added to Lua globals which is not on the globals allow list nor listed on the deny list.
+1:M 13 Sep 2022 21:51:52.563 * Running mode=standalone, port=6379.
+1:M 13 Sep 2022 21:51:52.564 # Server initialized
+1:M 13 Sep 2022 21:51:52.572 * DB loaded from append only file: 0.003 seconds
+1:M 13 Sep 2022 21:51:52.575 * Ready to accept connections
+1:signal-handler (1663077247) Received SIGTERM scheduling shutdown...
+1:M 13 Sep 2022 21:54:08.074 # User requested shutdown...
+1:M 13 Sep 2022 21:54:08.076 * Calling fsync() on the AOF file.
+1:M 13 Sep 2022 21:54:08.077 * Saving the final RDB snapshot before exiting.
+1:M 13 Sep 2022 21:54:08.090 * DB saved on disk
+1:M 13 Sep 2022 21:54:08.095 # Redis is now ready to exit, bye bye...

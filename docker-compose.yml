@@ -24,66 +24,73 @@ name: componse
 
 # yml 配置的服务
 services:
-  # # mysql 服务
-  # mysql8:
-  #   # 镜像名
-  #   image: mysql:8.0
-  #   # 容器名称
-  #   container_name: mysql8_c
-  #   # 重启策略
-  #   # restart: always
-  #   # 环境变量
-  #   environment:
-  #     # 时区上海
-  #     TZ: Asiz/Shanghai
-  #     # root 密码
-  #     MYSQL_ROOT_PASSWORD: Qaz@123456
-  #     # 访问地址
-  #     MYSQL_HOST: localhost
-  #     # 访问端口
-  #     MYSQL_PORT: 3306
-  #     # 自定义数据库-初始化用户名
-  #     # 注意:不能是 root,因为会报错,后面需要给新用户赋予权力.
-  #     MYSQL_USER: admin
-  #     # 自定义数据库-访问密码
-  #     MYSQL_PASSWORD: Qaz@123456
-  #     # 自定义数据库-数据库名字
-  #     MYSQL_DATABASE: website
-  #     # 是否允许空的密码
-  #     MYSQL_ALLOW_EMPTY_PASSWORD: true
-  #     # 是否允许随机密码
-  #     MYSQL_RANDOM_ROOT_PASSWORD: false
-  #   # 端口
-  #   ports:
-  #     - 3306:3306
-  #   # 目录
-  #   # volumes:
-  #   #   # 数据目录
-  #   #   # - data:/var/lib/mysql
-  #   #   # 日志
-  #   #   - /usr/local/var/mysql/logs:/var/log/mysql
-  #   #   # 配置文件目录
-  #   #   - /usr/local/var/mysql/data:/var/log/mysql
-  #   #   # 初始化目录挂载
-  #   #   # - /mac/init/:/docker-entrypoint-initdb.d/
-  #     # 配置文件
-  #     # 注意1:my.cnf 设置字符集为 utf8mb4 解决 emoji 表情等特殊字符存储问题.
-  #     # 注意2:这里的 /usr/local/etc/my.cnf 路径是 mac 的路径.
-  #     # - ./docker/mysql/my.cnf:/etc/my.cnf
-  #   #   # /usr/local/Cellar/mysql/8.0.23_1/bin/mysqld
-  #   #   # /usr/local/var/mysql/ is case insensitive
-  #   #   # /usr/local/Cellar/mysql/8.0.23_1/share/mysql/charsets/
-  #   #   # Timestamp, Thread, Type, Details
-  #   #   # /usr/local/Cellar/mysql/8.0.23_1/bin/mysqld
-  #   #   # 8.0.23
-  #   #   # /tmp/mysqlx.sock
-  #   #   # /tmp/mysql.sock
+  # mysql 服务
+  mysql8:
+    # 镜像名
+    image: mysql:8.0.30-oracle
+    # 容器名称
+    container_name: mysql8_container
+    # 重启策略
+    restart: always
+    # 环境变量
+    environment:
+      # 时区上海
+      # TZ: Asiz/Shanghai
+      # root 密码
+      MYSQL_ROOT_PASSWORD: Qaz@123456
+      # 访问地址
+      MYSQL_HOST: 127.0.0.1
+      # 访问端口
+      MYSQL_PORT: 3306
+      # 自定义数据库-初始化用户名
+      # 注意:不能是 root,因为会报错,后面需要给新用户赋予权力.
+      MYSQL_USER: admin
+      # 自定义数据库-访问密码
+      MYSQL_PASSWORD: Qaz@123456
+      # 自定义数据库-数据库名字
+      MYSQL_DATABASE: website
+      # 是否允许空的密码
+      MYSQL_ALLOW_EMPTY_PASSWORD: true
+      # 是否允许随机密码
+      MYSQL_RANDOM_ROOT_PASSWORD: false
+    # 端口
+    ports:
+      - 3306:3306
+    # 目录
+    volumes:
+      # 数据目录
+      - ./compose/mysql/data:/var/lib/mysql
+      # 日志
+      # - ./mysql/logs:/var/log/mysql
+      # 配置文件目录
+      # - ./compose/mysql/conf.d:/etc/mysql/conf.d
+      # 初始化目录挂载
+      # - /mac/init/:/docker-entrypoint-initdb.d/
+      # 配置文件
+      # 注意1:my.cnf 设置字符集为 utf8mb4 解决 emoji 表情等特殊字符存储问题.
+      # 注意2:这里的 /usr/local/etc/my.cnf 路径是 mac 的路径.
+      # - ./compose/mysql/my.cnf:/etc/my.cnf
+      # /usr/local/Cellar/mysql/8.0.23_1/bin/mysqld
+      # /usr/local/var/mysql/ is case insensitive
+      # /usr/local/Cellar/mysql/8.0.23_1/share/mysql/charsets/
+      # Timestamp, Thread, Type, Details
+      # /usr/local/Cellar/mysql/8.0.23_1/bin/mysqld
+      # 8.0.23
+      # /tmp/mysqlx.sock
+      # /tmp/mysql.sock
+    # 执行命令
+    # ​--lower-case-table-names​​ 表示​数据库不区分大小写
+    # ​​--default-authentication-plugin​ ​表示密码存储方式保留为传统方式
+    command: --default-authentication-plugin=mysql_native_password
+    # 配置网络
+    networks:
+      - default_network
 
   # redis 服务
   redis6:
     # 镜像名
     image: redis:6.2.7-alpine3.16
-    container_name: redis6_c
+    container_name: redis6_container
     restart: always
     ports:
       - 6379:6379
@@ -121,7 +128,7 @@ services:
     # docker-compose昵称+docker-compose服务的默认生成方法(下横线连接).
     # image: nestjs
     # 容器名称
-    container_name: nestjs_c
+    container_name: nestjs_container
     # 重启策略
     # restart: always
     # 容器一直运行
@@ -149,13 +156,15 @@ services:
     # expose:
     #   - 3000
     # 当前服务依赖于哪些服务
-    # 注意1:redis6 会比当前服务更早启动.
-    # 注意2:当前服务不会等 redis6 再次启动才启动(redis6 未正确启动时可能会再次启动).
+    # 注意1:redis6 和 mysql8 会比当前服务更早启动.
+    # 注意2:当前服务不会等 redis6 和 mysql8 再次启动才启动(redis6 未正确启动时可能会再次启动).
     depends_on:
       - redis6
+      - mysql8
     # 确保每次都能连接 redis 数据库
     links:
       - redis6
+      - mysql8
     # 配置网络
     networks:
       - default_network
