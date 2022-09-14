@@ -239,3 +239,4 @@ nginx -s reload
 # 而不是 /bin/sh 和 /bin/bash. 
 docker exec -it docker容器id redis-cli
 ```
+- 需要特别注意的是:在使用 docker-compose 部署时,别的服务要访问 mysql/redis 需要使用 docker-compose 定义的服务名进行访问,感觉服务名应该还有别的其他用法,感觉很重要.
