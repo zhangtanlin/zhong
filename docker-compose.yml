@@ -36,23 +36,23 @@ services:
     environment:
       # 时区上海
       # TZ: Asiz/Shanghai
-      # root 密码
-      MYSQL_ROOT_PASSWORD: Qaz@123456
       # 访问地址
       MYSQL_HOST: 127.0.0.1
       # 访问端口
       MYSQL_PORT: 3306
+      # root 密码
+      MYSQL_ROOT_PASSWORD: Qaz@123456
       # 自定义数据库-初始化用户名
       # 注意:不能是 root,因为会报错,后面需要给新用户赋予权力.
       MYSQL_USER: admin
-      # 自定义数据库-访问密码
-      MYSQL_PASSWORD: Qaz@123456
       # 自定义数据库-数据库名字
       MYSQL_DATABASE: website
+      # 自定义数据库-访问密码
+      MYSQL_PASSWORD: Qaz@123456
       # 是否允许空的密码
-      MYSQL_ALLOW_EMPTY_PASSWORD: true
+      MYSQL_ALLOW_EMPTY_PASSWORD: false
       # 是否允许随机密码
-      MYSQL_RANDOM_ROOT_PASSWORD: false
+      # MYSQL_RANDOM_ROOT_PASSWORD: false
     # 端口
     ports:
       - 3306:3306
