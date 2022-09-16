@@ -5,6 +5,9 @@
 #      --compatibility 是兼容性命令.
 #      up 是从拉取到构建运行的全套指令.
 #      -d 是后台运行.
+#      --force-recreate 重新创建容器(即使它们的配置和图像没有改变).
+# 注意3:如果有更新 sql 数据需要使用:docker-compose up -d --force-recreate
+# 注意4:清理 docker 所有数据:docker system prune --all
 # yml 内的一些注意事项:
 # 1:双引号不会对字符串里面的特殊字符进行转义.
 # 2:单引号会对字符串里面的特殊字符进行转义，使其失去转义功能，始终是一个普通的字符串.
@@ -13,6 +16,7 @@
 # 4:在 YAML 中,避免歧义的安全做法是对字符串加上引号包围.
 # 参考文档1:https://zhuanlan.zhihu.com/p/387840381
 # 参考文档2:https://segmentfault.com/a/1190000020340570
+# 参考文档3:https://www.cnblogs.com/xiao987334176/p/12721498.html
 ###############################
 
 # yml 依赖的 docker-compose 版本
@@ -31,28 +35,26 @@ services:
     # 容器名称
     container_name: mysql8_container
     # 重启策略
-    restart: always
+    # restart: always
     # 环境变量
     environment:
       # 时区上海
-      # TZ: Asiz/Shanghai
-      # 访问地址
-      MYSQL_HOST: 127.0.0.1
+      TZ: Asiz/Shanghai
       # 访问端口
       MYSQL_PORT: 3306
       # root 密码
       MYSQL_ROOT_PASSWORD: Qaz@123456
-      # 自定义数据库-初始化用户名
+      # 是否允许 root 不使用密码
+      MYSQL_ALLOW_EMPTY_PASSWORD: false
+      # 是否允许 root 使用随机密码
+      MYSQL_RANDOM_ROOT_PASSWORD: false
+      # 默认创建一个数据库-数据库名字
+      MYSQL_DATABASE: website
+      # 新建用户
       # 注意:不能是 root,因为会报错,后面需要给新用户赋予权力.
       MYSQL_USER: admin
-      # 自定义数据库-数据库名字
-      MYSQL_DATABASE: website
-      # 自定义数据库-访问密码
+      # 新建用户的密码
       MYSQL_PASSWORD: Qaz@123456
-      # 是否允许空的密码
-      MYSQL_ALLOW_EMPTY_PASSWORD: false
-      # 是否允许随机密码
-      # MYSQL_RANDOM_ROOT_PASSWORD: false
     # 端口
     ports:
       - 3306:3306
@@ -61,27 +63,16 @@ services:
       # 数据目录
       - ./compose/mysql/data:/var/lib/mysql
       # 日志
-      # - ./mysql/logs:/var/log/mysql
-      # 配置文件目录
-      # - ./compose/mysql/conf.d:/etc/mysql/conf.d
-      # 初始化目录挂载
-      # - /mac/init/:/docker-entrypoint-initdb.d/
+      - ./compose/mysql/logs:/var/lib/mysql/error.log
       # 配置文件
       # 注意1:my.cnf 设置字符集为 utf8mb4 解决 emoji 表情等特殊字符存储问题.
       # 注意2:这里的 /usr/local/etc/my.cnf 路径是 mac 的路径.
-      # - ./compose/mysql/my.cnf:/etc/my.cnf
-      # /usr/local/Cellar/mysql/8.0.23_1/bin/mysqld
-      # /usr/local/var/mysql/ is case insensitive
-      # /usr/local/Cellar/mysql/8.0.23_1/share/mysql/charsets/
-      # Timestamp, Thread, Type, Details
-      # /usr/local/Cellar/mysql/8.0.23_1/bin/mysqld
-      # 8.0.23
-      # /tmp/mysqlx.sock
-      # /tmp/mysql.sock
+      - ./compose/mysql/my.cnf:/etc/my.cnf
+      # 初始化 sql 脚本挂载
+      - ./compose/mysql/init:/docker-entrypoint-initdb.d
     # 执行命令
-    # ​--lower-case-table-names​​ 表示​数据库不区分大小写
-    # ​​--default-authentication-plugin​ ​表示密码存储方式保留为传统方式
-    command: --default-authentication-plugin=mysql_native_password
+    # 注意:下面的命令不能运行,因为 docker 无法找到.
+    # command: docker exec -i mysql8_container mysql -uadmin -pQaz@123456 website < ./compose/mysql/website.sql
     # 配置网络
     networks:
       - default_network
@@ -91,7 +82,7 @@ services:
     # 镜像名
     image: redis:6.2.7-alpine3.16
     container_name: redis6_container
-    restart: always
+    # restart: always
     ports:
       - 6379:6379
     # 暴露的端口
@@ -120,7 +111,7 @@ services:
       - default_network
     
   # nestjs 服务
-  nestjs:
+  nestjs9:
     # 镜像名
     # 如果同时指定了 build 和 image,构建的结果会被标记为相应的名字,
     # 否则会自己拼接名字,

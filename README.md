@@ -240,3 +240,13 @@ nginx -s reload
 docker exec -it docker容器id redis-cli
 ```
 - 需要特别注意的是:在使用 docker-compose 部署时,别的服务要访问 mysql/redis 需要使用 docker-compose 定义的服务名进行访问,感觉服务名应该还有别的其他用法,感觉很重要.
+- docker 中 mysql 初始化时很可能需要清理,使用:
+```bash
+# 清理所有卷
+docker volume rm $(docker volume ls -qf dangling=true)
+# 如果您想仅限制卷，则仅删除未使用的卷
+docker volume prune
+# 删除所有未使用数据(包括没有容器的卷)
+docker system prune
+```
+- 注意:如果更新了 sql 就需要使用 docker system prune --all 对 docker 进行清理,再运行.
