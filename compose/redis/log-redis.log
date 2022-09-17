@@ -48,3 +48,12 @@
 1:M 13 Sep 2022 21:54:08.077 * Saving the final RDB snapshot before exiting.
 1:M 13 Sep 2022 21:54:08.090 * DB saved on disk
 1:M 13 Sep 2022 21:54:08.095 # Redis is now ready to exit, bye bye...
+1:C 17 Sep 2022 14:43:59.806 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+1:C 17 Sep 2022 14:43:59.807 # Redis version=6.2.7, bits=64, commit=00000000, modified=0, pid=1, just started
+1:C 17 Sep 2022 14:43:59.808 # Configuration loaded
+1:M 17 Sep 2022 14:43:59.810 * monotonic clock: POSIX clock_gettime
+1:M 17 Sep 2022 14:43:59.815 # A key '__redis__compare_helper' was added to Lua globals which is not on the globals allow list nor listed on the deny list.
+1:M 17 Sep 2022 14:43:59.821 * Running mode=standalone, port=6379.
+1:M 17 Sep 2022 14:43:59.823 # Server initialized
+1:M 17 Sep 2022 14:43:59.832 * DB loaded from append only file: 0.005 seconds
+1:M 17 Sep 2022 14:43:59.834 * Ready to accept connections

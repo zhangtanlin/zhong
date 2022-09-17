@@ -249,4 +249,10 @@ docker volume prune
 # 删除所有未使用数据(包括没有容器的卷)
 docker system prune
 ```
-- 注意:如果更新了 sql 就需要使用 docker system prune --all 对 docker 进行清理,再运行.
+- 关于重启相关
+1.如果更新了 sql 就需要使用 docker system prune --all 对 docker 进行清理,再运行.
+2.当修改 docker-compose.yml 文件后,需要重启容器(docker-compose down,then docker-compose up)以使新的配置生效。但是,我们希望仅仅重启特定服务(容器),而不是全部重新启动.
+```bash
+docker-compose up --detach --build "<service name>"
+```
+

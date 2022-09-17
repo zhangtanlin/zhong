@@ -52,7 +52,7 @@ services:
       MYSQL_DATABASE: website
       # 新建用户
       # 注意:不能是 root,因为会报错,后面需要给新用户赋予权力.
-      MYSQL_USER: admin
+      MYSQL_USER: mysql8_admin
       # 新建用户的密码
       MYSQL_PASSWORD: Qaz@123456
     # 端口
@@ -62,17 +62,12 @@ services:
     volumes:
       # 数据目录
       - ./compose/mysql/data:/var/lib/mysql
-      # 日志
-      - ./compose/mysql/logs:/var/lib/mysql/error.log
       # 配置文件
       # 注意1:my.cnf 设置字符集为 utf8mb4 解决 emoji 表情等特殊字符存储问题.
       # 注意2:这里的 /usr/local/etc/my.cnf 路径是 mac 的路径.
-      - ./compose/mysql/my.cnf:/etc/my.cnf
+      - ./compose/mysql/my.cnf:/etc/mysql/my.cnf
       # 初始化 sql 脚本挂载
       - ./compose/mysql/init:/docker-entrypoint-initdb.d
-    # 执行命令
-    # 注意:下面的命令不能运行,因为 docker 无法找到.
-    # command: docker exec -i mysql8_container mysql -uadmin -pQaz@123456 website < ./compose/mysql/website.sql
     # 配置网络
     networks:
       - default_network
