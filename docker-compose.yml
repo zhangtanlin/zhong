@@ -91,8 +91,6 @@ services:
       - ./compose/redis/data:/usr/local/redis-6.2.7/data
       # 挂载 /redis.conf 到容器
       - ./compose/redis/redis.conf:/usr/local/redis-6.2.7/redis.conf
-      # 挂载 /log 到容器
-      - ./compose/redis/log-redis.log:/usr/local/redis-6.2.7/log-redis.log
     # docker 的运行是使用容器内的配置文件运行
     command: redis-server /usr/local/redis-6.2.7/redis.conf
 

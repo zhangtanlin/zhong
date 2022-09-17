@@ -42,4 +42,5 @@ build/config\.gypi
 
 # docker-compose
 /compose/redis/data/*
+/compose/redis/log-redis.log
 /compose/mysql/data/*
