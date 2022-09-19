@@ -24,6 +24,8 @@ export class ResultInterceptor implements NestInterceptor {
     // 使用管道包装返回值
     return next.handle().pipe(
       map(data => {
+        // 把返回数据全部加密
+        let tempEncrypt = data
         // 获取返回信息
         const code = response.statusCode // 状态码
         const message = '请求成功' // 返回信息
@@ -31,7 +33,7 @@ export class ResultInterceptor implements NestInterceptor {
         const buildMsg = {
           code,
           message,
-          data,
+          data: tempEncrypt,
         }
         return buildMsg
       })
