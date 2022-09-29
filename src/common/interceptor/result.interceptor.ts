@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common'
 import { Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
+import EncryptDecrypt from '../utils/cryptoData'
 
 /**
  * 全局处理成功的数据结构
@@ -25,15 +26,15 @@ export class ResultInterceptor implements NestInterceptor {
     return next.handle().pipe(
       map(data => {
         // 把返回数据全部加密
-        let tempEncrypt = data
+        const tempEncryptData = EncryptDecrypt.publicEncryptFn(data);
         // 获取返回信息
         const code = response.statusCode // 状态码
-        const message = '请求成功' // 返回信息
-        // 拼装信息(写法1)
+        const message = '请求成功' // 返回提示
+        // 拼装信息
         const buildMsg = {
           code,
           message,
-          data: tempEncrypt,
+          data: tempEncryptData,
         }
         return buildMsg
       })

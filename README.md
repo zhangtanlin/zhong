@@ -4,6 +4,14 @@
   </a>
 </p>
 
+###### 联系方式
+- 作者 - [Kamil Myśliwiec](https://kamilmysliwiec.com)
+- 网站 - [https://nestjs.com](https://nestjs.com/)
+- 推特 - [@nestframework](https://twitter.com/nestframework)
+
+###### 执照
+  Nest is [MIT licensed](LICENSE).
+
 ###### 描述
 这是一个使用**nestjs**构建的应用，包含服务端（含有**api接口**和**管理系统接口**）,<br/>
 使用**hbs**作为服务端渲染的模板引擎,<br/>
@@ -58,14 +66,6 @@ $ npm run test:cov
 
 ###### 服务端支持
 Nest官网 [地址](https://docs.nestjs.com/support).
-
-###### 联系方式
-- 作者 - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- 网站 - [https://nestjs.com](https://nestjs.com/)
-- 推特 - [@nestframework](https://twitter.com/nestframework)
-
-###### 执照
-  Nest is [MIT licensed](LICENSE).
 
 ###### 相关端口定义
 **3000** 后端-主程序端口号

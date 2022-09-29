@@ -44,3 +44,6 @@ build/config\.gypi
 /compose/redis/data/*
 /compose/redis/log-redis.log
 /compose/mysql/data/*
+
+# 排除公钥私钥文件夹
+/ssh

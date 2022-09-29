@@ -36,55 +36,35 @@ export class LineController {
    * @param    [lineService] - 服务别名
    * @class    [LineService] - 服务
    */
-  constructor(private readonly lineService: LineService) {}
+  constructor(private readonly lineService: LineService) { }
   /**
    * 请求列表
-   * @param     [Post]       - 请求方式
-   * @param     [UsePipes]   - 管道验证
-   * @class     [DtoPipe]    - 自己写的管道验证器【和DownloadGetDto配合使用】
-   * @param     [HttpCode]   - 请求返回状态码
-   * @faunction [Body]       - nest提供的获取Body参数的方法
-   * @faunction [Query]      - query参数
-   * @faunction [UserGetDto] - 用以验证Body参数正确与否的dto方法
-   * @returns   {ResultDto}  - 返回值是一个含有提示信息的对象
+   * @param Post         - 请求方式
+   * @param UsePipes     - 管道验证
+   * @class DtoPipe      - 自己写的管道验证器【和Dto配合使用】
+   * @param HttpCode     - 请求返回状态码
+   * @param AuthApiGuard - 权限验证
    */
   @Post()
   @UsePipes(DtoPipe)
   @HttpCode(200)
   @UseGuards(AuthApiGuard)
-  async get(): Promise<ResultDto> {
-    let cb: ResultDto = {
-      code: 200,
-      data: null,
-      message: '成功'
-    }
-    try {
-      cb.data = await this.lineService.getManyAndCount()
-    } catch (error) {
-      cb.code = error.status;
-      cb.message = error.message.error;
-    } finally {
-      return cb
-    }
+  async get(): Promise<any> {
+    return await this.lineService.getManyAndCount()
   }
 
   /**
    * 验证线路
-   * @param     [Post]       - 请求方式
-   * @param     [UsePipes]   - 管道验证
-   * @param     [HttpCode]   - 请求返回状态码
-   * @returns   {ResultDto}  - 返回值是一个含有提示信息的对象
+   * @param  Post     - 请求方式
+   * @param  UsePipes - 管道验证
+   * @class  DtoPipe  - 自己写的管道验证器【和Dto配合使用】
+   * @param  HttpCode - 请求返回状态码
    */
-   @Post('/verify')
-   @UsePipes(DtoPipe)
-   @HttpCode(200)
-   @UseGuards(AuthApiGuard)
-   async verifyLine(): Promise<ResultDto> {
-     let cb: ResultDto = {
-       code: 200,
-       data: null,
-       message: '成功'
-     }
-    return cb;
-   }
+  @Post('/verify')
+  @UsePipes(DtoPipe)
+  @HttpCode(200)
+  @UseGuards(AuthApiGuard)
+  async verify(): Promise<any> {
+    return '成功';
+  }
 }
