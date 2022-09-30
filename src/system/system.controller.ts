@@ -1,18 +1,12 @@
 import {
-  HttpException,
-  ForbiddenException,
   Controller,
   Post,
   HttpCode,
   Body,
-  Headers,
-  UsePipes,
-  Get,
   UseGuards,
-  Query,
-  Delete,
-  Param
+  HttpStatus
 } from '@nestjs/common'
+import { AuthApiGuard } from '../common/guard/auth_api.guard';
 import { SystemService } from './system.service'
 
 /**
@@ -40,9 +34,9 @@ export class SystemConfigController {
   constructor(private readonly systemService: SystemService) { }
   // 整合接口
   @Post()
-  @HttpCode(200)
+  @UseGuards(AuthApiGuard)
+  @HttpCode(HttpStatus.OK)
   async findOne(): Promise<any> {
-    const findOneById = await this.systemService.get();
-    return findOneById;
+    return await this.systemService.getConfig();
   }
 }

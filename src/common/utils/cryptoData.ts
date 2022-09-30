@@ -7,7 +7,11 @@ import { generateKeyPairSync } from "crypto";
 import { writeFileSync } from 'fs';
 import { join } from "path";
 
-// 加解密填充方式(偏移量)
+/**
+ * 加解密填充方式
+ * [constants.RSA_NO_PADDING]    禁用填充
+ * [constants.RSA_PKCS1_PADDING] 什么填充不知道后面再学习
+ */
 const paddingType: number = constants.RSA_PKCS1_PADDING;
 // 加解密密码短句
 const passphraseStr: any = 'shortpassword';
@@ -20,7 +24,8 @@ const passphraseStr: any = 'shortpassword';
 export const getKeyPair = (): KeyPairSyncResult<string, string> => {
   return generateKeyPairSync("rsa", {
     // 模数的位数，即密钥的位数，2048 或以上一般是安全的
-    modulusLength: 2048,
+    // 注意: 这里的字如果设置的太小的话，会导致加密不成功,很可能会出现`msg4 Error: error:0200006E:rsa routines::** too large for key size`
+    modulusLength: 3052,
     publicKeyEncoding: {
       // 用于存储公钥信息的语法标准
       type: 'spki',
@@ -132,11 +137,11 @@ class EncryptDecrypt {
   };
 
   /**
-   * 私钥解密方法
+   * 私钥解密
    * @param encryptBase64 为需要解密的 base64
    * @returns 返回解密之后的正常数据,一般为一个对象
    */
-  privateDecryptFn = (encryptBase64: any) => {
+  privateDecryptFn = (encryptBase64: String) => {
     try {
       const tempBuffer = Buffer.from(encryptBase64, 'base64')
       const msgBuffer = privateDecrypt(

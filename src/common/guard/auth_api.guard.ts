@@ -35,7 +35,7 @@ export class AuthApiGuard implements CanActivate {
   ): boolean | Promise<boolean> | Observable<boolean> {
     const request = context.switchToHttp().getRequest()
     const token = request.headers.authorization
-    if (request.url !== '/api/user/login') {
+    if (request.url !== '/api/login') {
       try {
         const decryptToken = AES.decrypt(
           token,

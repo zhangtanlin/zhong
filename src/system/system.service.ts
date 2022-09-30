@@ -25,19 +25,9 @@ export class SystemService {
     private readonly adService: AdService,
   ) { }
 
-  /**
-   * 查询用户【根据query条件】
-   */
-  async findOneById(@Body() bodys): Promise<any> {
-    const findOneById: UserEntity = await this.userService.findOneById(bodys.id);
-     return classToPlain(findOneById);
-  }
-
-  /**
-   * 获取整合接口
-   */
-  async get(): Promise<any> {
-    var cb = {
+  // 获取整合接口
+  async getApiIntegration(): Promise<any> {
+    let cb = {
       version: {},
       userInfo: {},
       config: {},
@@ -55,7 +45,9 @@ export class SystemService {
       // 配置信息
       cb.config = await this.getConfig();
       // 广告
-      const _adEntity: AdEntity[] = await this.adService.getManyAndCount({type: 1});
+      const _adEntity: AdEntity[] = await this.adService.getManyAndCount(
+        { type: 1 }
+      );
       cb.ads = _adEntity;
       return cb;
     } catch (error) {
@@ -79,11 +71,17 @@ export class SystemService {
       uploadVideoUrl: "",
     };
     try {
-      cb = await this.systemConfigRepository.findOne({});
+      cb = await this.systemConfigRepository.findOne({
+        where: {
+          id: '1',
+        },
+      });
       return cb;
     } catch (error) {
-      throw new HttpException({ message: error.response }, error.status)
+      throw new HttpException(
+        { message: error.response },
+        error.status,
+      )
     }
   }
-
 }
