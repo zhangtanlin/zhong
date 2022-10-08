@@ -48,7 +48,6 @@ export class LineController {
   @Post()
   @UsePipes(DtoPipe)
   @HttpCode(200)
-  @UseGuards(AuthApiGuard)
   async get(): Promise<any> {
     return await this.lineService.getManyAndCount()
   }
@@ -63,7 +62,6 @@ export class LineController {
   @Post('/verify')
   @UsePipes(DtoPipe)
   @HttpCode(200)
-  @UseGuards(AuthApiGuard)
   async verify(): Promise<any> {
     return '成功';
   }
