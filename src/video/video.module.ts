@@ -15,8 +15,6 @@ import { diskStorage } from 'multer'
       storage: diskStorage({
         destination: "./public/uploads/video",
         filename: (req, file, cb) => {
-          console.log('modules1', req.body)
-          // console.log('modules2', file)
           const filename = `${req.body.filename}.${req.body.index}`;
           return cb(null, filename);
         },

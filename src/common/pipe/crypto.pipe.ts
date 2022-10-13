@@ -6,13 +6,15 @@ import {
 } from '@nestjs/common'
 import { plainToClass } from 'class-transformer'
 import { validate } from 'class-validator'
+import EncryptDecrypt from '../utils/cryptoData'
 
+// 全局解密客户端参数
 @Injectable()
-export class DtoPipe implements PipeTransform {
+export class CryptoPipe implements PipeTransform {
   /**
    * @function [toValidate]         - 类里面定义的一个局部作用域的方法
    * @function [transform]          - 管道方法提供的自有方法
-   * @param    [transform.value]    - 管道方法提供的自有方法
+   * @param    [transform.value]    - 数据
    * @param    [transform.metatype] - 管道调用时验证的dto类【这里是控制器（新增用户）方法里面关联的UserAddDto验证方法】
    * @param    [object]             - 使用plainToClass方法把json转换成类【这里是把客户端参数value，转换成metatype类（此处是UserAddDto类）】
    * @function [validate]           - class-validator内根据给定验证模式验证给定对象的方法【参数：验证模式，对象，验证参数】
@@ -22,6 +24,11 @@ export class DtoPipe implements PipeTransform {
     return !types.find((type) => metatype === type)
   }
   async transform(value: any, { metatype }: ArgumentMetadata) {
+    console.log('管道之前', value.data)
+    const tempEncryptData = EncryptDecrypt.privateDecryptFn(
+      value.data
+    );
+    console.log('管道之后', tempEncryptData)
     if (!metatype || !this.toValidate(metatype)) {
       return value
     }

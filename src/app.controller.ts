@@ -1,4 +1,4 @@
-import { Controller, Get, HttpCode, HttpStatus, Redirect, Render } from "@nestjs/common";
+import { Controller, Get, HttpCode, HttpStatus, Logger, Redirect, Render } from "@nestjs/common";
 
 @Controller()
 export class AppController {
@@ -26,7 +26,7 @@ export class AppController {
   @Redirect('http://localhost:3000', 302)
   redirect302() {
     setTimeout(() => {
-      console.log('操作统计+1');
+      Logger.log('操作统计+1');
     }, 3000)
   }
 }

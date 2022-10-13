@@ -120,7 +120,7 @@ class EncryptDecrypt {
    * @param data 需要加密的字符串
    * @returns 返回加密之后的 base64 字符串
    */
-  publicEncryptFn = (data: String): String => {
+  publicEncryptFn = (data: any): String => {
     try {
       const msg = JSON.stringify(data);
       const encryptBuffer = publicEncrypt(

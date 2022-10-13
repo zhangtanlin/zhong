@@ -6,12 +6,12 @@ import { ErrorFilter } from './common/filter/error.filter'
 import { ResultInterceptor } from './common/interceptor/result.interceptor';
 import { join } from 'path';
 import * as hbs from 'hbs';
-
 // api文档swagger
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger'
-
 // 微服务
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+// 全局管道
+import { CryptoPipe } from './common/pipe/crypto.pipe';
 
 async function bootstrap() {
   /**
@@ -52,6 +52,9 @@ async function bootstrap() {
     credentials: true,
     optionsSuccessStatus: 200,
   })
+
+  // 全局管道验证
+  app.useGlobalPipes(new CryptoPipe());
 
   // 全局错误过滤
   app.useGlobalFilters(new ErrorFilter())

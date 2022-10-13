@@ -7,21 +7,16 @@
  * @requires Headers     - nest模块common导出的Headers请求参数
  */
 import {
-  HttpException,
   Controller,
   HttpCode,
   UsePipes,
-  Headers,
-  Get,
-  Body,
-  Param,
-  Query,
   UseGuards,
   Post,
+  Body,
 } from '@nestjs/common'
 import { LineService } from './line.service'
 import { DtoPipe } from '../common/pipe/dto.pipe'
-import { ResultDto } from '../common/dto/result.dto'
+import { RequestDto } from '../common/dto/request.dto'
 import { AuthApiGuard } from '../common/guard/auth_api.guard'
 
 /**
@@ -46,6 +41,7 @@ export class LineController {
    * @param AuthApiGuard - 权限验证
    */
   @Post()
+  @UseGuards(AuthApiGuard)
   @UsePipes(DtoPipe)
   @HttpCode(200)
   async get(): Promise<any> {
@@ -60,9 +56,10 @@ export class LineController {
    * @param  HttpCode - 请求返回状态码
    */
   @Post('/verify')
+  @UseGuards(AuthApiGuard)
   @UsePipes(DtoPipe)
   @HttpCode(200)
-  async verify(): Promise<any> {
+  async verify(@Body() bodys: RequestDto): Promise<any> {
     return '成功';
   }
 }
