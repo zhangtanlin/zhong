@@ -2,8 +2,7 @@
 
 // 使用 nodejs 原声提供的方法,生成公私钥
 import { Logger } from "@nestjs/common";
-import { constants, createSign, createVerify, KeyPairSyncResult, privateDecrypt, publicEncrypt, } from "crypto";
-import { generateKeyPairSync } from "crypto";
+import { constants, createSign, createVerify, KeyPairSyncResult, privateDecrypt, publicEncrypt, generateKeyPairSync } from "crypto";
 import { writeFileSync } from 'fs';
 import { join } from "path";
 
@@ -25,7 +24,7 @@ export const getKeyPair = (): KeyPairSyncResult<string, string> => {
   return generateKeyPairSync("rsa", {
     // 模数的位数，即密钥的位数，2048 或以上一般是安全的
     // 注意: 这里的字如果设置的太小的话，会导致加密不成功,很可能会出现`msg4 Error: error:0200006E:rsa routines::** too large for key size`
-    modulusLength: 3052,
+    modulusLength: 4096,
     publicKeyEncoding: {
       // 用于存储公钥信息的语法标准
       type: 'spki',

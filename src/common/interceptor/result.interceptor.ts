@@ -26,6 +26,7 @@ export class ResultInterceptor implements NestInterceptor {
     return next.handle().pipe(
       map(data => {
         // 加密返回数据
+        // console.log("加密之前", data);
         // const tempEncryptData = EncryptDecrypt.publicEncryptFn(
         //   data
         // );
