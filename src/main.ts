@@ -12,6 +12,8 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger'
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 // 全局管道
 import { CryptoPipe } from './common/pipe/crypto.pipe';
+// 全局加解密
+import { getKeyPair, saveKeyPairFile } from './common/utils/cryptoData';
 
 async function bootstrap() {
   /**
@@ -38,6 +40,10 @@ async function bootstrap() {
 
   const port: number = await configService.get('NEST_PORT')
   const msPort: number = await configService.get('MS_PORT');
+
+  // 手动控制是否生成公钥和私钥
+  // const { publicKey, privateKey } = getKeyPair();
+  // saveKeyPairFile(publicKey, privateKey)
 
   /**
    * 设置允许跨域

@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common'
 import { Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
-import EncryptDecrypt from '../utils/cryptoData'
+import { privateDecryptFn, privateSignFn, publicEncryptFn, publicVerifyFn } from '../utils/cryptoData'
 
 /**
  * 全局处理成功的数据结构
@@ -24,16 +24,16 @@ export class ResultInterceptor implements NestInterceptor {
     const response = ctx.getResponse()
     // 使用管道包装返回值
     return next.handle().pipe(
-      map(data => {
+      map(async data => {
         // 加密返回数据
         // console.log("加密之前", data);
-        // const tempEncryptData = EncryptDecrypt.publicEncryptFn(
-        //   data
-        // );
+        const tempEncryptData = await publicEncryptFn(
+          data
+        );
         // console.log("加密之后", tempEncryptData);
-        // const tempDecrypt = EncryptDecrypt.privateDecryptFn(
-        //   tempEncryptData,
-        // );
+        const tempDecrypt = await privateDecryptFn(
+          tempEncryptData,
+        );
         // console.log("解密之后", tempDecrypt);
         // 获取返回信息
         const code = response.statusCode // 状态码
