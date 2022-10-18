@@ -41,7 +41,7 @@ export class LineController {
    * @param AuthApiGuard - 权限验证
    */
   @Post()
-  @UseGuards(AuthApiGuard)
+  // @UseGuards(AuthApiGuard)
   @UsePipes(DtoPipe)
   @HttpCode(200)
   async get(): Promise<any> {
@@ -56,7 +56,7 @@ export class LineController {
    * @param  HttpCode - 请求返回状态码
    */
   @Post('/verify')
-  @UseGuards(AuthApiGuard)
+  // @UseGuards(AuthApiGuard)
   @UsePipes(DtoPipe)
   @HttpCode(200)
   async verify(@Body() bodys: RequestDto): Promise<any> {

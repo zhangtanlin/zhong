@@ -25,7 +25,11 @@ export class CryptoPipe implements PipeTransform {
    * @returns 
    */
   async transform(value: any, { metatype }: ArgumentMetadata) {
-    if (!metatype || !this.toValidate(metatype)) {
+    if (
+      !metatype ||
+      !this.toValidate(metatype) ||
+      !Object.keys(value).length
+    ) {
       return value
     }
     try {
