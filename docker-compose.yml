@@ -1,18 +1,17 @@
 ###############################
 # docker-compose 配置文件
 # 注意1:运行方式:docker-compose up -d
-# 注意2:首次执行尽量使用:docker-compose --compatibility up
-#      --compatibility 是兼容性命令.
 #      up 是从拉取到构建运行的全套指令.
 #      -d 是后台运行.
+#      --compatibility 是兼容性命令(首次执行尽量).
 #      --force-recreate 重新创建容器(即使它们的配置和图像没有改变).
-# 注意3:如果有更新 sql 数据需要使用:docker-compose up -d --force-recreate
-# 注意4:清理所有:docker system prune --all
-# 注意5:清理卷(docker system prune方法):docker system prune --volumes
-# 注意6:清理所有没有容器的镜像:docker image prune --all
-# 注意7:清理超过24小时创建的镜像:docker image prune --all --filter "until=24h"
-# 注意8:移除卷:docker volume prune
-# 注意9:移除卷:docker network prune
+# 注意2:清理删除相关:
+#      清理所有:docker system prune --all
+#      清理卷(docker system prune方法):docker system prune --volumes
+#      清理所有没有容器的镜像:docker image prune --all
+#      清理超过24小时创建的镜像:docker image prune --all --filter "until=24h"
+#      移除卷:docker volume prune
+#      移除卷:docker network prune
 # yml 内的一些注意事项:
 # 1:双引号不会对字符串里面的特殊字符进行转义.
 # 2:单引号会对字符串里面的特殊字符进行转义，使其失去转义功能，始终是一个普通的字符串.
