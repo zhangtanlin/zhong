@@ -7,7 +7,7 @@
 # 主项目-删除dist目录
 echo '主项目-删除相关目录'
 rm -rf ./dist
-rm -rf ./nestjss
+rm -rf ./nestjs
 rm -rf ./zhong-*.zip
 
 # 主项目-构建

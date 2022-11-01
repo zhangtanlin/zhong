@@ -9,9 +9,10 @@ node_modules/
 /.vscode
 *.code-workspace
 
-# zip
-zhong-*.zip
+# zip/tar
 /nestjs
+*.zip
+*.tar
 
 # bundle
 packages/**/*.d.ts
