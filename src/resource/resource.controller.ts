@@ -20,7 +20,7 @@ import {
 import { ResourceService } from './resource.service'
 import { DtoPipe } from '../common/pipe/dto.pipe'
 import { ResourceAddDto } from './dto/resource.add.dto'
-import { ResourceEntity } from './entity/resource.entity'
+import { ResourceEntity } from './resource.entity'
 import { ResourceObjectDto } from './dto/resource.object.dto'
 import { idPidToTree } from '../common/utils/tool'
 import { AES, enc } from 'crypto-js'

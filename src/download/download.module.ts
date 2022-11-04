@@ -10,7 +10,7 @@ import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { DownloadService } from "./download.service";
 import { DownloadController } from "./download.controller";
-import { DownloadEntity } from "./entity/download.entity";
+import { DownloadEntity } from "./download.entity";
 
 @Module({
   imports: [

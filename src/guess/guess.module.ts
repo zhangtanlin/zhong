@@ -10,7 +10,7 @@ import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { GuessService } from "./guess.service";
 import { GuessController } from "./guess.controller";
-import { GuessEntity } from "./entity/guess.entity";
+import { GuessEntity } from "./guess.entity";
 
 @Module({
   imports: [

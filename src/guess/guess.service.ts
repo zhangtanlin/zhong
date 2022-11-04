@@ -23,7 +23,7 @@
 import { Injectable, HttpException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
-import { GuessEntity } from './entity/guess.entity'
+import { GuessEntity } from './guess.entity'
 import { GuessGetDto } from './dto/guess.get.dto'
 
 @Injectable()
