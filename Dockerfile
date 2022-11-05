@@ -1,6 +1,13 @@
 ########################################
 # nestjs 项目在 docker 上的多阶段部署
 # 注意1:多阶段部署中只有最后一个阶段有效果,但是最后一个阶段可以引用其他阶段的数据.
+# 常用命令1:查看所有镜像(docker images)
+# 常用命令2:查看所有容器(docker ps -a)
+# 常用命令3:启动容器(docker start 容器id)
+# 常用命令4:停止容器(docker stop 容器id)
+# 常用命令5:删除容器(docker romove 容器id)
+# 常用命令6:进入容器(docker exec -it 容器id bash),注意这里的bash可能不一定,要根据容器类型使用不同的命令行工具
+# 常用命令7:退出容器(exit)
 ########################################
 
 ########################################
@@ -112,3 +119,5 @@ CMD ["npm", "run", "start:prod"]
 # 注意3:"-d"表示启动之后退出(回复到启动之前的状态).
 # 注意4:"--restart=always"表示docker启动时自动运行.
 # docker run -p 0.0.0.0:3000:3000 --name=nestjs_container -d --restart=always nestjs_image
+
+

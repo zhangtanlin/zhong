@@ -72,6 +72,8 @@ services:
       - ./compose/mysql/my.cnf:/etc/mysql/my.cnf
       # 初始化 sql 脚本挂载
       - ./compose/mysql/init:/docker-entrypoint-initdb.d
+      # 日志
+      - ./compose/mysql/logs:/logs
     # 配置网络
     networks:
       - default_network
