@@ -56,7 +56,7 @@ export const saveKeyPairFile = (
       'utf-8',
     );
   } catch (error) {
-    Logger.log('密钥保存到本地失败');
+    Logger.error('密钥保存到本地失败', error);
   }
 }
 

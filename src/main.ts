@@ -5,6 +5,7 @@ import { AppModule } from './app.module'
 import { ErrorFilter } from './common/filter/error.filter'
 import { ResultInterceptor } from './common/interceptor/result.interceptor';
 import { join } from 'path';
+import { readFileSync, } from 'fs';
 import * as hbs from 'hbs';
 // api文档swagger
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger'
@@ -41,9 +42,18 @@ async function bootstrap() {
   const port: number = await configService.get('NEST_PORT')
   const msPort: number = await configService.get('MS_PORT');
 
-  // 手动控制是否生成公钥和私钥
-  // const { publicKey, privateKey } = getKeyPair();
-  // saveKeyPairFile(publicKey, privateKey)
+  // 判定是否生成公钥和私钥
+  try {
+    const privateKey = readFileSync('./ssh/private.pem');
+    const publicKey = readFileSync('./ssh/public.pem');
+    if (!privateKey || !publicKey) {
+      const { publicKey, privateKey } = getKeyPair();
+      saveKeyPairFile(publicKey, privateKey);
+    };
+  } catch (error) {
+    const { publicKey, privateKey } = getKeyPair();
+    saveKeyPairFile(publicKey, privateKey);
+  }
 
   /**
    * 设置允许跨域

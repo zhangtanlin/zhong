@@ -47,4 +47,4 @@ build/config\.gypi
 /compose/mysql/data/*
 
 # 排除公钥私钥文件夹
-/ssh
+/ssh/*
