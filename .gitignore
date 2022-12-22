@@ -44,7 +44,10 @@ build/config\.gypi
 # docker-compose
 /compose/redis/data/*
 /compose/redis/log-redis.log
-/compose/mysql/data/*
+/compose/mysql/mysql8_master/data/*
+/compose/mysql/mysql8_master/logs/*
+/compose/mysql/mysql8_slave/data/*
+/compose/mysql/mysql8_slave/logs/*
 
 # 排除公钥私钥文件夹
 /ssh/*
