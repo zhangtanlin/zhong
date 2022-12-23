@@ -79,56 +79,56 @@ services:
       - default_network
 
   # mysql 从服务
-  # mysql8_slave:
-  #   # 镜像名
-  #   image: mysql:8.0.30-oracle
-  #   # 容器名称
-  #   container_name: mysql8_slave
-  #   # 重启策略
-  #   # restart: always
-  #   # 环境变量
-  #   environment:
-  #     # 时区上海
-  #     TZ: Asiz/Shanghai
-  #     # 访问端口
-  #     MYSQL_PORT: 3307
-  #     # root 密码
-  #     MYSQL_ROOT_PASSWORD: Qaz@123456
-  #     # 是否允许 root 不使用密码
-  #     MYSQL_ALLOW_EMPTY_PASSWORD: false
-  #     # 是否允许 root 使用随机密码
-  #     MYSQL_RANDOM_ROOT_PASSWORD: false
-  #     # 创建数据库-数据库名字
-  #     MYSQL_DATABASE: website
-  #     # 创建数据库-新建用户
-  #     # 注意:不能是 root,因为会报错,后面需要给新用户赋予权力.
-  #     MYSQL_USER: mysql8_admin
-  #     # 创建数据库-新建用户的密码
-  #     MYSQL_PASSWORD: Qaz@123456
-  #   # 端口
-  #   ports:
-  #     - 3307:3307
-  #   # 目录
-  #   volumes:
-  #     # 数据目录
-  #     - ./compose/mysql/mysql8_slave/data:/var/lib/mysql
-  #     # 配置文件
-  #     # 注意1:my.cnf 设置字符集为 utf8mb4 解决 emoji 表情等特殊字符存储问题.
-  #     # 注意2:这里的 /usr/local/etc/my.cnf 路径是 mac 的路径.
-  #     - ./compose/mysql/mysql8_slave/my.cnf:/etc/mysql/my.cnf
-  #     # 初始化 sql 脚本挂载
-  #     - ./compose/mysql/mysql8_slave/init:/docker-entrypoint-initdb.d
-  #     # 日志
-  #     - ./compose/mysql/mysql8_slave/logs:/logs
-  #   # 配置网络
-  #   networks:
-  #     - default_network
+  mysql8_slave:
+    # 镜像名
+    image: mysql:8.0.30-oracle
+    # 容器名称
+    container_name: mysql8_slave
+    # 重启策略
+    # restart: always
+    # 环境变量
+    environment:
+      # 时区上海
+      TZ: Asiz/Shanghai
+      # 访问端口
+      MYSQL_PORT: 3307
+      # root 密码
+      MYSQL_ROOT_PASSWORD: Qaz@123456
+      # 是否允许 root 不使用密码
+      MYSQL_ALLOW_EMPTY_PASSWORD: false
+      # 是否允许 root 使用随机密码
+      MYSQL_RANDOM_ROOT_PASSWORD: false
+      # 创建数据库-数据库名字
+      MYSQL_DATABASE: website
+      # 创建数据库-新建用户
+      # 注意:不能是 root,因为会报错,后面需要给新用户赋予权力.
+      MYSQL_USER: mysql8_admin
+      # 创建数据库-新建用户的密码
+      MYSQL_PASSWORD: Qaz@123456
+    # 端口
+    ports:
+      - 3307:3307
+    # 目录
+    volumes:
+      # 数据目录
+      - ./compose/mysql/mysql8_slave/data:/var/lib/mysql/data
+      # 配置文件
+      # 注意1:my.cnf 设置字符集为 utf8mb4 解决 emoji 表情等特殊字符存储问题.
+      # 注意2:这里的 /usr/local/etc/my.cnf 路径是 mac 的路径.
+      - ./compose/mysql/mysql8_slave/my.cnf:/etc/my.cnf
+      # 初始化 sql 脚本挂载
+      - ./compose/mysql/mysql8_slave/init:/docker-entrypoint-initdb.d
+      # 日志
+      - ./compose/mysql/mysql8_slave/logs:/var/log
+    # 配置网络
+    networks:
+      - default_network
 
   # redis 服务
   redis6:
     # 镜像名
     image: redis:6.2.7-alpine3.16
-    container_name: redis6_container
+    container_name: redis6
     # restart: always
     ports:
       - 6379:6379
@@ -145,7 +145,6 @@ services:
       - ./compose/redis/redis.conf:/usr/local/redis-6.2.7/redis.conf
     # docker 的运行是使用容器内的配置文件运行
     command: redis-server /usr/local/redis-6.2.7/redis.conf
-
     # 控制日志参数
     logging:
       options:
@@ -162,9 +161,9 @@ services:
     # 否则会自己拼接名字,
     # 但是控制台会报一个警告,所以不建议设置,使用 compose 默认自动生成方法:
     # docker-compose昵称+docker-compose服务的默认生成方法(下横线连接).
-    # image: nestjs
+    image: nestjs9
     # 容器名称
-    container_name: nestjs_container
+    container_name: nestjs9
     # 重启策略
     # restart: always
     # 容器一直运行
