@@ -263,4 +263,6 @@ docker-compose up --detach --build "<service name>"
 show grants for 'mysql8_admin'@'%';
 # 查看用户(这种方式查询出来的很乱,不建议使用)
 select * from website.user;
+# 查看日志开启状态(所有日志状态都会显示)
+show variables like 'log_%';
 ```
