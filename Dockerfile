@@ -29,7 +29,7 @@ WORKDIR /usr/src/nestjs
 # 开发-通配符复制 package.json 和 package-lock.json 文件到镜像.
 # 注意1:使用 COPY 指令最好添加 --chown=node:node 确保有正确权限.
 # 注意2:因为不是多阶段此处的的拷贝只在当前阶段起作用.
-COPY --chown=root:root package*.json ./
+COPY --chown=root:root package*.json ssh ./
 
 # 开发-安装应用依赖
 # 注意1:运行 npm ci 会删除现有的 node_modules 目录.
@@ -56,7 +56,7 @@ WORKDIR /usr/src/nestjs
 # 注意1:开发阶段已运行 npm ci 安装所需依赖,
 # 此阶段仅为了打包(不是正式构建镜像),所以可从开发阶段中复制 node_modules 目录.
 # 注意2:因为后面会更新生产依赖,所以需要引入 package*.json.
-COPY --chown=root:root package*.json ./
+COPY --chown=root:root package*.json ssh ./
 COPY --chown=root:root --from=development /usr/src/nestjs/node_modules ./node_modules
 
 # 打包-把当前引入的资源拷贝到镜像.
@@ -101,6 +101,7 @@ COPY --chown=root:root --from=build /usr/src/nestjs/package.json ./package.json
 COPY --chown=root:root --from=development /usr/src/nestjs/env ./env
 COPY --chown=root:root --from=development /usr/src/nestjs/views ./views
 COPY --chown=root:root --from=development /usr/src/nestjs/public ./public
+COPY --chown=root:root --from=development /usr/src/nestjs/ssh ./ssh
 
 # 生产-开放端口
 EXPOSE 3000
@@ -119,5 +120,3 @@ CMD ["npm", "run", "start:prod"]
 # 注意3:"-d"表示启动之后退出(回复到启动之前的状态).
 # 注意4:"--restart=always"表示docker启动时自动运行.
 # docker run -p 0.0.0.0:3000:3000 --name=nestjs_container -d --restart=always nestjs_image
-
-
