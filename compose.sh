@@ -14,10 +14,6 @@ mysqlImage='mysql'
 nestjs9Image='nestjs9'
 
 
-# [全局操作]清除未挂载(不与容器关联)的所有资源(镜像,容器,卷,网络)
-docker system prune --all
-
-
 # [停止mysql主容器mysql8_master]
 docker stop $(docker ps -a | grep $mysqlMasterContainer | awk '{print $1}')
 # [删除mysql主容器mysql8_master]
@@ -36,6 +32,20 @@ docker stop $(docker ps -a | grep $nestjs9Image | awk '{print $1}')
 docker rm -f $(docker ps -a | grep ${nestjs9Image} | awk '{print $1}')
 # [删除nestjs9镜像]
 docker rmi $(docker images -q --filter reference=$nestjs9Image:*)
+
+
+# [全局操作]清除所有资源(镜像,容器,网络)
+#   注意1:这里如果要删除卷需要添加参数(--volums).
+#   注意2:这个方法可以替代下面的四个方法,是一种全局的简写.
+docker system prune --volumes
+# # [全局操作]清除未使用的容器
+# docker container prune
+# # [全局操作]清除未使用的镜像
+# docker image prune
+# # [全局操作]清除卷
+# docker volume prune
+# # [全局操作]清除网络
+# docker network prune
 
 
 # 删除-mysql主服务器数据
