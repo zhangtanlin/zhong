@@ -108,9 +108,10 @@ export class UploadService {
         }
         // 删除临时数据
         for (let index = 0; index < Number(mergeRedis); index++) {
-          await unlinkFile(
-            md5 + "_" + index,
-            this.configService.get('UPLOAD_VIDEO_BASEURL'),
+          await unlinkFile({
+            fileName: md5 + "_" + index,
+            filePath: this.configService.get('UPLOAD_VIDEO_BASEURL'),
+          }
           ); // 删除缓存文件
         }
         this.ioredis.del(md5); // 清除redis里的数据
