@@ -5,6 +5,7 @@ import { Logger } from "@nestjs/common";
 import { constants, createSign, createVerify, KeyPairSyncResult, privateDecrypt, publicEncrypt, generateKeyPairSync } from "crypto";
 import { readFileSync, writeFileSync } from 'fs';
 import { join } from "path";
+import { isFolderExist } from "../utils/file";
 
 /**
  * 加解密填充方式
@@ -40,11 +41,12 @@ export const getKeyPair = (): KeyPairSyncResult<string, string> => {
 }
 
 // 保存非对称密钥文件到指定路径下的文件
-export const saveKeyPairFile = (
+export const saveKeyPairFile = async (
   publicKey: string,
   privateKey: string,
 ) => {
   try {
+    isFolderExist(join(__dirname, '../../../ssh'));
     writeFileSync(
       join(__dirname, '../../../ssh/private.pem'),
       privateKey,

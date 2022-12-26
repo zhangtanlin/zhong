@@ -5,7 +5,8 @@ import { AppModule } from './app.module'
 import { ErrorFilter } from './common/filter/error.filter'
 import { ResultInterceptor } from './common/interceptor/result.interceptor';
 import { join } from 'path';
-import { readFileSync, } from 'fs';
+import { readFile, } from 'fs';
+import { isFolderExist } from './common/utils/file';
 import * as hbs from 'hbs';
 // api文档swagger
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger'
@@ -43,17 +44,31 @@ async function bootstrap() {
   const msPort: number = await configService.get('MS_PORT');
 
   // 判定是否生成公钥和私钥
-  try {
-    const privateKey = readFileSync('./ssh/private.pem');
-    const publicKey = readFileSync('./ssh/public.pem');
-    if (!privateKey || !publicKey) {
-      const { publicKey, privateKey } = getKeyPair();
-      saveKeyPairFile(publicKey, privateKey);
-    };
-  } catch (error) {
+  isFolderExist(join(__dirname, '../ssh'));
+  let privateKey = null;
+  let publicKey = null;
+  readFile(
+    join(__dirname, '../ssh/private.pem'),
+    'utf-8',
+    (error, res) => {
+      if (!error) {
+        privateKey = res;
+      }
+    },
+  );
+  readFile(
+    join(__dirname, '../ssh/public.pem'),
+    'utf-8',
+    (error, res) => {
+      if (!error) {
+        publicKey = res;
+      }
+    }
+  );
+  if (!privateKey || !publicKey) {
     const { publicKey, privateKey } = getKeyPair();
     saveKeyPairFile(publicKey, privateKey);
-  }
+  };
 
   /**
    * 设置允许跨域

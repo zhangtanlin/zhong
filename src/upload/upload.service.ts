@@ -5,7 +5,11 @@ import { Repository } from 'typeorm';
 import { Md5Dto } from '../common/dto/md5.dto';
 import Ioredis from 'ioredis'
 import path from 'path'
-import { readFileBuffer, saveFileBuffer, unlinkFile } from "../common/utils/tool"
+import {
+  readFileBuffer,
+  saveFileBuffer,
+  unlinkFile,
+} from "../common/utils/file";
 import { InjectRedis } from '@liaoliaots/nestjs-redis';
 import { ConfigService } from '@nestjs/config';
 
@@ -60,11 +64,11 @@ export class UploadService {
       // 存储二进制文件
       const writeFilesName = md5 + "_" + chunkNumber;
       const writeFilesBuffer = file['buffer'];
-      const saveFile = await saveFileBuffer(
-        writeFilesName,
-        writeFilesBuffer,
-        this.configService.get('UPLOAD_VIDEO_BASEURL'),
-      );
+      const saveFile = await saveFileBuffer({
+        fileName: writeFilesName,
+        buffer: writeFilesBuffer,
+        filePath: this.configService.get('UPLOAD_VIDEO_BASEURL'),
+      });
       if (!saveFile) {
         throw new HttpException({ message: '存储文件失败' }, 502)
       }
@@ -76,18 +80,18 @@ export class UploadService {
         // 合并模块
         let bufferArray = [];
         for (let index = 0; index < Number(mergeRedis); index++) {
-          let readBuffer = await readFileBuffer(
-            md5 + "_" + index,
-            this.configService.get('UPLOAD_VIDEO_BASEURL'),
-          );
+          let readBuffer = await readFileBuffer({
+            fileName: md5 + "_" + index,
+            filePath: this.configService.get('UPLOAD_VIDEO_BASEURL'),
+          });
           bufferArray.push(readBuffer);
         }
         const newBufferFile = Buffer.concat(bufferArray);
-        const mergeFile = await saveFileBuffer(
+        const mergeFile = await saveFileBuffer({
           fileName,
-          newBufferFile,
-          this.configService.get('UPLOAD_VIDEO_BASEURL'),
-        )
+          buffer: newBufferFile,
+          filePath: this.configService.get('UPLOAD_VIDEO_BASEURL'),
+        });
         if (!mergeFile) {
           throw new HttpException({ message: '合并文件失败' }, 502)
         }
