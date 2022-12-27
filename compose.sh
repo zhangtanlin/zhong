@@ -66,6 +66,8 @@ rm -rf ./compose/mysql/mysql8_master/data/*
 ## 删除-mysql从服务器数据
 rm -rf ./compose/mysql/mysql8_slave/logs/*
 rm -rf ./compose/mysql/mysql8_slave/data/*
+## 删除-redis数据
+rm -rf ./compose/redis/data/*
 
 
 ## 运行[docker-compose]
