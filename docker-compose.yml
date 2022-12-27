@@ -52,7 +52,7 @@ services:
       MYSQL_ALLOW_EMPTY_PASSWORD: false
       # 是否允许 root 使用随机密码
       MYSQL_RANDOM_ROOT_PASSWORD: false
-      # 创建数据库-数据库名字
+      # 创建数据库-数据库名
       MYSQL_DATABASE: website
       # 创建数据库-新建用户
       # 注意:不能是 root,因为会报错,后面需要给新用户赋予权力.
@@ -98,7 +98,7 @@ services:
       MYSQL_ALLOW_EMPTY_PASSWORD: false
       # 是否允许 root 使用随机密码
       MYSQL_RANDOM_ROOT_PASSWORD: false
-      # 创建数据库-数据库名字
+      # 创建数据库-数据库名
       MYSQL_DATABASE: website
       # 创建数据库-新建用户
       # 注意:不能是 root,因为会报错,后面需要给新用户赋予权力.
