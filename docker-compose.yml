@@ -47,6 +47,7 @@ services:
       # 访问端口
       MYSQL_PORT: 3306
       # root 用户密码
+      # 注意:这里给[root]用户设置密码不生效.
       # MYSQL_ROOT_PASSWORD: Qaz@123456
       # 是否允许 root 不使用密码
       MYSQL_ALLOW_EMPTY_PASSWORD: false
@@ -55,7 +56,7 @@ services:
       # 创建数据库-数据库名
       MYSQL_DATABASE: website
       # 创建数据库-新建用户
-      # 注意:不能是 root,因为会报错,后面需要给新用户赋予权力.
+      # 注意:不能是[root]用户,因为会报错,后面需要给新用户赋予权力.
       MYSQL_USER: mysql8_admin
       # 创建数据库-新建用户的密码
       MYSQL_PASSWORD: Qaz@123456
@@ -92,13 +93,15 @@ services:
       TZ: Asiz/Shanghai
       # 访问端口
       MYSQL_PORT: 3307
-      # root 密码
-      MYSQL_ROOT_PASSWORD: Qaz@123456
+      # root 用户密码
+      # 注意:这里给[root]用户设置密码不生效.
+      # MYSQL_ROOT_PASSWORD: Qaz@123456
       # 是否允许 root 不使用密码
       MYSQL_ALLOW_EMPTY_PASSWORD: false
       # 是否允许 root 使用随机密码
       MYSQL_RANDOM_ROOT_PASSWORD: false
       # 创建数据库-数据库名
+      # 注意:不能是[root]用户,因为会报错,后面需要给新用户赋予权力.
       MYSQL_DATABASE: website
       # 创建数据库-新建用户
       # 注意1:不能使用[root]用户,因为会报错.
