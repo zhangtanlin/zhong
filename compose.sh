@@ -30,18 +30,16 @@ docker rm -f $(docker ps -a | grep ${mysqlSlaveContainer} | awk '{print $1}')
 docker stop $(docker ps -a | grep $redisContainer | awk '{print $1}')
 ## [删除redis容器redis6]
 docker rm -f $(docker ps -a | grep ${redisContainer} | awk '{print $1}')
+## [停止nestjs9容器]
+docker stop $(docker ps -a | grep $nestjs9Image | awk '{print $1}')
+## [删除nestjs9容器]
+docker rm -f $(docker ps -a | grep ${nestjs9Image} | awk '{print $1}')
 
 
 ## [删除mysql镜像]
 docker rmi $(docker images -q --filter reference=$mysqlImage:*)
 ## [删除redis镜像]
 docker rmi $(docker images -q --filter reference=$redisImage:*)
-
-
-## [停止nestjs9容器]
-docker stop $(docker ps -a | grep $nestjs9Image | awk '{print $1}')
-## [删除nestjs9容器]
-docker rm -f $(docker ps -a | grep ${nestjs9Image} | awk '{print $1}')
 ## [删除nestjs9镜像]
 docker rmi $(docker images -q --filter reference=$nestjs9Image:*)
 
@@ -67,7 +65,7 @@ rm -rf ./compose/mysql/mysql8_master/data/*
 rm -rf ./compose/mysql/mysql8_slave/logs/*
 rm -rf ./compose/mysql/mysql8_slave/data/*
 ## 删除-redis数据
-rm -rf ./compose/redis/data/*
+# rm -rf ./compose/redis/data/*
 
 
 ## 运行[docker-compose]

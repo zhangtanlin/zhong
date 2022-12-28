@@ -265,4 +265,6 @@ show grants for 'mysql8_admin'@'%';
 select * from website.user;
 # 查看日志开启状态(所有日志状态都会显示)
 show variables like 'log_%';
+# 查看数据目录
+show variables like 'datadir';
 ```

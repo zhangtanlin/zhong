@@ -46,8 +46,8 @@ services:
       TZ: Asiz/Shanghai
       # 访问端口
       MYSQL_PORT: 3306
-      # root 密码
-      MYSQL_ROOT_PASSWORD: Qaz@123456
+      # root 用户密码
+      # MYSQL_ROOT_PASSWORD: Qaz@123456
       # 是否允许 root 不使用密码
       MYSQL_ALLOW_EMPTY_PASSWORD: false
       # 是否允许 root 使用随机密码
@@ -65,7 +65,7 @@ services:
     # 目录
     volumes:
       # 数据目录
-      - ./compose/mysql/mysql8_master/data:/var/lib/mysql/data
+      - ./compose/mysql/mysql8_master/data:/var/lib/mysql
       # 配置文件
       # 注意1:my.cnf 设置字符集为 utf8mb4 解决 emoji 表情等特殊字符存储问题.
       # 注意2:这里的 /usr/local/etc/my.cnf 路径是 mac 的路径.
@@ -111,7 +111,7 @@ services:
     # 目录
     volumes:
       # 数据目录
-      - ./compose/mysql/mysql8_slave/data:/var/lib/mysql/data
+      - ./compose/mysql/mysql8_slave/data:/var/lib/mysql
       # 配置文件
       # 注意1:my.cnf 设置字符集为 utf8mb4 解决 emoji 表情等特殊字符存储问题.
       # 注意2:这里的 /usr/local/etc/my.cnf 路径是 mac 的路径.
