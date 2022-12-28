@@ -69,7 +69,7 @@ services:
       # 配置文件
       # 注意1:my.cnf 设置字符集为 utf8mb4 解决 emoji 表情等特殊字符存储问题.
       # 注意2:这里的 /usr/local/etc/my.cnf 路径是 mac 的路径.
-      - ./compose/mysql/mysql8_master/my.cnf:/etc/my.cnf
+      - ./compose/mysql/mysql8_master/my.cnf:/etc/mysql/my.cnf
       # 初始化 sql 脚本挂载
       - ./compose/mysql/mysql8_master/init:/docker-entrypoint-initdb.d
       # 日志
@@ -115,7 +115,7 @@ services:
       # 配置文件
       # 注意1:my.cnf 设置字符集为 utf8mb4 解决 emoji 表情等特殊字符存储问题.
       # 注意2:这里的 /usr/local/etc/my.cnf 路径是 mac 的路径.
-      - ./compose/mysql/mysql8_slave/my.cnf:/etc/my.cnf
+      - ./compose/mysql/mysql8_slave/my.cnf:/etc/mysql/my.cnf
       # 初始化 sql 脚本挂载
       - ./compose/mysql/mysql8_slave/init:/docker-entrypoint-initdb.d
       # 日志
