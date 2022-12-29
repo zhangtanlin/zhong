@@ -264,7 +264,8 @@ show grants for 'mysql8_admin'@'%';
 # 查询用户1(用于查询指定数据的用户啊):
 # 注意:这种方式查询出来的很乱,不建议使用
 select * from website.user;
-# 查询用户2(用于查询默认的mysql数据库):
+# 查询用户2:
+# 注意:使用这个方法之前需要定位到[use mysql;]数据库
 select user,host from user;
 # 查看日志开启状态(所有日志状态都会显示)
 show variables like 'log_%';
