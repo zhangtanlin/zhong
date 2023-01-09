@@ -6,9 +6,8 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm'
 
 @Entity('guess')
-/**
- * guess竞猜活动数据表
- */
+
+// guess竞猜活动数据表
 export class GuessEntity {
   /**
    * id
@@ -17,9 +16,7 @@ export class GuessEntity {
   @PrimaryGeneratedColumn()
   id: number
 
-  /**
-   * 名称
-   */
+  // 名称
   @Column({
     type: 'varchar',
     length: 255,
@@ -27,9 +24,7 @@ export class GuessEntity {
   })
   name: string
 
-  /**
-   * 活动图片
-   */
+  // 活动图片
   @Column({
     type: 'varchar',
     length: 255,
@@ -37,9 +32,7 @@ export class GuessEntity {
   })
   src: string
 
-  /**
-   * 时间
-   */
+  // 时间
   @Column({
     type: 'varchar',
     length: 255,
@@ -69,9 +62,7 @@ export class GuessEntity {
   })
   result: string
 
-  /**
-   * 中奖结果【谁中奖】
-   */
+  // 中奖结果【谁中奖】
   @Column({
     type: 'varchar',
     length: 255,
@@ -79,9 +70,7 @@ export class GuessEntity {
   })
   end: string
 
-  /**
-   * 中奖描述
-   */
+  // 中奖描述
   @Column({
     type: 'varchar',
     length: 255,

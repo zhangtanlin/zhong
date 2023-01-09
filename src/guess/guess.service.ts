@@ -30,6 +30,7 @@ import { GuessGetDto } from './dto/guess.get.dto'
 export class GuessService {
   /**
    * 函数
+   * @param {function} guessRepository 活动查询方法
    */
   constructor(
     @InjectRepository(GuessEntity)

@@ -18,9 +18,7 @@ import { DtoPipe } from '../common/pipe/dto.pipe'
 import { ResultDto } from '../common/dto/result.dto'
 import { GuessGetDto } from './dto/guess.get.dto'
 
-/**
- * 竞猜活动控制器
- */
+// 竞猜活动控制器
 @Controller('/api/guess')
 export class GuessController {
   /**

@@ -14,9 +14,7 @@ import { GuessEntity } from "./guess.entity";
 
 @Module({
   imports: [
-    /**
-     * 连接下载表
-     */
+    // 连接活动表
     TypeOrmModule.forFeature([GuessEntity])
   ],
   providers: [GuessService],
