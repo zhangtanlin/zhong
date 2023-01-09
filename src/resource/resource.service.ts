@@ -17,9 +17,7 @@ export class ResourceService {
     private readonly resourceRepository: Repository<ResourceEntity>
   ) {}
 
-  /**
-   * 查询所有
-   */
+  // 查询所有列表
   async find(): Promise<ResourceEntity[]> {
     const findResourceArray = await this.resourceRepository.find()
     if (!findResourceArray) {
@@ -30,7 +28,7 @@ export class ResourceService {
 
   /**
    * 根据制定条件查询
-   * @param {object} data - 资源列表条件【注意是对象】
+   * @param {object} [data] - 资源列表条件【注意是对象】
    */
   async findByObjCondition(data: ResourceObjectDto): Promise<ResourceEntity[]> {
     const findResourceArray = await this.resourceRepository.find({
@@ -44,9 +42,9 @@ export class ResourceService {
 
   /**
    * 根据id数组查询数据
-   * @param [data] - id数组
+   * @param {array} [data] 资源id数组
    */
-  async findByArrIds(data: any[]): Promise<ResourceEntity[]> {
+  async findByArrIds(data: string[] | number[]): Promise<ResourceEntity[]> {
     const findResourceArray = await this.resourceRepository
       .createQueryBuilder('resource')
       .where('resource.id IN (:...ids)', { ids: data })
@@ -59,7 +57,7 @@ export class ResourceService {
 
   /**
    * 根据id数值查询数据
-   * @param id 资源id
+   * @param {number} [id] 资源id
    */
   async findByArrId(id: number): Promise<ResourceEntity> {
     const findResource = await this.resourceRepository
@@ -74,6 +72,8 @@ export class ResourceService {
 
   /**
    * 保存
+   * @param {ResourceAddDto} [data] 需要保存的资源数据
+   * @returns 
    */
   async save(data: ResourceAddDto): Promise<ResourceEntity> {
     const findOneByName: ResourceEntity = await this.resourceRepository.findOneBy({
@@ -107,10 +107,13 @@ export class ResourceService {
 
   /**
    * 更新一条数据
-   * @param {number} [id]           - 查询需要更新的数据id
+   * @param {number} [id] - 查询需要更新的数据id
    * @param {ResourceObjDto} [data] - 需要更新的数据对象
    */
-  async updateOneById(id: number, data: ResourceObjectDto): Promise<any> {
+  async updateOneById(
+    id: number,
+    data: ResourceObjectDto,
+  ): Promise<any> {
     try {
       const update: any = await this.resourceRepository.update(id, data)
       if (!update) {
@@ -124,7 +127,7 @@ export class ResourceService {
 
   /**
    * 根据id删除
-   * @param id 资源 id （数值）
+   * @param {number} [id] 资源id
    */
   async removeOneById(id: number): Promise<boolean> {
     const resource = new ResourceEntity(); // 实例化资源 resource

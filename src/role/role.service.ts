@@ -3,12 +3,11 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { RoleEntity } from './role.entity'
 import { Repository, getConnection, Like } from 'typeorm'
 import { RoleGetDto } from './dto/role.get.dto'
+import { RoleAddDto } from './dto/role.add.dto'
 
 @Injectable()
 export class RoleService {
-  /**
-   * 函数
-   */
+  // 函数
   constructor(
     @InjectRepository(RoleEntity)
     private readonly roleRepository: Repository<RoleEntity>
@@ -16,6 +15,7 @@ export class RoleService {
 
   /**
    * 分页查询
+   * @param {object} [params] 分页查询条件
    */
   async getManyAndCount(params: RoleGetDto): Promise<any> {
     let data = {
@@ -44,6 +44,8 @@ export class RoleService {
 
   /**
    * 根据条件查询一个用户
+   * @param data 查询一条数据的条件
+   * @returns 
    */
   async findOne(data: object): Promise<RoleEntity> {
     const findOneRole: RoleEntity = await this.roleRepository.findOne(data)
@@ -55,9 +57,9 @@ export class RoleService {
 
   /**
    * 根据id数组查询数据
-   * @param [data] - id数组
+   * @param {attay[string]} [data] 角色id数组
    */
-  async findByIds(data: any[]): Promise<RoleEntity[]> {
+  async findByIds(data: string[] | number[]): Promise<RoleEntity[]> {
     const findRoleArray = await this.roleRepository
       .createQueryBuilder('role')
       .where('role.id IN (:...ids)', { ids: data})
@@ -70,13 +72,15 @@ export class RoleService {
 
   /**
    * 保存
+   * @param data 需要保存的角色数据
+   * @returns 
    */
-  async save(data): Promise<any> {
-    const save = await getConnection()
+  async save(data: RoleAddDto): Promise<any> {
+    const save = await this.roleRepository
       .createQueryBuilder()
       .insert()
       .into(RoleEntity)
-      .values(data)
+      .values(data as RoleEntity)
       .execute()
       if (!save) {
         throw new HttpException({ message: '保存角色失败' }, 502)
