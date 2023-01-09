@@ -272,3 +272,13 @@ show variables like 'log_%';
 # 查看数据目录
 show variables like 'datadir';
 ```
+## mysql workbench
+mysql可视化工具数据类型说明:
+- PK  - 主键
+- NN  - 不为空
+- BIN - 二进制
+- UN  - 无符号
+- UQ  - 独一无二
+- ZF  - 零填充
+- G   - 生成列
+- AI  − 自动增量

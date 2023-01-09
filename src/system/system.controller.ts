@@ -2,9 +2,11 @@ import {
   Controller,
   Post,
   HttpCode,
+  Headers,
   Body,
   UseGuards,
-  HttpStatus
+  HttpStatus,
+  HttpException
 } from '@nestjs/common'
 import { AuthApiGuard } from '../common/guard/auth_api.guard';
 import { SystemService } from './system.service'
@@ -36,7 +38,15 @@ export class SystemConfigController {
   @Post()
   @UseGuards(AuthApiGuard)
   @HttpCode(HttpStatus.OK)
-  async findOne(): Promise<any> {
-    return await this.systemService.getConfig();
+  async findOne(@Headers() headers: any,): Promise<any> {
+    const _id = headers.authorization.id;
+    if (!_id) {
+      throw new HttpException(
+        { message: '当前id不存在' },
+        502,
+      );
+    }
+    const res = await this.systemService.getIntegration(_id); 
+    return res;
   }
 }

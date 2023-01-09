@@ -32,7 +32,7 @@ export class SystemService {
   }
 
   // 获取整合接口
-  async getApiIntegration(): Promise<any> {
+  async getIntegration(id: number): Promise<any> {
     let cb = {
       version: {},
       userInfo: {},
@@ -44,16 +44,32 @@ export class SystemService {
       const _versionEntity: VersionEntity = await this.versionService.findOne();
       cb.version = _versionEntity;
       if (!_versionEntity) {
-        throw new HttpException({ message: '版本信息查询失败' }, 502);
-      }
+        throw new HttpException(
+          { message: '版本信息查询失败' },
+          502,
+        );
+      };
       // 用户信息
-
+      const _userInfo = await this.userService.findOneById(id);
+      if (!_userInfo) {
+        throw new HttpException(
+          { message: '当前用户不存在' },
+          502,
+        );
+      };
+      cb.userInfo = _userInfo;
       // 配置信息
       cb.config = await this.getConfig();
       // 广告
       const _adEntity: AdEntity[] = await this.adService.getManyAndCount(
         { type: 1 }
       );
+      if (!_adEntity) {
+        throw new HttpException(
+          { message: '请求广告失败' },
+          502,
+        );
+      }
       cb.ads = _adEntity;
       return cb;
     } catch (error) {
@@ -63,31 +79,22 @@ export class SystemService {
 
   // 配置信息
   async getConfig(): Promise<any> {
-    var cb: SystemConfigEntity = {
-      id: '',
-      devApi: '',
-      api: '',
-      githubApi: '',
-      tfApi: '',
-      tfGithubApi: '',
-      imageHost: "",
-      uploadImageKey: "",
-      uploadImageUrl: "",
-      uploadVideoKey: "",
-      uploadVideoUrl: "",
-    };
     try {
-      cb = await this.systemConfigRepository.findOne({
-        where: {
-          id: '1',
-        },
+      const res = await this.systemConfigRepository.findOneBy({
+        id: 1,
       });
-      return cb;
+      if (!res) {
+        throw new HttpException(
+          { message: '当前id不存在数据库中' },
+          502,
+        );
+      }
+      return res;
     } catch (error) {
       throw new HttpException(
         { message: error.response },
         error.status,
-      )
+      );
     }
   }
 }

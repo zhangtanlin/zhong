@@ -34,21 +34,17 @@ export class AuthApiGuard implements CanActivate {
     context: ExecutionContext
   ): boolean | Promise<boolean> | Observable<boolean> {
     const request = context.switchToHttp().getRequest()
-    const token = request.headers.authorization
+    const _authInfo = request.headers.authorization
     if (request.url !== '/api/login') {
       try {
         const decryptToken = AES.decrypt(
-          token,
+          _authInfo,
           this.configService.get('TOKEN_KEY'),
         ).toString(
           enc.Utf8
-        )
+        );
         const tokenJSON = JSON.parse(decryptToken)
-        const account = tokenJSON.account
-        const getRedisToken = this.ioredis.get(account + ':token')
-        if (!getRedisToken) {
-          return false
-        }
+        request.headers.authorization = tokenJSON
         return true
       } catch (error) {
         throw new HttpException({ error: '暂无权限' }, 401)

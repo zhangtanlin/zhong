@@ -10,7 +10,7 @@
  export class SystemConfigEntity {
    // 自增id
    @PrimaryGeneratedColumn()
-   id: string
+   id: number
  
    // 测试服 api 接口地址
    @Column({
