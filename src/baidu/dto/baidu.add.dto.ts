@@ -31,14 +31,18 @@ export enum BaiduTypes {
  * @param {string} [password] - 类型【不能为空，长度至少为3，长度最大为255】
  */
 export class BaiduAddDto {
+
+  // 名称
   @IsNotEmpty({ message: '名称不能为空' })
   @MaxLength(255, { message: '名称长度最长为 $constraint1' })
   name: string
 
+  // 类型
   @IsNotEmpty({ message: '类型不能为空' })
   @IsEnum(BaiduTypes)
   type: number
 
+  // 资源
   @IsOptional()
   resources: string
 }

@@ -6,6 +6,7 @@ import { BaiduEntity } from './baidu.entity'
 
 @Module({
   imports: [
+    // 连接百度表
     TypeOrmModule.forFeature([BaiduEntity]),
   ],
   controllers: [BaiduController],

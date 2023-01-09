@@ -22,7 +22,10 @@ export class BaiduEntity {
   })
   name: string
 
-  // 应用类型 {1:软件,2:硬件}
+  /**
+   * 应用类型
+   * @description {1:软件,2:硬件}
+   */
   @Column({
     type: 'enum',
     enum: [1, 2],

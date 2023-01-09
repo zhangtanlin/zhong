@@ -19,9 +19,7 @@ import { DtoPipe } from '../common/pipe/dto.pipe'
 import { RequestDto } from '../common/dto/request.dto'
 import { AuthApiGuard } from '../common/guard/auth_api.guard'
 
-/**
- * 控制器
- */
+// 控制器
 @Controller('/api/line')
 export class LineController {
   /**

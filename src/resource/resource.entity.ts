@@ -20,27 +20,18 @@ import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm'
  */
 @Entity('resource')
 export class ResourceEntity {
-  /**
-   * 资源id
-   * @param {number} [id] - 资源id（自增）
-   */
+  // 资源id（自增）
   @PrimaryGeneratedColumn()
   id: number
 
-  /**
-   * 资源父id
-   * @param {number} [id] - 资源父id
-   */
+  // 资源父id
   @Column({
     type: 'int',
     default: 0
   })
   pid: number
 
-  /**
-   * 资源名称
-   * @param {string} [name] - 资源名称
-   */
+  // 资源名称
   @Column({
     type: 'varchar',
     length: 255,
@@ -48,10 +39,7 @@ export class ResourceEntity {
   })
   name: string
 
-  /**
-   * 资源别名
-   * @param {string} [name] - 资源别名
-   */
+  // 资源别名
   @Column({
     type: 'varchar',
     length: 255,
@@ -61,7 +49,7 @@ export class ResourceEntity {
 
   /**
    * 资源类型
-   * @param {number} [type] - 资源类型{1:"菜单",2:"按钮"}
+   * @description {1:"菜单",2:"按钮"}
    */
   @Column({
     type: 'int',
@@ -70,8 +58,8 @@ export class ResourceEntity {
   type: number
 
   /**
-   * 路由地址
-   * @param {string} [url] - 路由地址【路由跳转地址】
+   * 路由地址【路由跳转地址】
+   * @description 路由地址【路由跳转地址】
    */
   @Column({
     type: 'varchar',
@@ -82,7 +70,7 @@ export class ResourceEntity {
 
   /**
    * 组件地址
-   * @param {string} [url] - 组件地址【关联的view的组件路径】
+   * @description 关联的view的组件路径
    */
   @Column({
     type: 'varchar',
@@ -91,9 +79,7 @@ export class ResourceEntity {
   })
   target: string
 
-  /**
-   * 图标
-   */
+  // 图标
   @Column({
     type: 'varchar',
     length: 255,
@@ -103,7 +89,7 @@ export class ResourceEntity {
 
   /**
    * 是否显示
-   * @param {number} [is_show] - 是否显示{0:"不显示",1:"显示"}
+   * @description {0:"不显示",1:"显示"}
    */
   @Column({
     type: 'int',
@@ -113,7 +99,7 @@ export class ResourceEntity {
 
   /**
    * 是否在导航栏显示
-   * @param {number} [is_navigation] - 是否是导航栏{0:"不是导航栏",1:"是导航栏"}
+   * @description {0:"不是导航栏",1:"是导航栏"}
    */
   @Column({
     type: 'int',
@@ -123,7 +109,7 @@ export class ResourceEntity {
 
   /**
    * 权限
-   * @param {string} [permission] -  权限【由web/sys:路由:method】例如web:home:get
+   * @description 【由web/sys:路由:method】例如web:home:get
    */
   @Column({
     type: 'varchar',
@@ -132,9 +118,7 @@ export class ResourceEntity {
   })
   permission: string
 
-  /**
-   * 说明
-   */
+  // 说明
   @Column({
     type: 'varchar',
     length: 255,

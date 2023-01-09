@@ -14,9 +14,7 @@ import { LineEntity } from "./line.entity";
 
 @Module({
   imports: [
-    /**
-     * 连接下载表
-     */
+    // 连接线路表
     TypeOrmModule.forFeature([LineEntity])
   ],
   providers: [LineService],

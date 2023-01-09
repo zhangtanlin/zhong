@@ -3,11 +3,13 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { BaiduEntity } from './baidu.entity'
 import { Repository, getConnection, Like } from 'typeorm'
 import { BaiduGetDto } from './dto/baidu.get.dto'
+import { BaiduAddDto } from './dto/baidu.add.dto'
 
 @Injectable()
 export class BaiduService {
   /**
    * 函数
+   * @param {function} [baiduRepository] 百度服务查询方法
    */
   constructor(
     @InjectRepository(BaiduEntity)
@@ -16,6 +18,8 @@ export class BaiduService {
 
   /**
    * 分页查询
+   * @param {BaiduGetDto} [params] 查询条件
+   * @returns 
    */
   async getManyAndCount(params: BaiduGetDto): Promise<any> {
     let data = {
@@ -44,6 +48,7 @@ export class BaiduService {
 
   /**
    * 根据条件查询一个用户
+   * @param {object} [data] 查询条件
    */
   async findOne(data: object): Promise<BaiduEntity> {
     const findOneBaidu: BaiduEntity = await this.baiduRepository.findOne(data)
@@ -55,9 +60,9 @@ export class BaiduService {
 
   /**
    * 根据id数组查询数据
-   * @param [data] - id数组
+   * @param {string[] | number[]} [data] id数组
    */
-  async findByIds(data: any[]): Promise<BaiduEntity[]> {
+  async findByIds(data: string[] | number[]): Promise<BaiduEntity[]> {
     const findBaiduArray = await this.baiduRepository
       .createQueryBuilder('baidu')
       .where('baidu.id IN (:...ids)', { ids: data })
@@ -70,9 +75,10 @@ export class BaiduService {
 
   /**
    * 保存
+   * @param {any} [data] 需要保存的数据
    */
-  async save(data): Promise<any> {
-    const save = await getConnection()
+  async save(data: any): Promise<any> {
+    const save = await this.baiduRepository
       .createQueryBuilder()
       .insert()
       .into(BaiduEntity)

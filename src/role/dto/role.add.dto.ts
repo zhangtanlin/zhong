@@ -27,8 +27,8 @@ export enum RoleTypes {
 
 /**
  * 新增dto验证
- * @param {string} [name]     - 名称【不能为空，长度为】
- * @param {string} [password] - 类型【不能为空，长度至少为3，长度最大为255】
+ * @param {string} [name]     名称【不能为空，长度为】
+ * @param {string} [password] 类型【不能为空，长度至少为3，长度最大为255】
  */
 export class RoleAddDto {
   @IsNotEmpty({ message: '名称不能为空' })

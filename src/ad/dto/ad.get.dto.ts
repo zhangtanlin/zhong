@@ -19,6 +19,7 @@ import { Type } from 'class-transformer'
  */
 export class AdGetDto {
 
+  // 广告类型
   @IsOptional()
   @Type(() => Number)
   @IsInt({ message: '请输入类型' })

@@ -14,9 +14,7 @@ import { DownloadEntity } from "./download.entity";
 
 @Module({
   imports: [
-    /**
-     * 连接下载表
-     */
+    // 连接下载表
     TypeOrmModule.forFeature([DownloadEntity])
   ],
   providers: [DownloadService],

@@ -11,9 +11,7 @@ import { RoleModule } from '../role/role.module'
 
 @Module({
   imports: [
-    /**
-     * 连接资源表
-     */
+    // 连接资源表
     TypeOrmModule.forFeature([ResourceEntity]),
     forwardRef(() => UserModule),
     forwardRef(() => RoleModule)

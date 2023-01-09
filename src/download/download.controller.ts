@@ -22,9 +22,7 @@ import { DtoPipe } from '../common/pipe/dto.pipe'
 import { DownloadGetDto } from './dto/user.get.dto'
 import { createReadStream } from "fs";
 
-/**
- * 下载控制器
- */
+// 下载控制器
 @Controller('/api/download')
 export class DownloadController {
   /**

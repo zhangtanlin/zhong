@@ -6,6 +6,7 @@ import { AdminEntity } from "./admin.entity";
 import { RoleModule } from "../role/role.module";
 @Module({
   imports: [
+    // 连接管路系统表
     TypeOrmModule.forFeature([AdminEntity]),
     RoleModule,
   ],

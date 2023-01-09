@@ -53,7 +53,10 @@ export class RoleObjectDto {
   })
   name: string
 
-  // 类型{1:"超级管理员", 2:"操作员", 3:"审计员"}
+  /**
+   * 类型
+   * @description {1:"超级管理员", 2:"操作员", 3:"审计员"}
+   */
   @IsOptional()
   @Type(() => Number)
   @IsEnum(RoleType, {

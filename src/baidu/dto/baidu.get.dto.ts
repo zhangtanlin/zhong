@@ -38,30 +38,35 @@ export enum BaiduTypes {
  */
 export class BaiduGetDto {
 
+  // id
   @IsOptional()
   @Type(() => Number)
   @IsInt({ message: 'id需要为数字' })
   @Min(0, { message: 'id最小为 $constraint1' })
   id: number
 
+  // 名称
   @IsOptional()
   @Type(() => String)
   @IsNotEmpty({ message: '名称不能为空' })
   @MaxLength(255, { message: '名称长度最长为 $constraint1' })
   name: string
 
+  // 类型
   @IsOptional()
   @Type(() => Number)
   @IsNotEmpty({ message: '类型不能为空' })
   @IsEnum(BaiduTypes)
   type: number
 
+  // 页码
   @IsOptional()
   @Type(() => Number)
   @IsInt({ message: '页码需要为数字' })
   @Min(1, { message: '页码最小为 $constraint1' })
   currentPage: number
 
+  // 每页显示的条数
   @IsOptional()
   @Type(() => Number)
   @IsInt({ message: '显示条数需要为数字' })

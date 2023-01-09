@@ -27,9 +27,7 @@ export enum BaiduType {
   Auditor = 3
 }
 
-/**
- * 根据对象进行验证
- */
+// 百度表的对象验证
 export class BaiduObjectDto {
 
   // 名称
@@ -40,7 +38,10 @@ export class BaiduObjectDto {
   })
   name: string
 
-  // 类型{1:"软件", 2:"硬件"}
+  /**
+   * 类型
+   * @descript {1:"软件", 2:"硬件"}
+   */
   @IsOptional()
   @Type(() => Number)
   @IsEnum(BaiduType, {

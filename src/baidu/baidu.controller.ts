@@ -96,7 +96,7 @@ export class BaiduController {
   }
   /**
    * 编辑
-   * @param [] -
+   * @param {BaiduAddDto} [request] 百度查询dto
    */
   async edit(@Body() request: BaiduAddDto): Promise<ResultDto> {
     let data = null

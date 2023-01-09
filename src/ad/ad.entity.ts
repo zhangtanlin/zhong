@@ -6,9 +6,7 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm'
 
 @Entity('ad')
-/**
- * 广告数据表
- */
+// 广告数据表
 export class AdEntity {
   /**
    * id
@@ -17,9 +15,7 @@ export class AdEntity {
   @PrimaryGeneratedColumn()
   id: number
 
-  /**
-   * 名称
-   */
+  // 名称
   @Column({
     type: 'varchar',
     length: 255,
@@ -28,7 +24,8 @@ export class AdEntity {
   name: string
 
   /**
-   * 类型{1:开屏广告,2:开屏banner}
+   * 类型
+   * @description {1:开屏广告,2:开屏banner}
    */
   @Column({
     type: 'int',
@@ -36,9 +33,7 @@ export class AdEntity {
   })
   type: number
 
-  /**
-   * 图片地址
-   */
+  // 图片地址
   @Column({
     type: 'varchar',
     length: 255,
@@ -46,9 +41,7 @@ export class AdEntity {
   })
   src: string
 
-  /**
-   * 链接地址
-   */
+  // 链接地址
   @Column({
     type: 'varchar',
     length: 255,
@@ -58,7 +51,7 @@ export class AdEntity {
 
   /**
    * 状态
-   * @description - {0: 关闭, 1: 开启}
+   * @description {0: 关闭, 1: 开启}
    */
   @Column({
     type: 'enum',
@@ -67,9 +60,7 @@ export class AdEntity {
   })
   status: string
 
-  /**
-   * 描述
-   */
+  // 描述
   @Column({
     type: 'varchar',
     length: 255,

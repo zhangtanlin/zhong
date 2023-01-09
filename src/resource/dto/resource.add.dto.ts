@@ -5,9 +5,7 @@
  */
 import { IsNotEmpty, MaxLength } from 'class-validator'
 
-/**
- * 新增dto验证
- */
+// 新增dto验证
 export class ResourceAddDto {
   // 名称
   @IsNotEmpty({ message: '名称不能为空' })

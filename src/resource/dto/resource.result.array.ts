@@ -4,9 +4,7 @@
  */
 import { ResourceEntity } from '../resource.entity'
 
-/**
- * dto返回值验证【返回数据库字段】
- */
+// dto返回值验证【返回数据库字段】
 export class ResourceResultArrayDto {
   code: number
 

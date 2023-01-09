@@ -35,9 +35,7 @@ export enum ResourceIsShow {
   yes = 1
 }
 
-/**
- * 根据resource对象进行验证
- */
+// 根据resource对象进行验证
 export class ResourceObjectDto {
   // id
   @IsOptional()

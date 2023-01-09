@@ -26,10 +26,10 @@ export class SystemService {
   ) { }
 
   // 查询用户【根据query条件】
-     async findOneById(@Body() bodys): Promise<any> {
-      const findOneById: UserEntity = await this.userService.findOneById(bodys.id);
-       return classToPlain(findOneById);
-    }
+  async findOneById(@Body() bodys): Promise<any> {
+    const findOneById: UserEntity = await this.userService.findOneById(bodys.id);
+    return classToPlain(findOneById);
+  }
 
   // 获取整合接口
   async getApiIntegration(): Promise<any> {

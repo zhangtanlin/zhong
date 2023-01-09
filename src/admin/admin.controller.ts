@@ -29,6 +29,11 @@ import { ConfigService } from '@nestjs/config'
 // 管理员
 @Controller('/sys/admin')
 export class AdminController {
+  /**
+   * 函数
+   * @param adminService 管理服务查询方法
+   * @param configService 配置信息查询方法
+   */
   constructor(
     private readonly adminService: AdminService,
     private readonly configService: ConfigService,

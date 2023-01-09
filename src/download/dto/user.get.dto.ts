@@ -21,6 +21,8 @@ import { Type } from 'class-transformer'
  * @param {string} [pageSize]    - 显示条数【最小为1】
  */
 export class DownloadGetDto {
+
+  // id
   @IsOptional()
   @Type(() => Number)
   @IsInt({ message: 'id需要为数字' })

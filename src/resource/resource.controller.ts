@@ -34,6 +34,8 @@ import { ConfigService } from '@nestjs/config'
 export class ResourceController {
   /**
    * 函数
+   * @param {ResourceService} [resourceService] 资源查询服务
+   * @param {ConfigService} [ConfigService] 配置信息查询服务
    */
   constructor(
     private readonly resourceService: ResourceService,
@@ -73,6 +75,7 @@ export class ResourceController {
 
   /**
    * 根据id获取一条数据
+   * @param {number} [id] id
    */
   @Get(':id')
   async findOneById(@Param() id: number) {
@@ -165,6 +168,8 @@ export class ResourceController {
 
   /**
    * 更新一条数据
+   * @param {number} [id] 需要更新的id
+   * @param {ResourceObjectDto} [bodys] 更新的数据
    */
   @UsePipes(DtoPipe)
   @UseGuards(AuthAdminGuard)

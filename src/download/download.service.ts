@@ -30,15 +30,14 @@ import { DownloadGetDto } from './dto/user.get.dto'
 export class DownloadService {
   /**
    * 函数
+   * @param {function} downloadRepository 下载表查询方法
    */
   constructor(
     @InjectRepository(DownloadEntity)
     private readonly downloadRepository: Repository<DownloadEntity>
   ) { }
 
-  /**
-   * 查询用户【根据params条件】
-   */
+  // 查询用户【根据params条件】
   async find(querys: any): Promise<DownloadEntity[]> {
     const data: any = await this.downloadRepository.find()
     if (!data) {

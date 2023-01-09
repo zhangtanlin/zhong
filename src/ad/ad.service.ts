@@ -30,6 +30,7 @@ import { AdGetDto } from './dto/ad.get.dto'
 export class AdService {
   /**
    * 函数
+   * @param {function} adRepository 广告查询方法
    */
   constructor(
     @InjectRepository(AdEntity)

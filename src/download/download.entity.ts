@@ -6,9 +6,7 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm'
 
 @Entity('download')
-/**
- * user数据表
- */
+// 下载数据表
 export class DownloadEntity {
   /**
    * 下载id
@@ -17,9 +15,7 @@ export class DownloadEntity {
   @PrimaryGeneratedColumn()
   id: number
 
-  /**
-   * 名称
-   */
+  // 名称
   @Column({
     type: 'varchar',
     length: 255,
@@ -27,9 +23,7 @@ export class DownloadEntity {
   })
   name: string
 
-  /**
-   * 地址
-   */
+  // 地址
   @Column({
     type: 'varchar',
     length: 255,

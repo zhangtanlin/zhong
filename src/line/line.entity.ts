@@ -20,7 +20,10 @@ export class LineEntity {
   })
   name: string
 
-  // 类型{1:banner}
+  /**
+   * 类型
+   * @description {1:banner}
+   */
   @Column({
     type: 'int',
     default: 1
