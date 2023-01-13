@@ -24,27 +24,35 @@ SET @@SESSION.SQL_LOG_BIN= 0;
 SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ 'cbca4191-90b9-11ed-970e-0242c1a90102:1-1009';
 
 --
--- Table structure for table `download`
+-- Table structure for table `system_config`
 --
 
-DROP TABLE IF EXISTS `download`;
+DROP TABLE IF EXISTS `system_config`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `download` (
+CREATE TABLE `system_config` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT '',
-  `url` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT '',
+  `dev_api` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `api` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `github_api` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `tf_api` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `tf_github_api` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `image_host` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `upload_image_key` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `upload_image_url` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `upload_video_key` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `upload_video_url` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `download`
+-- Dumping data for table `system_config`
 --
 
-LOCK TABLES `download` WRITE;
-/*!40000 ALTER TABLE `download` DISABLE KEYS */;
-/*!40000 ALTER TABLE `download` ENABLE KEYS */;
+LOCK TABLES `system_config` WRITE;
+/*!40000 ALTER TABLE `system_config` DISABLE KEYS */;
+/*!40000 ALTER TABLE `system_config` ENABLE KEYS */;
 UNLOCK TABLES;
 SET @@SESSION.SQL_LOG_BIN = @MYSQLDUMP_TEMP_LOG_BIN;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -57,4 +65,4 @@ SET @@SESSION.SQL_LOG_BIN = @MYSQLDUMP_TEMP_LOG_BIN;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-01-13 19:13:20
+-- Dump completed on 2023-01-13 19:13:19
